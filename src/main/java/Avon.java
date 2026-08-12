@@ -1,31 +1,76 @@
 import java.util.Scanner;
+
+/**
+ * Runs the command-line interface for Avon.
+ */
 public class Avon {
+    private static final String SEPARATOR = "____________________________________________________________";
+    private static final String AVON_PREFIX = "Avon:\t";
+
     public static void main(String[] args) {
-        String separator = "____________________________________________________________";
-        String avonPrefix = "Avon:\t";
         String banner = """
                 ___                    
                /   |_   ______  ____  
               / /| | | / / __ \\/ __ \\ 
              / ___ | |/ / /_/ / / / / 
             /_/  |_|___/\\____/_/ /_/ """;
-        System.out.println(separator);
+        System.out.println(SEPARATOR);
         System.out.println(banner);
-        System.out.println(avonPrefix + "Hark! I am Avon who stands before thee.");
-        System.out.println(avonPrefix + "How may my hand or wit now serve thy need?");
-        System.out.println(separator);
+        System.out.println(AVON_PREFIX + "Hark! I am Avon who stands before thee.");
+        System.out.println(AVON_PREFIX + "How may my hand or wit now serve thy need?");
+        System.out.println(SEPARATOR);
+
         Scanner scanner = new Scanner(System.in);
+        TaskList taskList = new TaskList();
         while (scanner.hasNextLine()) {
             String command = scanner.nextLine();
-            System.out.println(separator);
+            System.out.println(SEPARATOR);
+
             if (command.equals("bye")) {
-                System.out.println(avonPrefix + "Fare thee well! Pray heavens our paths cross anon.");
-                System.out.println(separator);
+                System.out.println(AVON_PREFIX + "Fare thee well! Pray heavens our paths cross anon.");
+                System.out.println(SEPARATOR);
                 break;
             }
-            System.out.println(avonPrefix + command);
-            System.out.println(separator);
+
+            if (command.equals("list")) {
+                printTasks(taskList);
+            } else {
+                addTask(taskList, command);
+            }
+            System.out.println(SEPARATOR);
         }
         scanner.close();
+    }
+
+    /**
+     * Adds a command to the task list and acknowledges the addition.
+     *
+     * @param taskList the in-memory task list
+     * @param command the text entered by the user
+     */
+    private static void addTask(TaskList taskList, String command) {
+        try {
+            taskList.add(command);
+            System.out.println(AVON_PREFIX + "added: " + command);
+        } catch (IllegalStateException exception) {
+            System.out.println(AVON_PREFIX + exception.getMessage());
+        }
+    }
+
+    /**
+     * Displays all tasks in the order in which they were entered.
+     *
+     * @param taskList the in-memory task list
+     */
+    private static void printTasks(TaskList taskList) {
+        if (taskList.size() == 0) {
+            System.out.println(AVON_PREFIX + "Thy task list is empty.");
+            return;
+        }
+
+        for (int index = 0; index < taskList.size(); index++) {
+            String prefix = index == 0 ? AVON_PREFIX : "        ";
+            System.out.println(prefix + (index + 1) + ". " + taskList.get(index));
+        }
     }
 }
