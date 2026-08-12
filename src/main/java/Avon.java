@@ -34,6 +34,8 @@ public class Avon {
 
             if (command.equals("list")) {
                 printTasks(taskList);
+            } else if (command.equals("mark") || command.startsWith("mark ")) {
+                markTask(taskList, command);
             } else {
                 addTask(taskList, command);
             }
@@ -64,13 +66,34 @@ public class Avon {
      */
     private static void printTasks(TaskList taskList) {
         if (taskList.size() == 0) {
-            System.out.println(AVON_PREFIX + "Thy task list is empty.");
+            System.out.println(AVON_PREFIX + "Thy quest list is empty.");
             return;
         }
 
         for (int index = 0; index < taskList.size(); index++) {
             String prefix = index == 0 ? AVON_PREFIX : "        ";
-            System.out.println(prefix + (index + 1) + ". " + taskList.get(index));
+            String status = taskList.isDone(index) ? "[X] " : "[ ] ";
+            System.out.println(prefix + (index + 1) + ". " + status + taskList.get(index));
+        }
+    }
+
+    /**
+     * Marks the task identified by the one-based number in a mark command as done.
+     *
+     * @param taskList the in-memory task list
+     * @param command the mark command entered by the user
+     */
+    private static void markTask(TaskList taskList, String command) {
+        try {
+            int taskNumber = Integer.parseInt(command.substring("mark".length()).trim());
+            int taskIndex = taskNumber - 1;
+            taskList.markDone(taskIndex);
+            System.out.println(AVON_PREFIX + "Tis well! Thy noble quest is now fulfilled:");
+            System.out.println("        [X] " + taskList.get(taskIndex));
+        } catch (NumberFormatException exception) {
+            System.out.println(AVON_PREFIX + "I pray thee, speak a rightful number after 'mark'.");
+        } catch (IndexOutOfBoundsException exception) {
+            System.out.println(AVON_PREFIX + "Alas, no such deed of that number can be found!");
         }
     }
 }
