@@ -7,17 +7,32 @@ public class TaskList {
     private int taskCount;
 
     /**
-     * Adds a task to the end of the list.
+     * Adds a todo task with the given description to the end of the list.
      *
-     * @param task the text of the task to store
+     * @param description the text of the task to store
      * @throws IllegalStateException if the list already contains 100 tasks
      */
-    public void add(String task) {
+    public void add(String description) {
+        add(new Todo(description));
+    }
+
+    /**
+     * Adds a task of any supported type to the end of the list.
+     *
+     * @param task the task to store
+     * @throws IllegalArgumentException if the task is null
+     * @throws IllegalStateException if the list already contains 100 tasks
+     */
+    public void add(Task task) {
+        if (task == null) {
+            throw new IllegalArgumentException("A task cannot be null.");
+        }
+
         if (taskCount == MAX_TASKS) {
             throw new IllegalStateException("The task list can hold no more than 100 tasks.");
         }
 
-        tasks[taskCount] = new Task(task);
+        tasks[taskCount] = task;
         taskCount++;
     }
 
