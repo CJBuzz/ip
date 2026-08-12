@@ -74,8 +74,7 @@ public class Avon {
 
         for (int index = 0; index < taskList.size(); index++) {
             String prefix = index == 0 ? AVON_PREFIX : "        ";
-            String status = taskList.isDone(index) ? "[X] " : "[ ] ";
-            System.out.println(prefix + (index + 1) + ". " + status + taskList.get(index));
+            System.out.println(prefix + (index + 1) + ". " + taskList.getTask(index));
         }
     }
 
@@ -89,9 +88,10 @@ public class Avon {
         try {
             int taskNumber = Integer.parseInt(command.substring("mark".length()).trim());
             int taskIndex = taskNumber - 1;
-            taskList.markDone(taskIndex);
+            Task task = taskList.getTask(taskIndex);
+            task.markAsDone();
             System.out.println(AVON_PREFIX + "Tis well! Thy noble quest is now fulfilled:");
-            System.out.println("        [X] " + taskList.get(taskIndex));
+            System.out.println("        " + task);
         } catch (NumberFormatException exception) {
             System.out.println(AVON_PREFIX + "I pray thee, speak a rightful number after 'mark'.");
         } catch (IndexOutOfBoundsException exception) {
@@ -109,9 +109,10 @@ public class Avon {
         try {
             int taskNumber = Integer.parseInt(command.substring("unmark".length()).trim());
             int taskIndex = taskNumber - 1;
-            taskList.markUndone(taskIndex);
+            Task task = taskList.getTask(taskIndex);
+            task.markAsNotDone();
             System.out.println(AVON_PREFIX + "Thy noble quest is undone once more:");
-            System.out.println("        [ ] " + taskList.get(taskIndex));
+            System.out.println("        " + task);
         } catch (NumberFormatException exception) {
             System.out.println(AVON_PREFIX + "I pray thee, speak a rightful number after 'unmark'.");
         } catch (IndexOutOfBoundsException exception) {

@@ -3,8 +3,7 @@
  */
 public class TaskList {
     private static final int MAX_TASKS = 100;
-    private final String[] tasks = new String[MAX_TASKS];
-    private final boolean[] completedTasks = new boolean[MAX_TASKS];
+    private final Task[] tasks = new Task[MAX_TASKS];
     private int taskCount;
 
     /**
@@ -18,7 +17,7 @@ public class TaskList {
             throw new IllegalStateException("The task list can hold no more than 100 tasks.");
         }
 
-        tasks[taskCount] = task;
+        tasks[taskCount] = new Task(task);
         taskCount++;
     }
 
@@ -32,13 +31,25 @@ public class TaskList {
     }
 
     /**
+     * Returns the description of the task at the requested zero-based index.
+     *
+     * @param index the zero-based position of the task
+     * @return the task description at the requested position
+     * @throws IndexOutOfBoundsException if the index does not refer to a stored task
+     */
+    public String get(int index) {
+        validateIndex(index);
+        return tasks[index].getDescription();
+    }
+
+    /**
      * Returns the task at the requested zero-based index.
      *
      * @param index the zero-based position of the task
      * @return the task at the requested position
      * @throws IndexOutOfBoundsException if the index does not refer to a stored task
      */
-    public String get(int index) {
+    public Task getTask(int index) {
         validateIndex(index);
         return tasks[index];
     }
@@ -50,8 +61,7 @@ public class TaskList {
      * @throws IndexOutOfBoundsException if the index does not refer to a stored task
      */
     public void markDone(int index) {
-        validateIndex(index);
-        completedTasks[index] = true;
+        getTask(index).markAsDone();
     }
 
     /**
@@ -61,8 +71,7 @@ public class TaskList {
      * @throws IndexOutOfBoundsException if the index does not refer to a stored task
      */
     public void markUndone(int index) {
-        validateIndex(index);
-        completedTasks[index] = false;
+        getTask(index).markAsNotDone();
     }
 
     /**
@@ -73,8 +82,7 @@ public class TaskList {
      * @throws IndexOutOfBoundsException if the index does not refer to a stored task
      */
     public boolean isDone(int index) {
-        validateIndex(index);
-        return completedTasks[index];
+        return getTask(index).isDone();
     }
 
     /**
