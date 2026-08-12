@@ -46,3 +46,16 @@ Additional instructions (if applicable)
 - Robust Error Handling: Use Exceptions to handle errors systematically rather than allowing the program to crash.
 - Comprehensive Documentation: Provide Javadoc comments for at least half of the public classes and methods to aid developer understanding.
 - Thoughtful Refactoring: Before refactoring existing code, investigate the original design rationale (applying Chesterton’s Fence Principle) through commit history and documentation.
+
+## Environment workaround
+
+If repository tools fail with:
+
+`bubblewrap is unavailable: no system bwrap was found on PATH`
+
+do not repeatedly retry `apply_patch`; the failure is in the sandbox runtime. Run repository commands with elevated execution:
+
+```json
+{
+  "sandbox_permissions": "require_escalated"
+}
