@@ -137,3 +137,86 @@ ____________________________________________________________
 Avon:	Fare thee well! Pray heavens our paths cross anon.
 ____________________________________________________________
 ```
+
+## TC-004: Explain incomplete Deadline and Event commands
+
+Aim: Verify error-specific guidance for missing descriptions, separators, and date or time details.
+
+### Input
+
+```text
+deadline
+deadline return book
+deadline /by Sunday
+deadline return book /by
+event
+event project meeting /to 4pm
+event project meeting /from 2pm
+event /from 2pm /to 4pm
+event project meeting /from /to 4pm
+event project meeting /from 2pm /to
+bye
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+    ___
+   /   |_   ______  ____
+  / /| | | / / __ \/ __ \
+ / ___ | |/ / /_/ / / / /
+/_/  |_|___/\____/_/ /_/
+Avon:	Hark! I am Avon who stands before thee.
+Avon:	How may my hand or wit now serve thy need?
+____________________________________________________________
+____________________________________________________________
+Avon:	OOPS!!! The description of a deadline cannot be empty.
+        Enter it in this format: deadline DESCRIPTION /by DATE_OR_TIME
+____________________________________________________________
+____________________________________________________________
+Avon:	OOPS!!! This deadline command is ill-formed.
+        Include '/by' before the deadline date or time.
+        Enter it in this format: deadline DESCRIPTION /by DATE_OR_TIME
+____________________________________________________________
+____________________________________________________________
+Avon:	OOPS!!! The description of a deadline cannot be empty.
+        Enter it in this format: deadline DESCRIPTION /by DATE_OR_TIME
+____________________________________________________________
+____________________________________________________________
+Avon:	OOPS!!! This deadline command is ill-formed.
+        Add a date or time after '/by'.
+        Enter it in this format: deadline DESCRIPTION /by DATE_OR_TIME
+____________________________________________________________
+____________________________________________________________
+Avon:	OOPS!!! The description of an event cannot be empty.
+        Enter it in this format: event DESCRIPTION /from START /to END
+____________________________________________________________
+____________________________________________________________
+Avon:	OOPS!!! This event command is ill-formed.
+        Include '/from' before the start date or time.
+        Enter it in this format: event DESCRIPTION /from START /to END
+____________________________________________________________
+____________________________________________________________
+Avon:	OOPS!!! This event command is ill-formed.
+        Include '/to' before the end date or time.
+        Enter it in this format: event DESCRIPTION /from START /to END
+____________________________________________________________
+____________________________________________________________
+Avon:	OOPS!!! The description of an event cannot be empty.
+        Enter it in this format: event DESCRIPTION /from START /to END
+____________________________________________________________
+____________________________________________________________
+Avon:	OOPS!!! This event command is ill-formed.
+        Add a start date or time after '/from'.
+        Enter it in this format: event DESCRIPTION /from START /to END
+____________________________________________________________
+____________________________________________________________
+Avon:	OOPS!!! This event command is ill-formed.
+        Add an end date or time after '/to'.
+        Enter it in this format: event DESCRIPTION /from START /to END
+____________________________________________________________
+____________________________________________________________
+Avon:	Fare thee well! Pray heavens our paths cross anon.
+____________________________________________________________
+```

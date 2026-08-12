@@ -9,7 +9,8 @@ public class EmptyDescriptionException extends AvonException {
      * @param example a complete example of the expected command
      */
     public EmptyDescriptionException(String taskType, String example) {
-        super("OOPS!!! The description of a " + taskType + " cannot be empty.\n"
+        super("OOPS!!! The description of " + ("event".equals(taskType) ? "an " : "a ")
+                + taskType + " cannot be empty.\n"
                 + "        Enter it in this format: " + example);
     }
 }

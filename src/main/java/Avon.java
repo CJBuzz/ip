@@ -192,17 +192,25 @@ public class Avon {
      * @return the parsed deadline task
      */
     private static Deadline parseDeadline(String command) throws AvonException {
+        String example = "deadline DESCRIPTION /by DATE_OR_TIME";
         String details = extractDescription(command, "deadline",
-                "deadline DESCRIPTION /by DATE_OR_TIME");
+                example);
         int byIndex = details.indexOf("/by");
-        if (byIndex <= 0) {
-            throw new IllegalArgumentException("A deadline must include '/by'.");
+        if (byIndex < 0) {
+            throw new InvalidTaskFormatException("deadline",
+                    "Include '/by' before the deadline date or time.", example);
+        }
+        if (details.indexOf("/by", byIndex + 3) >= 0) {
+            throw new InvalidTaskFormatException("deadline",
+                    "Use '/by' exactly once.", example);
+        }
+        if (byIndex == 0) {
+            throw new EmptyDescriptionException("deadline", example);
         }
 
-        String description = requireValue(details.substring(0, byIndex).trim(),
-                "A task description is required before '/by'.");
-        String by = requireValue(details.substring(byIndex + 3).trim(),
-                "A deadline date or time is required after '/by'.");
+        String description = details.substring(0, byIndex).trim();
+        String by = requireTaskDetail(details.substring(byIndex + 3).trim(),
+                "deadline", "Add a date or time after '/by'.", example);
         return new Deadline(description, by);
     }
 
@@ -213,20 +221,37 @@ public class Avon {
      * @return the parsed event task
      */
     private static Event parseEvent(String command) throws AvonException {
+        String example = "event DESCRIPTION /from START /to END";
         String details = extractDescription(command, "event",
-                "event DESCRIPTION /from START /to END");
+                example);
         int fromIndex = details.indexOf("/from");
-        int toIndex = details.indexOf("/to", fromIndex + 5);
-        if (fromIndex <= 0 || toIndex <= fromIndex) {
-            throw new IllegalArgumentException("An event must include '/from' and '/to'.");
+        int toIndex = details.indexOf("/to");
+        if (fromIndex < 0) {
+            throw new InvalidTaskFormatException("event",
+                    "Include '/from' before the start date or time.", example);
+        }
+        if (toIndex < 0) {
+            throw new InvalidTaskFormatException("event",
+                    "Include '/to' before the end date or time.", example);
+        }
+        if (details.indexOf("/from", fromIndex + 5) >= 0
+                || details.indexOf("/to", toIndex + 3) >= 0) {
+            throw new InvalidTaskFormatException("event",
+                    "Use '/from' and '/to' exactly once each.", example);
+        }
+        if (toIndex < fromIndex) {
+            throw new InvalidTaskFormatException("event",
+                    "Place '/from' before '/to'.", example);
+        }
+        if (fromIndex == 0) {
+            throw new EmptyDescriptionException("event", example);
         }
 
-        String description = requireValue(details.substring(0, fromIndex).trim(),
-                "A task description is required before '/from'.");
-        String from = requireValue(details.substring(fromIndex + 5, toIndex).trim(),
-                "An event start time is required after '/from'.");
-        String to = requireValue(details.substring(toIndex + 3).trim(),
-                "An event end time is required after '/to'.");
+        String description = details.substring(0, fromIndex).trim();
+        String from = requireTaskDetail(details.substring(fromIndex + 5, toIndex).trim(),
+                "event", "Add a start date or time after '/from'.", example);
+        String to = requireTaskDetail(details.substring(toIndex + 3).trim(),
+                "event", "Add an end date or time after '/to'.", example);
         return new Event(description, from, to);
     }
 
@@ -234,12 +259,16 @@ public class Avon {
      * Ensures that a parsed command component is not empty.
      *
      * @param value the component to validate
-     * @param message the error message for an empty component
+     * @param taskType the type of task being entered
+     * @param problem the explanation shown if the component is empty
+     * @param example a complete example of the expected command
      * @return the original non-empty component
+     * @throws InvalidTaskFormatException if the component is empty
      */
-    private static String requireValue(String value, String message) {
+    private static String requireTaskDetail(String value, String taskType, String problem,
+            String example) throws InvalidTaskFormatException {
         if (value.isEmpty()) {
-            throw new IllegalArgumentException(message);
+            throw new InvalidTaskFormatException(taskType, problem, example);
         }
         return value;
     }
