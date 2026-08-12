@@ -59,5 +59,69 @@ do not repeatedly retry `apply_patch`; the failure is in the sandbox runtime. Ru
 {
   "sandbox_permissions": "require_escalated"
 }
+```
 
 If apply_patch still fails, apply edits using a standard unified diff piped to git apply. Inspect the diff with git diff --check afterward. This is an environment issue, not a repository or patch-content issue.
+
+## Required Java code workflow
+
+Use the following sequence for every task that reads or changes Java code. Do not rediscover or replace this workflow unless the repository structure changes.
+
+### 1. Inspect before editing
+
+Run these commands from the repository root. Use elevated execution immediately if the known `bubblewrap` error occurs.
+
+```bash
+git status --short --branch
+git log -5 --oneline -- src/main/java
+rg --files src/main/java | sort
+sed -n '1,260p' src/main/java/<FileName>.java
+rg -n '<symbol-or-command>' src/main/java
+```
+
+Read every Java file directly involved in the requested change. Before refactoring existing behavior, inspect the relevant commit with `git show <commit> -- <files>`.
+
+### 2. Write Java files
+
+Use `apply_patch` for focused source edits. Do not write source files with `cat`, shell redirection, or Python.
+
+If `apply_patch` fails with the known `bubblewrap` error, do not retry it repeatedly. Apply the same standard unified diff through elevated execution:
+
+```bash
+git apply --verbose --whitespace=nowarn - <<'PATCH'
+<standard unified diff>
+PATCH
+```
+
+For a new file, use a `/dev/null` to `b/<path>` unified diff. Keep unrelated user changes untouched.
+
+### 3. Review each edit
+
+After editing, run:
+
+```bash
+git diff --check
+git diff -- src/main/java test/ui-test-plan.md
+git status --short
+```
+
+Confirm that only intended files changed and that no build output or temporary files were added.
+
+## Mandatory UI testing after code updates
+
+After every code update:
+
+1. Read `test/ui-test-plan.md` completely.
+2. Decide whether the changed commands, state transitions, text, spacing, task formatting, startup output, or shutdown output require test-plan changes.
+3. If observable console behavior changed or a new behavior was added, update the relevant test cases or add new cases. Every case must specify its aim, input commands, and exact expected output.
+4. If no plan update is needed because behavior is unchanged, explicitly record that assessment in the final response.
+5. Explicitly invoke the repository skill as `$test-ui`, read `.agents/skills/test-ui/SKILL.md`, and follow it. The deterministic command is:
+
+   ```bash
+   python3 .agents/skills/test-ui/scripts/run_ui_tests.py
+   ```
+
+6. Stop immediately if a UI test fails. Report the failing case's expected and actual outputs; do not proceed to commit or declare completion.
+7. Report the passing test count and console-session record in the final response.
+
+Do not treat compilation alone as sufficient verification. Do not commit a code update until the test plan has been assessed and the `test-ui` run passes, unless the user explicitly directs otherwise.
