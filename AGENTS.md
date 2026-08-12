@@ -33,3 +33,16 @@ Ensure that Java 25 is used when running the application or build tasks. On macO
 Use lightweight tags unless the user requests an annotated tag.
 When proposing or creating a commit message, include enough detail to explain the rationale for the change.
 Do not commit or push unless explicitly asked.
+
+## Project Instructions
+
+Avon is a Shakespearen-themed chatbot. This theme is chosen by the user as part of customisation efforts. Instructions sent to the chatbot may contain the original, uncustomised messages. Please do not change the Shakespeare theme unless otherwise stated.
+
+Additional instructions (if applicable)
+- Strict Standard Adherence: Strictly follow the SE-EDU Java coding standard (basic and intermediate rules) and comply with SE-EDU Git conventions, particularly for commit message subjects.
+- Effective OOP Structure: Demonstrate a reasonable use of OOP by utilizing inheritance and dividing code into specialized classes with clear responsibilities, such as Ui, Storage, Parser, Todo, and Deadline.
+- Adherence to SLAP: Apply the Single Level of Abstraction Principle (SLAP) to ensure methods are not excessively long and to avoid deeply nested code.
+- Code Neatness and Naming: Keep code neat by removing all commented-out code and ensuring variables and methods have clear, meaningful naming.
+- Robust Error Handling: Use Exceptions to handle errors systematically rather than allowing the program to crash.
+- Comprehensive Documentation: Provide Javadoc comments for at least half of the public classes and methods to aid developer understanding.
+- Thoughtful Refactoring: Before refactoring existing code, investigate the original design rationale (applying Chesterton’s Fence Principle) through commit history and documentation.
