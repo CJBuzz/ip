@@ -55,6 +55,17 @@ public class TaskList {
     }
 
     /**
+     * Marks the task at the requested zero-based index as not done.
+     *
+     * @param index the zero-based position of the task
+     * @throws IndexOutOfBoundsException if the index does not refer to a stored task
+     */
+    public void markUndone(int index) {
+        validateIndex(index);
+        completedTasks[index] = false;
+    }
+
+    /**
      * Checks whether the task at the requested zero-based index is done.
      *
      * @param index the zero-based position of the task

@@ -36,6 +36,8 @@ public class Avon {
                 printTasks(taskList);
             } else if (command.equals("mark") || command.startsWith("mark ")) {
                 markTask(taskList, command);
+            } else if (command.equals("unmark") || command.startsWith("unmark ")) {
+                unmarkTask(taskList, command);
             } else {
                 addTask(taskList, command);
             }
@@ -92,6 +94,26 @@ public class Avon {
             System.out.println("        [X] " + taskList.get(taskIndex));
         } catch (NumberFormatException exception) {
             System.out.println(AVON_PREFIX + "I pray thee, speak a rightful number after 'mark'.");
+        } catch (IndexOutOfBoundsException exception) {
+            System.out.println(AVON_PREFIX + "Alas, no such deed of that number can be found!");
+        }
+    }
+
+    /**
+     * Marks the task identified by the one-based number in an unmark command as not done.
+     *
+     * @param taskList the in-memory task list
+     * @param command the unmark command entered by the user
+     */
+    private static void unmarkTask(TaskList taskList, String command) {
+        try {
+            int taskNumber = Integer.parseInt(command.substring("unmark".length()).trim());
+            int taskIndex = taskNumber - 1;
+            taskList.markUndone(taskIndex);
+            System.out.println(AVON_PREFIX + "Thy noble quest is undone once more:");
+            System.out.println("        [ ] " + taskList.get(taskIndex));
+        } catch (NumberFormatException exception) {
+            System.out.println(AVON_PREFIX + "I pray thee, speak a rightful number after 'unmark'.");
         } catch (IndexOutOfBoundsException exception) {
             System.out.println(AVON_PREFIX + "Alas, no such deed of that number can be found!");
         }
