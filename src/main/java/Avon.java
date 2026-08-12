@@ -71,7 +71,7 @@ public class Avon {
      */
     private static void printTasks(TaskList taskList) {
         if (taskList.size() == 0) {
-            System.out.println(AVON_PREFIX + "Thy quest list is empty.");
+            System.out.println(AVON_PREFIX + "Thy task list is empty.");
             return;
         }
 
@@ -94,7 +94,7 @@ public class Avon {
             int taskIndex = taskNumber - 1;
             Task task = taskList.getTask(taskIndex);
             task.markAsDone();
-            System.out.println(AVON_PREFIX + "Tis well! Thy noble quest is now fulfilled:");
+            System.out.println(AVON_PREFIX + "Tis well! Thy noble task is now fulfilled:");
             System.out.println("        " + task);
         } catch (NumberFormatException exception) {
             System.out.println(AVON_PREFIX + "I pray thee, speak a rightful number after 'mark'.");
@@ -115,7 +115,7 @@ public class Avon {
             int taskIndex = taskNumber - 1;
             Task task = taskList.getTask(taskIndex);
             task.markAsNotDone();
-            System.out.println(AVON_PREFIX + "Thy noble quest is undone once more:");
+            System.out.println(AVON_PREFIX + "Thy noble task is undone once more:");
             System.out.println("        " + task);
         } catch (NumberFormatException exception) {
             System.out.println(AVON_PREFIX + "I pray thee, speak a rightful number after 'unmark'.");
