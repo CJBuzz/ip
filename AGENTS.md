@@ -59,3 +59,5 @@ do not repeatedly retry `apply_patch`; the failure is in the sandbox runtime. Ru
 {
   "sandbox_permissions": "require_escalated"
 }
+
+If apply_patch still fails, apply edits using a standard unified diff piped to git apply. Inspect the diff with git diff --check afterward. This is an environment issue, not a repository or patch-content issue.
