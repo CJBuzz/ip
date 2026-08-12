@@ -114,19 +114,13 @@ public class Avon {
      * @param taskList the in-memory task list
      * @param command the mark command entered by the user
      */
-    private static void markTask(TaskList taskList, String command) {
-        try {
-            int taskNumber = Integer.parseInt(command.substring("mark".length()).trim());
-            int taskIndex = taskNumber - 1;
-            Task task = taskList.getTask(taskIndex);
-            task.markAsDone();
-            System.out.println(AVON_PREFIX + "Tis well! Thy noble task is now fulfilled:");
-            System.out.println("        " + task);
-        } catch (NumberFormatException exception) {
-            System.out.println(AVON_PREFIX + "I pray thee, speak a rightful number after 'mark'.");
-        } catch (IndexOutOfBoundsException exception) {
-            System.out.println(AVON_PREFIX + "Alas, no such deed of that number can be found!");
-        }
+    private static void markTask(TaskList taskList, String command)
+            throws InvalidTaskNumberException {
+        int taskIndex = parseTaskIndex(taskList, command, "mark");
+        Task task = taskList.getTask(taskIndex);
+        task.markAsDone();
+        System.out.println(AVON_PREFIX + "Tis well! Thy noble task is now fulfilled:");
+        System.out.println("        " + task);
     }
 
     /**
@@ -135,19 +129,49 @@ public class Avon {
      * @param taskList the in-memory task list
      * @param command the unmark command entered by the user
      */
-    private static void unmarkTask(TaskList taskList, String command) {
-        try {
-            int taskNumber = Integer.parseInt(command.substring("unmark".length()).trim());
-            int taskIndex = taskNumber - 1;
-            Task task = taskList.getTask(taskIndex);
-            task.markAsNotDone();
-            System.out.println(AVON_PREFIX + "Thy noble task is undone once more:");
-            System.out.println("        " + task);
-        } catch (NumberFormatException exception) {
-            System.out.println(AVON_PREFIX + "I pray thee, speak a rightful number after 'unmark'.");
-        } catch (IndexOutOfBoundsException exception) {
-            System.out.println(AVON_PREFIX + "Alas, no such deed of that number can be found!");
+    private static void unmarkTask(TaskList taskList, String command)
+            throws InvalidTaskNumberException {
+        int taskIndex = parseTaskIndex(taskList, command, "unmark");
+        Task task = taskList.getTask(taskIndex);
+        task.markAsNotDone();
+        System.out.println(AVON_PREFIX + "Thy noble task is undone once more:");
+        System.out.println("        " + task);
+    }
+
+    /**
+     * Parses and validates the one-based task number in a mark or unmark command.
+     *
+     * @param taskList the in-memory task list
+     * @param command the complete command entered by the user
+     * @param action the command's first word
+     * @return the corresponding zero-based task index
+     * @throws InvalidTaskNumberException if the number is missing, malformed, or out of range
+     */
+    private static int parseTaskIndex(TaskList taskList, String command, String action)
+            throws InvalidTaskNumberException {
+        String taskNumberText = command.substring(action.length()).trim();
+        if (taskNumberText.isEmpty()) {
+            throw new InvalidTaskNumberException(action,
+                    "Add a task number after '" + action + "'.");
         }
+
+        int taskNumber;
+        try {
+            taskNumber = Integer.parseInt(taskNumberText);
+        } catch (NumberFormatException exception) {
+            throw new InvalidTaskNumberException(action,
+                    "Use one whole task number greater than zero.");
+        }
+
+        if (taskList.size() == 0) {
+            throw new InvalidTaskNumberException(action,
+                    "Your task list is empty; add a task first.");
+        }
+        if (taskNumber <= 0 || taskNumber > taskList.size()) {
+            throw new InvalidTaskNumberException(action,
+                    "Choose a task number from 1 to " + taskList.size() + ".");
+        }
+        return taskNumber - 1;
     }
 
     /**

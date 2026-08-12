@@ -220,3 +220,82 @@ ____________________________________________________________
 Avon:	Fare thee well! Pray heavens our paths cross anon.
 ____________________________________________________________
 ```
+
+## TC-005: Reject invalid Mark and Unmark task numbers
+
+Aim: Verify that mark and unmark commands explain missing, malformed, and out-of-range task numbers.
+
+### Input
+
+```text
+mark
+mark one
+mark 1
+todo rehearse scene
+mark 0
+mark 2
+mark 1
+unmark
+unmark 1
+bye
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+    ___
+   /   |_   ______  ____
+  / /| | | / / __ \/ __ \
+ / ___ | |/ / /_/ / / / /
+/_/  |_|___/\____/_/ /_/
+Avon:	Hark! I am Avon who stands before thee.
+Avon:	How may my hand or wit now serve thy need?
+____________________________________________________________
+____________________________________________________________
+Avon:	OOPS!!! I cannot mark that task.
+        Add a task number after 'mark'.
+        Example: mark 1
+____________________________________________________________
+____________________________________________________________
+Avon:	OOPS!!! I cannot mark that task.
+        Use one whole task number greater than zero.
+        Example: mark 1
+____________________________________________________________
+____________________________________________________________
+Avon:	OOPS!!! I cannot mark that task.
+        Your task list is empty; add a task first.
+        Example: mark 1
+____________________________________________________________
+____________________________________________________________
+Avon:	By thy command, I've added this task:
+        [T][ ] rehearse scene
+Avon:	Now thou hast 1 tasks in thy list.
+____________________________________________________________
+____________________________________________________________
+Avon:	OOPS!!! I cannot mark that task.
+        Choose a task number from 1 to 1.
+        Example: mark 1
+____________________________________________________________
+____________________________________________________________
+Avon:	OOPS!!! I cannot mark that task.
+        Choose a task number from 1 to 1.
+        Example: mark 1
+____________________________________________________________
+____________________________________________________________
+Avon:	Tis well! Thy noble task is now fulfilled:
+        [T][X] rehearse scene
+____________________________________________________________
+____________________________________________________________
+Avon:	OOPS!!! I cannot unmark that task.
+        Add a task number after 'unmark'.
+        Example: unmark 1
+____________________________________________________________
+____________________________________________________________
+Avon:	Thy noble task is undone once more:
+        [T][ ] rehearse scene
+____________________________________________________________
+____________________________________________________________
+Avon:	Fare thee well! Pray heavens our paths cross anon.
+____________________________________________________________
+```
