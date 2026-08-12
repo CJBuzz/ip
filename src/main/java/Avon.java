@@ -26,24 +26,52 @@ public class Avon {
             String command = scanner.nextLine();
             System.out.println(SEPARATOR);
 
-            if (command.equals("bye")) {
-                System.out.println(AVON_PREFIX + "Fare thee well! Pray heavens our paths cross anon.");
-                System.out.println(SEPARATOR);
-                break;
-            }
-
-            if (command.equals("list")) {
-                printTasks(taskList);
-            } else if (command.equals("mark") || command.startsWith("mark ")) {
-                markTask(taskList, command);
-            } else if (command.equals("unmark") || command.startsWith("unmark ")) {
-                unmarkTask(taskList, command);
-            } else {
-                addTask(taskList, command);
+            try {
+                if (command.equals("bye")) {
+                    System.out.println(AVON_PREFIX + "Fare thee well! Pray heavens our paths cross anon.");
+                    System.out.println(SEPARATOR);
+                    break;
+                }
+                executeCommand(taskList, command);
+            } catch (AvonException exception) {
+                System.out.println(AVON_PREFIX + exception.getMessage());
             }
             System.out.println(SEPARATOR);
         }
         scanner.close();
+    }
+
+    /**
+     * Executes a non-exit command after identifying its first word.
+     *
+     * @param taskList the in-memory task list
+     * @param command the command entered by the user
+     * @throws AvonException if the command cannot be understood or completed
+     */
+    private static void executeCommand(TaskList taskList, String command) throws AvonException {
+        if (command.equals("list")) {
+            printTasks(taskList);
+        } else if (command.equals("mark") || command.startsWith("mark ")) {
+            markTask(taskList, command);
+        } else if (command.equals("unmark") || command.startsWith("unmark ")) {
+            unmarkTask(taskList, command);
+        } else if (isTaskCommand(command)) {
+            addTask(taskList, command);
+        } else {
+            throw new UnknownCommandException();
+        }
+    }
+
+    /**
+     * Checks whether a command begins with a supported task keyword.
+     *
+     * @param command the command entered by the user
+     * @return true if the command is a todo, deadline, or event command
+     */
+    private static boolean isTaskCommand(String command) {
+        return command.equals("todo") || command.startsWith("todo ")
+                || command.equals("deadline") || command.startsWith("deadline ")
+                || command.equals("event") || command.startsWith("event ");
     }
 
     /**
@@ -52,14 +80,12 @@ public class Avon {
      * @param taskList the in-memory task list
      * @param command the text entered by the user
      */
-    private static void addTask(TaskList taskList, String command) {
+    private static void addTask(TaskList taskList, String command) throws AvonException {
         try {
             Task task = parseTask(command);
             taskList.add(task);
             printAddedTask(taskList, task);
         } catch (IllegalStateException exception) {
-            System.out.println(AVON_PREFIX + exception.getMessage());
-        } catch (IllegalArgumentException exception) {
             System.out.println(AVON_PREFIX + exception.getMessage());
         }
     }
@@ -130,9 +156,9 @@ public class Avon {
      * @param command the command entered by the user
      * @return the task represented by the command
      */
-    private static Task parseTask(String command) {
+    private static Task parseTask(String command) throws AvonException {
         if (command.equals("todo") || command.startsWith("todo ")) {
-            return new Todo(extractDescription(command, "todo"));
+            return new Todo(extractDescription(command, "todo", "todo DESCRIPTION"));
         }
         if (command.equals("deadline") || command.startsWith("deadline ")) {
             return parseDeadline(command);
@@ -140,7 +166,7 @@ public class Avon {
         if (command.equals("event") || command.startsWith("event ")) {
             return parseEvent(command);
         }
-        return new Todo(requireValue(command.trim(), "A task description is required."));
+        throw new UnknownCommandException();
     }
 
     /**
@@ -150,9 +176,13 @@ public class Avon {
      * @param keyword the command keyword to remove
      * @return the non-empty task description
      */
-    private static String extractDescription(String command, String keyword) {
-        return requireValue(command.substring(keyword.length()).trim(),
-                "A task description is required.");
+    private static String extractDescription(String command, String keyword, String example)
+            throws EmptyDescriptionException {
+        String description = command.substring(keyword.length()).trim();
+        if (description.isEmpty()) {
+            throw new EmptyDescriptionException(keyword, example);
+        }
+        return description;
     }
 
     /**
@@ -161,8 +191,9 @@ public class Avon {
      * @param command the deadline command entered by the user
      * @return the parsed deadline task
      */
-    private static Deadline parseDeadline(String command) {
-        String details = extractDescription(command, "deadline");
+    private static Deadline parseDeadline(String command) throws AvonException {
+        String details = extractDescription(command, "deadline",
+                "deadline DESCRIPTION /by DATE_OR_TIME");
         int byIndex = details.indexOf("/by");
         if (byIndex <= 0) {
             throw new IllegalArgumentException("A deadline must include '/by'.");
@@ -181,8 +212,9 @@ public class Avon {
      * @param command the event command entered by the user
      * @return the parsed event task
      */
-    private static Event parseEvent(String command) {
-        String details = extractDescription(command, "event");
+    private static Event parseEvent(String command) throws AvonException {
+        String details = extractDescription(command, "event",
+                "event DESCRIPTION /from START /to END");
         int fromIndex = details.indexOf("/from");
         int toIndex = details.indexOf("/to", fromIndex + 5);
         if (fromIndex <= 0 || toIndex <= fromIndex) {
