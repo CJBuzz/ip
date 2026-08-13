@@ -9,8 +9,19 @@ public class InvalidTaskNumberException extends AvonException {
      * @param problem a clear explanation of the invalid number
      */
     public InvalidTaskNumberException(String action, String problem) {
-        super("OOPS!!! I cannot " + action + " that task.\n"
-                + "        " + problem + "\n"
-                + "        Example: " + action + " 1");
+        this(action, problem, true);
+    }
+
+    /**
+     * Creates a task-number error, optionally with a valid command example.
+     *
+     * @param action the command action, such as mark or unmark
+     * @param problem a clear explanation of the invalid number
+     * @param shouldShowExample whether a command example would help resolve the error
+     */
+    public InvalidTaskNumberException(String action, String problem, boolean shouldShowExample) {
+        super("Pardon, I beseech thee! I cannot " + action + " that task.\n"
+                + "        " + problem
+                + (shouldShowExample ? "\n        Example: " + action + " 1" : ""));
     }
 }

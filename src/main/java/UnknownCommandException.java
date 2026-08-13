@@ -6,7 +6,7 @@ public class UnknownCommandException extends AvonException {
      * Creates an unknown-command error with a list of valid first words.
      */
     public UnknownCommandException() {
-        super("OOPS!!! I know not that command.\n"
-                + "        Start with one of: todo, deadline, event, list, mark, unmark, bye.");
+        super("Pardon, I beseech thee! I know not that command.\n"
+                + "        Do start with one of: todo, deadline, event, list, mark, unmark, bye.");
     }
 }

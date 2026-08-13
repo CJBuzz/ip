@@ -103,8 +103,7 @@ public class Avon {
 
         System.out.println(AVON_PREFIX + "Here are the tasks in thy list:");
         for (int index = 0; index < taskList.size(); index++) {
-            String prefix = index == 0 ? AVON_PREFIX : "        ";
-            System.out.println(prefix + (index + 1) + "." + taskList.getTask(index));
+            System.out.println("        " + (index + 1) + "." + taskList.getTask(index));
         }
     }
 
@@ -165,7 +164,7 @@ public class Avon {
 
         if (taskList.size() == 0) {
             throw new InvalidTaskNumberException(action,
-                    "Your task list is empty; add a task first.");
+                    "Thy task list is empty; add a task first.", false);
         }
         if (taskNumber <= 0 || taskNumber > taskList.size()) {
             throw new InvalidTaskNumberException(action,

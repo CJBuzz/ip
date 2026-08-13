@@ -33,7 +33,7 @@ Avon:	Now thou hast 1 tasks in thy list.
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Here are the tasks in thy list:
-Avon:	1.[T][ ] borrow book
+        1.[T][ ] borrow book
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Fare thee well! Pray heavens our paths cross anon.
@@ -87,7 +87,7 @@ Avon:	Thy noble task is undone once more:
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Here are the tasks in thy list:
-Avon:	1.[D][ ] return book (by: Sunday)
+        1.[D][ ] return book (by: Sunday)
         2.[E][ ] project meeting (from: Mon 2pm to: 4pm)
 ____________________________________________________________
 ____________________________________________________________
@@ -121,12 +121,12 @@ Avon:	Hark! I am Avon who stands before thee.
 Avon:	How may my hand or wit now serve thy need?
 ____________________________________________________________
 ____________________________________________________________
-Avon:	OOPS!!! I know not that command.
-        Start with one of: todo, deadline, event, list, mark, unmark, bye.
+Avon:	Pardon, I beseech thee! I know not that command.
+        Do start with one of: todo, deadline, event, list, mark, unmark, bye.
 ____________________________________________________________
 ____________________________________________________________
-Avon:	OOPS!!! The description of a todo cannot be empty.
-        Enter it in this format: todo DESCRIPTION
+Avon:	Pardon, I beseech thee! The description of a todo cannot be empty.
+        Do enter it in this format: todo DESCRIPTION
 ____________________________________________________________
 ____________________________________________________________
 Avon:	By thy command, I've added this task:
@@ -171,50 +171,50 @@ Avon:	Hark! I am Avon who stands before thee.
 Avon:	How may my hand or wit now serve thy need?
 ____________________________________________________________
 ____________________________________________________________
-Avon:	OOPS!!! The description of a deadline cannot be empty.
-        Enter it in this format: deadline DESCRIPTION /by DATE_OR_TIME
+Avon:	Pardon, I beseech thee! The description of a deadline cannot be empty.
+        Do enter it in this format: deadline DESCRIPTION /by DATE_OR_TIME
 ____________________________________________________________
 ____________________________________________________________
-Avon:	OOPS!!! This deadline command is ill-formed.
+Avon:	Pardon, I beseech thee! This deadline command is ill-formed.
         Include '/by' before the deadline date or time.
-        Enter it in this format: deadline DESCRIPTION /by DATE_OR_TIME
+        Do enter it in this format: deadline DESCRIPTION /by DATE_OR_TIME
 ____________________________________________________________
 ____________________________________________________________
-Avon:	OOPS!!! The description of a deadline cannot be empty.
-        Enter it in this format: deadline DESCRIPTION /by DATE_OR_TIME
+Avon:	Pardon, I beseech thee! The description of a deadline cannot be empty.
+        Do enter it in this format: deadline DESCRIPTION /by DATE_OR_TIME
 ____________________________________________________________
 ____________________________________________________________
-Avon:	OOPS!!! This deadline command is ill-formed.
+Avon:	Pardon, I beseech thee! This deadline command is ill-formed.
         Add a date or time after '/by'.
-        Enter it in this format: deadline DESCRIPTION /by DATE_OR_TIME
+        Do enter it in this format: deadline DESCRIPTION /by DATE_OR_TIME
 ____________________________________________________________
 ____________________________________________________________
-Avon:	OOPS!!! The description of an event cannot be empty.
-        Enter it in this format: event DESCRIPTION /from START /to END
+Avon:	Pardon, I beseech thee! The description of an event cannot be empty.
+        Do enter it in this format: event DESCRIPTION /from START /to END
 ____________________________________________________________
 ____________________________________________________________
-Avon:	OOPS!!! This event command is ill-formed.
+Avon:	Pardon, I beseech thee! This event command is ill-formed.
         Include '/from' before the start date or time.
-        Enter it in this format: event DESCRIPTION /from START /to END
+        Do enter it in this format: event DESCRIPTION /from START /to END
 ____________________________________________________________
 ____________________________________________________________
-Avon:	OOPS!!! This event command is ill-formed.
+Avon:	Pardon, I beseech thee! This event command is ill-formed.
         Include '/to' before the end date or time.
-        Enter it in this format: event DESCRIPTION /from START /to END
+        Do enter it in this format: event DESCRIPTION /from START /to END
 ____________________________________________________________
 ____________________________________________________________
-Avon:	OOPS!!! The description of an event cannot be empty.
-        Enter it in this format: event DESCRIPTION /from START /to END
+Avon:	Pardon, I beseech thee! The description of an event cannot be empty.
+        Do enter it in this format: event DESCRIPTION /from START /to END
 ____________________________________________________________
 ____________________________________________________________
-Avon:	OOPS!!! This event command is ill-formed.
+Avon:	Pardon, I beseech thee! This event command is ill-formed.
         Add a start date or time after '/from'.
-        Enter it in this format: event DESCRIPTION /from START /to END
+        Do enter it in this format: event DESCRIPTION /from START /to END
 ____________________________________________________________
 ____________________________________________________________
-Avon:	OOPS!!! This event command is ill-formed.
+Avon:	Pardon, I beseech thee! This event command is ill-formed.
         Add an end date or time after '/to'.
-        Enter it in this format: event DESCRIPTION /from START /to END
+        Do enter it in this format: event DESCRIPTION /from START /to END
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Fare thee well! Pray heavens our paths cross anon.
@@ -231,6 +231,7 @@ Aim: Verify that mark and unmark commands explain missing, malformed, and out-of
 mark
 mark one
 mark 1
+unmark 1
 todo rehearse scene
 mark 0
 mark 2
@@ -253,19 +254,22 @@ Avon:	Hark! I am Avon who stands before thee.
 Avon:	How may my hand or wit now serve thy need?
 ____________________________________________________________
 ____________________________________________________________
-Avon:	OOPS!!! I cannot mark that task.
+Avon:	Pardon, I beseech thee! I cannot mark that task.
         Add a task number after 'mark'.
         Example: mark 1
 ____________________________________________________________
 ____________________________________________________________
-Avon:	OOPS!!! I cannot mark that task.
+Avon:	Pardon, I beseech thee! I cannot mark that task.
         Use one whole task number greater than zero.
         Example: mark 1
 ____________________________________________________________
 ____________________________________________________________
-Avon:	OOPS!!! I cannot mark that task.
-        Your task list is empty; add a task first.
-        Example: mark 1
+Avon:	Pardon, I beseech thee! I cannot mark that task.
+        Thy task list is empty; add a task first.
+____________________________________________________________
+____________________________________________________________
+Avon:	Pardon, I beseech thee! I cannot unmark that task.
+        Thy task list is empty; add a task first.
 ____________________________________________________________
 ____________________________________________________________
 Avon:	By thy command, I've added this task:
@@ -273,12 +277,12 @@ Avon:	By thy command, I've added this task:
 Avon:	Now thou hast 1 tasks in thy list.
 ____________________________________________________________
 ____________________________________________________________
-Avon:	OOPS!!! I cannot mark that task.
+Avon:	Pardon, I beseech thee! I cannot mark that task.
         Choose a task number from 1 to 1.
         Example: mark 1
 ____________________________________________________________
 ____________________________________________________________
-Avon:	OOPS!!! I cannot mark that task.
+Avon:	Pardon, I beseech thee! I cannot mark that task.
         Choose a task number from 1 to 1.
         Example: mark 1
 ____________________________________________________________
@@ -287,7 +291,7 @@ Avon:	Tis well! Thy noble task is now fulfilled:
         [T][X] rehearse scene
 ____________________________________________________________
 ____________________________________________________________
-Avon:	OOPS!!! I cannot unmark that task.
+Avon:	Pardon, I beseech thee! I cannot unmark that task.
         Add a task number after 'unmark'.
         Example: unmark 1
 ____________________________________________________________
