@@ -55,6 +55,8 @@ public class Avon {
             markTask(taskList, command);
         } else if (command.equals("unmark") || command.startsWith("unmark ")) {
             unmarkTask(taskList, command);
+        } else if (command.equals("delete") || command.startsWith("delete ")) {
+            deleteTask(taskList, command);
         } else if (isTaskCommand(command)) {
             addTask(taskList, command);
         } else {
@@ -138,7 +140,23 @@ public class Avon {
     }
 
     /**
-     * Parses and validates the one-based task number in a mark or unmark command.
+     * Removes the task identified by the one-based number in a delete command.
+     *
+     * @param taskList the in-memory task list
+     * @param command the delete command entered by the user
+     * @throws InvalidTaskNumberException if the command does not identify an existing task
+     */
+    private static void deleteTask(TaskList taskList, String command)
+            throws InvalidTaskNumberException {
+        int taskIndex = parseTaskIndex(taskList, command, "delete");
+        Task removedTask = taskList.removeTask(taskIndex);
+        System.out.println(AVON_PREFIX + "So be it! I've removed this task:");
+        System.out.println("        " + removedTask);
+        System.out.println(AVON_PREFIX + "Now thou hast " + taskList.size() + " tasks in thy list.");
+    }
+
+    /**
+     * Parses and validates the one-based task number in a task-number command.
      *
      * @param taskList the in-memory task list
      * @param command the complete command entered by the user

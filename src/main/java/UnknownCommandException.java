@@ -7,6 +7,6 @@ public class UnknownCommandException extends AvonException {
      */
     public UnknownCommandException() {
         super("Pardon, I beseech thee! I know not that command.\n"
-                + "        Do start with one of: todo, deadline, event, list, mark, unmark, bye.");
+                + "        Do start with one of: todo, deadline, event, list, mark, unmark, delete, bye.");
     }
 }

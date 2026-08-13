@@ -80,6 +80,22 @@ public class TaskList {
     }
 
     /**
+     * Removes and returns the task at the requested zero-based index.
+     *
+     * @param index the zero-based position of the task to remove
+     * @return the task that was removed
+     * @throws IndexOutOfBoundsException if the index does not refer to a stored task
+     */
+    public Task removeTask(int index) {
+        validateIndex(index);
+        Task removedTask = tasks[index];
+        shiftTasksLeft(index);
+        taskCount--;
+        tasks[taskCount] = null;
+        return removedTask;
+    }
+
+    /**
      * Marks the task at the requested zero-based index as not done.
      *
      * @param index the zero-based position of the task
@@ -98,6 +114,17 @@ public class TaskList {
      */
     public boolean isDone(int index) {
         return getTask(index).isDone();
+    }
+
+    /**
+     * Shifts every task after the removed index one position to the left.
+     *
+     * @param removedIndex the zero-based position of the removed task
+     */
+    private void shiftTasksLeft(int removedIndex) {
+        for (int index = removedIndex; index < taskCount - 1; index++) {
+            tasks[index] = tasks[index + 1];
+        }
     }
 
     /**

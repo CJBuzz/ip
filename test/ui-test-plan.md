@@ -122,7 +122,7 @@ Avon:	How may my hand or wit now serve thy need?
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Pardon, I beseech thee! I know not that command.
-        Do start with one of: todo, deadline, event, list, mark, unmark, bye.
+        Do start with one of: todo, deadline, event, list, mark, unmark, delete, bye.
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Pardon, I beseech thee! The description of a todo cannot be empty.
@@ -298,6 +298,86 @@ ____________________________________________________________
 ____________________________________________________________
 Avon:	Thy noble task is undone once more:
         [T][ ] rehearse scene
+____________________________________________________________
+____________________________________________________________
+Avon:	Fare thee well! Pray heavens our paths cross anon.
+____________________________________________________________
+```
+
+## TC-006: Delete a task and renumber the remaining tasks
+
+Aim: Verify that delete removes the requested task, retains the other tasks in order, and explains a missing task number.
+
+### Input
+
+```text
+todo read book
+deadline return book /by June 6th
+event project meeting /from Aug 6th 2pm /to 4pm
+mark 1
+mark 2
+list
+delete 3
+list
+delete
+bye
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+    ___
+   /   |_   ______  ____
+  / /| | | / / __ \/ __ \
+ / ___ | |/ / /_/ / / / /
+/_/  |_|___/\____/_/ /_/
+Avon:	Hark! I am Avon who stands before thee.
+Avon:	How may my hand or wit now serve thy need?
+____________________________________________________________
+____________________________________________________________
+Avon:	By thy command, I've added this task:
+        [T][ ] read book
+Avon:	Now thou hast 1 tasks in thy list.
+____________________________________________________________
+____________________________________________________________
+Avon:	By thy command, I've added this task:
+        [D][ ] return book (by: June 6th)
+Avon:	Now thou hast 2 tasks in thy list.
+____________________________________________________________
+____________________________________________________________
+Avon:	By thy command, I've added this task:
+        [E][ ] project meeting (from: Aug 6th 2pm to: 4pm)
+Avon:	Now thou hast 3 tasks in thy list.
+____________________________________________________________
+____________________________________________________________
+Avon:	Tis well! Thy noble task is now fulfilled:
+        [T][X] read book
+____________________________________________________________
+____________________________________________________________
+Avon:	Tis well! Thy noble task is now fulfilled:
+        [D][X] return book (by: June 6th)
+____________________________________________________________
+____________________________________________________________
+Avon:	Here are the tasks in thy list:
+        1.[T][X] read book
+        2.[D][X] return book (by: June 6th)
+        3.[E][ ] project meeting (from: Aug 6th 2pm to: 4pm)
+____________________________________________________________
+____________________________________________________________
+Avon:	So be it! I've removed this task:
+        [E][ ] project meeting (from: Aug 6th 2pm to: 4pm)
+Avon:	Now thou hast 2 tasks in thy list.
+____________________________________________________________
+____________________________________________________________
+Avon:	Here are the tasks in thy list:
+        1.[T][X] read book
+        2.[D][X] return book (by: June 6th)
+____________________________________________________________
+____________________________________________________________
+Avon:	Pardon, I beseech thee! I cannot delete that task.
+        Add a task number after 'delete'.
+        Example: delete 1
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Fare thee well! Pray heavens our paths cross anon.
