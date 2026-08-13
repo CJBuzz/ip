@@ -223,7 +223,7 @@ ____________________________________________________________
 
 ## TC-005: Reject invalid Mark and Unmark task numbers
 
-Aim: Verify that mark and unmark commands explain missing, malformed, and out-of-range task numbers.
+Aim: Verify mark and unmark guidance for empty lists and missing, malformed, non-positive, or out-of-range task numbers.
 
 ### Input
 
@@ -304,9 +304,9 @@ Avon:	Fare thee well! Pray heavens our paths cross anon.
 ____________________________________________________________
 ```
 
-## TC-006: Delete a task and renumber the remaining tasks
+## TC-006: Delete a middle task and renumber later tasks
 
-Aim: Verify that delete removes the requested task, retains the other tasks in order, and explains a missing task number.
+Aim: Verify that deleting a middle task retains the other tasks in order and renumbers every later task.
 
 ### Input
 
@@ -317,9 +317,8 @@ event project meeting /from Aug 6th 2pm /to 4pm
 mark 1
 mark 2
 list
-delete 3
+delete 2
 list
-delete
 bye
 ```
 
@@ -366,18 +365,130 @@ Avon:	Here are the tasks in thy list:
 ____________________________________________________________
 ____________________________________________________________
 Avon:	So be it! I've removed this task:
-        [E][ ] project meeting (from: Aug 6th 2pm to: 4pm)
+        [D][X] return book (by: June 6th)
 Avon:	Now thou hast 2 tasks in thy list.
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Here are the tasks in thy list:
         1.[T][X] read book
-        2.[D][X] return book (by: June 6th)
+        2.[E][ ] project meeting (from: Aug 6th 2pm to: 4pm)
+____________________________________________________________
+____________________________________________________________
+Avon:	Fare thee well! Pray heavens our paths cross anon.
+____________________________________________________________
+```
+
+## TC-007: Reject invalid Delete task numbers
+
+Aim: Verify empty-list display and delete guidance for empty, missing, malformed, non-positive, and out-of-range task numbers.
+
+### Input
+
+```text
+list
+delete 1
+delete
+delete one
+todo rehearse scene
+delete 0
+delete 2
+bye
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+    ___
+   /   |_   ______  ____
+  / /| | | / / __ \/ __ \
+ / ___ | |/ / /_/ / / / /
+/_/  |_|___/\____/_/ /_/
+Avon:	Hark! I am Avon who stands before thee.
+Avon:	How may my hand or wit now serve thy need?
+____________________________________________________________
+____________________________________________________________
+Avon:	Thy task list is empty.
+____________________________________________________________
+____________________________________________________________
+Avon:	Pardon, I beseech thee! I cannot delete that task.
+        Thy task list is empty; add a task first.
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Pardon, I beseech thee! I cannot delete that task.
         Add a task number after 'delete'.
         Example: delete 1
+____________________________________________________________
+____________________________________________________________
+Avon:	Pardon, I beseech thee! I cannot delete that task.
+        Use one whole task number greater than zero.
+        Example: delete 1
+____________________________________________________________
+____________________________________________________________
+Avon:	By thy command, I've added this task:
+        [T][ ] rehearse scene
+Avon:	Now thou hast 1 tasks in thy list.
+____________________________________________________________
+____________________________________________________________
+Avon:	Pardon, I beseech thee! I cannot delete that task.
+        Choose a task number from 1 to 1.
+        Example: delete 1
+____________________________________________________________
+____________________________________________________________
+Avon:	Pardon, I beseech thee! I cannot delete that task.
+        Choose a task number from 1 to 1.
+        Example: delete 1
+____________________________________________________________
+____________________________________________________________
+Avon:	Fare thee well! Pray heavens our paths cross anon.
+____________________________________________________________
+```
+
+## TC-008: Reject ambiguous timed-task separators
+
+Aim: Verify that Deadline and Event commands reject duplicate separators and Event separators in reverse order.
+
+### Input
+
+```text
+deadline return book /by Monday /by Tuesday
+event meeting /to 4pm /from 2pm
+event meeting /from 1pm /from 2pm /to 3pm
+event meeting /from 1pm /to 2pm /to 3pm
+bye
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+    ___
+   /   |_   ______  ____
+  / /| | | / / __ \/ __ \
+ / ___ | |/ / /_/ / / / /
+/_/  |_|___/\____/_/ /_/
+Avon:	Hark! I am Avon who stands before thee.
+Avon:	How may my hand or wit now serve thy need?
+____________________________________________________________
+____________________________________________________________
+Avon:	Pardon, I beseech thee! This deadline command is ill-formed.
+        Use '/by' exactly once.
+        Do enter it in this format: deadline DESCRIPTION /by DATE_OR_TIME
+____________________________________________________________
+____________________________________________________________
+Avon:	Pardon, I beseech thee! This event command is ill-formed.
+        Place '/from' before '/to'.
+        Do enter it in this format: event DESCRIPTION /from START /to END
+____________________________________________________________
+____________________________________________________________
+Avon:	Pardon, I beseech thee! This event command is ill-formed.
+        Use '/from' and '/to' exactly once each.
+        Do enter it in this format: event DESCRIPTION /from START /to END
+____________________________________________________________
+____________________________________________________________
+Avon:	Pardon, I beseech thee! This event command is ill-formed.
+        Use '/from' and '/to' exactly once each.
+        Do enter it in this format: event DESCRIPTION /from START /to END
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Fare thee well! Pray heavens our paths cross anon.
