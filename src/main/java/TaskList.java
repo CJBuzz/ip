@@ -1,16 +1,16 @@
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Stores tasks in memory for the duration of an Avon session.
  */
 public class TaskList {
-    private static final int MAX_TASKS = 100;
-    private final Task[] tasks = new Task[MAX_TASKS];
-    private int taskCount;
+    private final List<Task> tasks = new ArrayList<>();
 
     /**
      * Adds a todo task with the given description to the end of the list.
      *
      * @param description the text of the task to store
-     * @throws IllegalStateException if the list already contains 100 tasks
      */
     public void add(String description) {
         add(new Todo(description));
@@ -21,19 +21,12 @@ public class TaskList {
      *
      * @param task the task to store
      * @throws IllegalArgumentException if the task is null
-     * @throws IllegalStateException if the list already contains 100 tasks
      */
     public void add(Task task) {
         if (task == null) {
             throw new IllegalArgumentException("A task cannot be null.");
         }
-
-        if (taskCount == MAX_TASKS) {
-            throw new IllegalStateException("The task list can hold no more than 100 tasks.");
-        }
-
-        tasks[taskCount] = task;
-        taskCount++;
+        tasks.add(task);
     }
 
     /**
@@ -42,7 +35,7 @@ public class TaskList {
      * @return the number of stored tasks
      */
     public int size() {
-        return taskCount;
+        return tasks.size();
     }
 
     /**
@@ -54,7 +47,7 @@ public class TaskList {
      */
     public String get(int index) {
         validateIndex(index);
-        return tasks[index].getDescription();
+        return tasks.get(index).getDescription();
     }
 
     /**
@@ -66,7 +59,7 @@ public class TaskList {
      */
     public Task getTask(int index) {
         validateIndex(index);
-        return tasks[index];
+        return tasks.get(index);
     }
 
     /**
@@ -88,11 +81,7 @@ public class TaskList {
      */
     public Task removeTask(int index) {
         validateIndex(index);
-        Task removedTask = tasks[index];
-        shiftTasksLeft(index);
-        taskCount--;
-        tasks[taskCount] = null;
-        return removedTask;
+        return tasks.remove(index);
     }
 
     /**
@@ -117,24 +106,13 @@ public class TaskList {
     }
 
     /**
-     * Shifts every task after the removed index one position to the left.
-     *
-     * @param removedIndex the zero-based position of the removed task
-     */
-    private void shiftTasksLeft(int removedIndex) {
-        for (int index = removedIndex; index < taskCount - 1; index++) {
-            tasks[index] = tasks[index + 1];
-        }
-    }
-
-    /**
      * Ensures that an index points to a task currently stored in the list.
      *
      * @param index the zero-based position to validate
      * @throws IndexOutOfBoundsException if the index does not refer to a stored task
      */
     private void validateIndex(int index) {
-        if (index < 0 || index >= taskCount) {
+        if (index < 0 || index >= tasks.size()) {
             throw new IndexOutOfBoundsException("Task index is outside the task list.");
         }
     }
