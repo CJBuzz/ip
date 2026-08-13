@@ -2,12 +2,14 @@
  * Represents an error caused by a command that Avon cannot carry out.
  */
 public class AvonException extends Exception {
+    private static final String MESSAGE_PREFIX = "Pardon, I beseech thee! ";
+
     /**
      * Creates an Avon exception with guidance for the user.
      *
-     * @param message the explanation shown to the user
+     * @param message the error-specific explanation shown to the user
      */
     public AvonException(String message) {
-        super(message);
+        super(MESSAGE_PREFIX + message);
     }
 }

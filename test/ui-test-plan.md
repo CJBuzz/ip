@@ -125,7 +125,7 @@ Avon:	Pardon, I beseech thee! I know not that command.
         Do start with one of: todo, deadline, event, list, mark, unmark, delete, bye.
 ____________________________________________________________
 ____________________________________________________________
-Avon:	Pardon, I beseech thee! The description of a todo cannot be empty.
+Avon:	Pardon, I beseech thee! The todo description cannot be empty.
         Do enter it in this format: todo DESCRIPTION
 ____________________________________________________________
 ____________________________________________________________
@@ -171,7 +171,7 @@ Avon:	Hark! I am Avon who stands before thee.
 Avon:	How may my hand or wit now serve thy need?
 ____________________________________________________________
 ____________________________________________________________
-Avon:	Pardon, I beseech thee! The description of a deadline cannot be empty.
+Avon:	Pardon, I beseech thee! The deadline description cannot be empty.
         Do enter it in this format: deadline DESCRIPTION /by DATE_OR_TIME
 ____________________________________________________________
 ____________________________________________________________
@@ -180,7 +180,7 @@ Avon:	Pardon, I beseech thee! This deadline command is ill-formed.
         Do enter it in this format: deadline DESCRIPTION /by DATE_OR_TIME
 ____________________________________________________________
 ____________________________________________________________
-Avon:	Pardon, I beseech thee! The description of a deadline cannot be empty.
+Avon:	Pardon, I beseech thee! The deadline description cannot be empty.
         Do enter it in this format: deadline DESCRIPTION /by DATE_OR_TIME
 ____________________________________________________________
 ____________________________________________________________
@@ -189,7 +189,7 @@ Avon:	Pardon, I beseech thee! This deadline command is ill-formed.
         Do enter it in this format: deadline DESCRIPTION /by DATE_OR_TIME
 ____________________________________________________________
 ____________________________________________________________
-Avon:	Pardon, I beseech thee! The description of an event cannot be empty.
+Avon:	Pardon, I beseech thee! The event description cannot be empty.
         Do enter it in this format: event DESCRIPTION /from START /to END
 ____________________________________________________________
 ____________________________________________________________
@@ -203,7 +203,7 @@ Avon:	Pardon, I beseech thee! This event command is ill-formed.
         Do enter it in this format: event DESCRIPTION /from START /to END
 ____________________________________________________________
 ____________________________________________________________
-Avon:	Pardon, I beseech thee! The description of an event cannot be empty.
+Avon:	Pardon, I beseech thee! The event description cannot be empty.
         Do enter it in this format: event DESCRIPTION /from START /to END
 ____________________________________________________________
 ____________________________________________________________
@@ -489,6 +489,48 @@ ____________________________________________________________
 Avon:	Pardon, I beseech thee! This event command is ill-formed.
         Use '/from' and '/to' exactly once each.
         Do enter it in this format: event DESCRIPTION /from START /to END
+____________________________________________________________
+____________________________________________________________
+Avon:	Fare thee well! Pray heavens our paths cross anon.
+____________________________________________________________
+```
+
+## TC-009: Match complete command keywords
+
+Aim: Verify that command prefixes and arguments after argument-free commands are rejected, while an exact command remains valid.
+
+### Input
+
+```text
+todoist write tests
+list extra
+bye now
+bye
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+    ___
+   /   |_   ______  ____
+  / /| | | / / __ \/ __ \
+ / ___ | |/ / /_/ / / / /
+/_/  |_|___/\____/_/ /_/
+Avon:	Hark! I am Avon who stands before thee.
+Avon:	How may my hand or wit now serve thy need?
+____________________________________________________________
+____________________________________________________________
+Avon:	Pardon, I beseech thee! I know not that command.
+        Do start with one of: todo, deadline, event, list, mark, unmark, delete, bye.
+____________________________________________________________
+____________________________________________________________
+Avon:	Pardon, I beseech thee! I know not that command.
+        Do start with one of: todo, deadline, event, list, mark, unmark, delete, bye.
+____________________________________________________________
+____________________________________________________________
+Avon:	Pardon, I beseech thee! I know not that command.
+        Do start with one of: todo, deadline, event, list, mark, unmark, delete, bye.
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Fare thee well! Pray heavens our paths cross anon.

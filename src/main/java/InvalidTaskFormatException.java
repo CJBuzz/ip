@@ -10,7 +10,7 @@ public class InvalidTaskFormatException extends AvonException {
      * @param example a complete example of the expected command
      */
     public InvalidTaskFormatException(String taskType, String problem, String example) {
-        super("Pardon, I beseech thee! This " + taskType + " command is ill-formed.\n"
+        super("This " + taskType + " command is ill-formed.\n"
                 + "        " + problem + "\n"
                 + "        Do enter it in this format: " + example);
     }

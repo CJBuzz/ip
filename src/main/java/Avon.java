@@ -27,12 +27,13 @@ public class Avon {
             System.out.println(SEPARATOR);
 
             try {
-                if (command.equals("bye")) {
+                CommandType commandType = CommandType.parse(command);
+                if (commandType == CommandType.BYE) {
                     System.out.println(AVON_PREFIX + "Fare thee well! Pray heavens our paths cross anon.");
                     System.out.println(SEPARATOR);
                     break;
                 }
-                executeCommand(taskList, command);
+                executeCommand(taskList, command, commandType);
             } catch (AvonException exception) {
                 System.out.println(AVON_PREFIX + exception.getMessage());
             }
@@ -46,34 +47,34 @@ public class Avon {
      *
      * @param taskList the in-memory task list
      * @param command the command entered by the user
+     * @param commandType the identified type of the command
      * @throws AvonException if the command cannot be understood or completed
      */
-    private static void executeCommand(TaskList taskList, String command) throws AvonException {
-        if (command.equals("list")) {
+    private static void executeCommand(TaskList taskList, String command, CommandType commandType)
+            throws AvonException {
+        switch (commandType) {
+        case LIST:
             printTasks(taskList);
-        } else if (command.equals("mark") || command.startsWith("mark ")) {
+            break;
+        case MARK:
             markTask(taskList, command);
-        } else if (command.equals("unmark") || command.startsWith("unmark ")) {
+            break;
+        case UNMARK:
             unmarkTask(taskList, command);
-        } else if (command.equals("delete") || command.startsWith("delete ")) {
+            break;
+        case DELETE:
             deleteTask(taskList, command);
-        } else if (isTaskCommand(command)) {
-            addTask(taskList, command);
-        } else {
-            throw new UnknownCommandException();
+            break;
+        case TODO:
+        case DEADLINE:
+        case EVENT:
+            addTask(taskList, command, commandType);
+            break;
+        case BYE:
+            throw new IllegalArgumentException("Bye must be handled before command execution.");
+        default:
+            throw new IllegalArgumentException("Unsupported command type.");
         }
-    }
-
-    /**
-     * Checks whether a command begins with a supported task keyword.
-     *
-     * @param command the command entered by the user
-     * @return true if the command is a todo, deadline, or event command
-     */
-    private static boolean isTaskCommand(String command) {
-        return command.equals("todo") || command.startsWith("todo ")
-                || command.equals("deadline") || command.startsWith("deadline ")
-                || command.equals("event") || command.startsWith("event ");
     }
 
     /**
@@ -81,10 +82,12 @@ public class Avon {
      *
      * @param taskList the in-memory task list
      * @param command the text entered by the user
+     * @param commandType the type of task to create
      */
-    private static void addTask(TaskList taskList, String command) throws AvonException {
+    private static void addTask(TaskList taskList, String command, CommandType commandType)
+            throws AvonException {
         try {
-            Task task = parseTask(command);
+            Task task = parseTask(command, commandType);
             taskList.add(task);
             printAddedTask(taskList, task);
         } catch (IllegalStateException exception) {
@@ -117,7 +120,7 @@ public class Avon {
      */
     private static void markTask(TaskList taskList, String command)
             throws InvalidTaskNumberException {
-        int taskIndex = parseTaskIndex(taskList, command, "mark");
+        int taskIndex = parseTaskIndex(taskList, command, CommandType.MARK);
         Task task = taskList.getTask(taskIndex);
         task.markAsDone();
         System.out.println(AVON_PREFIX + "Tis well! Thy noble task is now fulfilled:");
@@ -132,7 +135,7 @@ public class Avon {
      */
     private static void unmarkTask(TaskList taskList, String command)
             throws InvalidTaskNumberException {
-        int taskIndex = parseTaskIndex(taskList, command, "unmark");
+        int taskIndex = parseTaskIndex(taskList, command, CommandType.UNMARK);
         Task task = taskList.getTask(taskIndex);
         task.markAsNotDone();
         System.out.println(AVON_PREFIX + "Thy noble task is undone once more:");
@@ -148,7 +151,7 @@ public class Avon {
      */
     private static void deleteTask(TaskList taskList, String command)
             throws InvalidTaskNumberException {
-        int taskIndex = parseTaskIndex(taskList, command, "delete");
+        int taskIndex = parseTaskIndex(taskList, command, CommandType.DELETE);
         Task removedTask = taskList.removeTask(taskIndex);
         System.out.println(AVON_PREFIX + "So be it! I've removed this task:");
         System.out.println("        " + removedTask);
@@ -160,32 +163,33 @@ public class Avon {
      *
      * @param taskList the in-memory task list
      * @param command the complete command entered by the user
-     * @param action the command's first word
+     * @param commandType the type of task-number command
      * @return the corresponding zero-based task index
      * @throws InvalidTaskNumberException if the number is missing, malformed, or out of range
      */
-    private static int parseTaskIndex(TaskList taskList, String command, String action)
+    private static int parseTaskIndex(TaskList taskList, String command, CommandType commandType)
             throws InvalidTaskNumberException {
-        String taskNumberText = command.substring(action.length()).trim();
+        String keyword = commandType.getKeyword();
+        String taskNumberText = command.substring(keyword.length()).trim();
         if (taskNumberText.isEmpty()) {
-            throw new InvalidTaskNumberException(action,
-                    "Add a task number after '" + action + "'.");
+            throw new InvalidTaskNumberException(commandType,
+                    "Add a task number after '" + keyword + "'.");
         }
 
         int taskNumber;
         try {
             taskNumber = Integer.parseInt(taskNumberText);
         } catch (NumberFormatException exception) {
-            throw new InvalidTaskNumberException(action,
+            throw new InvalidTaskNumberException(commandType,
                     "Use one whole task number greater than zero.");
         }
 
         if (taskList.size() == 0) {
-            throw new InvalidTaskNumberException(action,
+            throw new InvalidTaskNumberException(commandType,
                     "Thy task list is empty; add a task first.", false);
         }
         if (taskNumber <= 0 || taskNumber > taskList.size()) {
-            throw new InvalidTaskNumberException(action,
+            throw new InvalidTaskNumberException(commandType,
                     "Choose a task number from 1 to " + taskList.size() + ".");
         }
         return taskNumber - 1;
@@ -195,19 +199,21 @@ public class Avon {
      * Creates the appropriate task subtype for a command.
      *
      * @param command the command entered by the user
+     * @param commandType the type of task to create
      * @return the task represented by the command
      */
-    private static Task parseTask(String command) throws AvonException {
-        if (command.equals("todo") || command.startsWith("todo ")) {
-            return new Todo(extractDescription(command, "todo", "todo DESCRIPTION"));
-        }
-        if (command.equals("deadline") || command.startsWith("deadline ")) {
+    private static Task parseTask(String command, CommandType commandType) throws AvonException {
+        switch (commandType) {
+        case TODO:
+            String todoKeyword = CommandType.TODO.getKeyword();
+            return new Todo(extractDescription(command, todoKeyword, "todo DESCRIPTION"));
+        case DEADLINE:
             return parseDeadline(command);
-        }
-        if (command.equals("event") || command.startsWith("event ")) {
+        case EVENT:
             return parseEvent(command);
+        default:
+            throw new IllegalArgumentException("Command does not create a task.");
         }
-        throw new UnknownCommandException();
     }
 
     /**
@@ -233,25 +239,26 @@ public class Avon {
      * @return the parsed deadline task
      */
     private static Deadline parseDeadline(String command) throws AvonException {
+        String deadlineKeyword = CommandType.DEADLINE.getKeyword();
         String example = "deadline DESCRIPTION /by DATE_OR_TIME";
-        String details = extractDescription(command, "deadline",
+        String details = extractDescription(command, deadlineKeyword,
                 example);
         int byIndex = details.indexOf("/by");
         if (byIndex < 0) {
-            throw new InvalidTaskFormatException("deadline",
+            throw new InvalidTaskFormatException(deadlineKeyword,
                     "Include '/by' before the deadline date or time.", example);
         }
         if (details.indexOf("/by", byIndex + 3) >= 0) {
-            throw new InvalidTaskFormatException("deadline",
+            throw new InvalidTaskFormatException(deadlineKeyword,
                     "Use '/by' exactly once.", example);
         }
         if (byIndex == 0) {
-            throw new EmptyDescriptionException("deadline", example);
+            throw new EmptyDescriptionException(deadlineKeyword, example);
         }
 
         String description = details.substring(0, byIndex).trim();
         String by = requireTaskDetail(details.substring(byIndex + 3).trim(),
-                "deadline", "Add a date or time after '/by'.", example);
+                deadlineKeyword, "Add a date or time after '/by'.", example);
         return new Deadline(description, by);
     }
 
@@ -262,37 +269,38 @@ public class Avon {
      * @return the parsed event task
      */
     private static Event parseEvent(String command) throws AvonException {
+        String eventKeyword = CommandType.EVENT.getKeyword();
         String example = "event DESCRIPTION /from START /to END";
-        String details = extractDescription(command, "event",
+        String details = extractDescription(command, eventKeyword,
                 example);
         int fromIndex = details.indexOf("/from");
         int toIndex = details.indexOf("/to");
         if (fromIndex < 0) {
-            throw new InvalidTaskFormatException("event",
+            throw new InvalidTaskFormatException(eventKeyword,
                     "Include '/from' before the start date or time.", example);
         }
         if (toIndex < 0) {
-            throw new InvalidTaskFormatException("event",
+            throw new InvalidTaskFormatException(eventKeyword,
                     "Include '/to' before the end date or time.", example);
         }
         if (details.indexOf("/from", fromIndex + 5) >= 0
                 || details.indexOf("/to", toIndex + 3) >= 0) {
-            throw new InvalidTaskFormatException("event",
+            throw new InvalidTaskFormatException(eventKeyword,
                     "Use '/from' and '/to' exactly once each.", example);
         }
         if (toIndex < fromIndex) {
-            throw new InvalidTaskFormatException("event",
+            throw new InvalidTaskFormatException(eventKeyword,
                     "Place '/from' before '/to'.", example);
         }
         if (fromIndex == 0) {
-            throw new EmptyDescriptionException("event", example);
+            throw new EmptyDescriptionException(eventKeyword, example);
         }
 
         String description = details.substring(0, fromIndex).trim();
         String from = requireTaskDetail(details.substring(fromIndex + 5, toIndex).trim(),
-                "event", "Add a start date or time after '/from'.", example);
+                eventKeyword, "Add a start date or time after '/from'.", example);
         String to = requireTaskDetail(details.substring(toIndex + 3).trim(),
-                "event", "Add an end date or time after '/to'.", example);
+                eventKeyword, "Add an end date or time after '/to'.", example);
         return new Event(description, from, to);
     }
 

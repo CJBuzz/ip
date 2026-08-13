@@ -5,23 +5,25 @@ public class InvalidTaskNumberException extends AvonException {
     /**
      * Creates a task-number error with guidance tailored to the command.
      *
-     * @param action the command action, such as mark, unmark, or delete
+     * @param commandType the type of task-number command
      * @param problem a clear explanation of the invalid number
      */
-    public InvalidTaskNumberException(String action, String problem) {
-        this(action, problem, true);
+    public InvalidTaskNumberException(CommandType commandType, String problem) {
+        this(commandType, problem, true);
     }
 
     /**
      * Creates a task-number error, optionally with a valid command example.
      *
-     * @param action the command action, such as mark, unmark, or delete
+     * @param commandType the type of task-number command
      * @param problem a clear explanation of the invalid number
      * @param shouldShowExample whether a command example would help resolve the error
      */
-    public InvalidTaskNumberException(String action, String problem, boolean shouldShowExample) {
-        super("Pardon, I beseech thee! I cannot " + action + " that task.\n"
+    public InvalidTaskNumberException(CommandType commandType, String problem,
+            boolean shouldShowExample) {
+        super("I cannot " + commandType.getKeyword() + " that task.\n"
                 + "        " + problem
-                + (shouldShowExample ? "\n        Example: " + action + " 1" : ""));
+                + (shouldShowExample
+                        ? "\n        Example: " + commandType.getKeyword() + " 1" : ""));
     }
 }
