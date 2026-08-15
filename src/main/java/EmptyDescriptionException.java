@@ -10,6 +10,6 @@ public class EmptyDescriptionException extends AvonException {
      */
     public EmptyDescriptionException(String taskType, String example) {
         super("The " + taskType + " description cannot be empty.\n"
-                + "        Do enter it in this format: " + example);
+                + "Do enter it in this format: " + example);
     }
 }

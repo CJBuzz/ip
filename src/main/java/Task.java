@@ -42,24 +42,6 @@ public class Task {
     }
 
     /**
-     * Checks whether this task is completed.
-     *
-     * @return true if this task is completed
-     */
-    public boolean isDone() {
-        return isDone;
-    }
-
-    /**
-     * Returns the task description.
-     *
-     * @return the text describing this task
-     */
-    public String getDescription() {
-        return description;
-    }
-
-    /**
      * Returns this task in the format used by Avon’s task list.
      *
      * @return the status icon and description of this task

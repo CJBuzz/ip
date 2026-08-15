@@ -6,6 +6,7 @@ import java.util.Scanner;
 public class Avon {
     private static final String SEPARATOR = "____________________________________________________________";
     private static final String AVON_PREFIX = "Avon:\t";
+    private static final String INDENT = "        ";
 
     public static void main(String[] args) {
         String banner = """
@@ -35,7 +36,7 @@ public class Avon {
                 }
                 executeCommand(taskList, command, commandType);
             } catch (AvonException exception) {
-                System.out.println(AVON_PREFIX + exception.getMessage());
+                printException(exception);
             }
             System.out.println(SEPARATOR);
         }
@@ -49,6 +50,8 @@ public class Avon {
      * @param command the command entered by the user
      * @param commandType the identified type of the command
      * @throws AvonException if the command cannot be understood or completed
+     * @throws IllegalArgumentException if the switch-case block reaches a state 
+     *  it is not meant to reach (for future debugging)
      */
     private static void executeCommand(TaskList taskList, String command, CommandType commandType)
             throws AvonException {
@@ -86,13 +89,9 @@ public class Avon {
      */
     private static void addTask(TaskList taskList, String command, CommandType commandType)
             throws AvonException {
-        try {
-            Task task = parseTask(command, commandType);
-            taskList.add(task);
-            printAddedTask(taskList, task);
-        } catch (IllegalStateException exception) {
-            System.out.println(AVON_PREFIX + exception.getMessage());
-        }
+        Task task = parseTask(command, commandType);
+        taskList.add(task);
+        printAddedTask(taskList, task);
     }
 
     /**
@@ -108,7 +107,7 @@ public class Avon {
 
         System.out.println(AVON_PREFIX + "Here are the tasks in thy list:");
         for (int index = 0; index < taskList.size(); index++) {
-            System.out.println("        " + (index + 1) + "." + taskList.getTask(index));
+            System.out.println(INDENT + (index + 1) + "." + taskList.getTask(index));
         }
     }
 
@@ -124,7 +123,7 @@ public class Avon {
         Task task = taskList.getTask(taskIndex);
         task.markAsDone();
         System.out.println(AVON_PREFIX + "Tis well! Thy noble task is now fulfilled:");
-        System.out.println("        " + task);
+        System.out.println(INDENT + task);
     }
 
     /**
@@ -139,7 +138,7 @@ public class Avon {
         Task task = taskList.getTask(taskIndex);
         task.markAsNotDone();
         System.out.println(AVON_PREFIX + "Thy noble task is undone once more:");
-        System.out.println("        " + task);
+        System.out.println(INDENT + task);
     }
 
     /**
@@ -154,7 +153,7 @@ public class Avon {
         int taskIndex = parseTaskIndex(taskList, command, CommandType.DELETE);
         Task removedTask = taskList.removeTask(taskIndex);
         System.out.println(AVON_PREFIX + "So be it! I've removed this task:");
-        System.out.println("        " + removedTask);
+        System.out.println(INDENT + removedTask);
         System.out.println(AVON_PREFIX + "Now thou hast " + taskList.size() + " tasks in thy list.");
     }
 
@@ -330,8 +329,18 @@ public class Avon {
      */
     private static void printAddedTask(TaskList taskList, Task task) {
         System.out.println(AVON_PREFIX + "By thy command, I've added this task:");
-        System.out.println("        " + task);
+        System.out.println(INDENT + task);
         System.out.println(AVON_PREFIX + "Now thou hast " + taskList.size() + " tasks in thy list.");
+    }
+
+    /**
+     * Prints an exception message with each continuation line indented.
+     *
+     * @param exception the exception whose message should be shown
+     */
+    private static void printException(AvonException exception) {
+        String indentedMessage = exception.getMessage().replace("\n", "\n" + INDENT);
+        System.out.println(AVON_PREFIX + indentedMessage);
     }
 
 }

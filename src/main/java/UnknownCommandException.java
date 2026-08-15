@@ -7,6 +7,6 @@ public class UnknownCommandException extends AvonException {
      */
     public UnknownCommandException() {
         super("I know not that command.\n"
-                + "        Do start with one of: " + CommandType.getSupportedKeywords() + ".");
+                + "Do start with one of: " + CommandType.getSupportedKeywords() + ".");
     }
 }

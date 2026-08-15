@@ -22,8 +22,8 @@ public class InvalidTaskNumberException extends AvonException {
     public InvalidTaskNumberException(CommandType commandType, String problem,
             boolean shouldShowExample) {
         super("I cannot " + commandType.getKeyword() + " that task.\n"
-                + "        " + problem
+                + problem
                 + (shouldShowExample
-                        ? "\n        Example: " + commandType.getKeyword() + " 1" : ""));
+                    ? "\nExample: " + commandType.getKeyword() + " 1" : ""));
     }
 }

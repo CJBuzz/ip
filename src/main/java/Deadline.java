@@ -8,20 +8,11 @@ public class Deadline extends Task {
      * Creates an unfinished deadline task.
      *
      * @param description the text describing the task
-     * @param by the date or time by which the task should be completed
+     * @param by the date and/or time by which the task should be completed
      */
     public Deadline(String description, String by) {
         super(description);
         this.by = by;
-    }
-
-    /**
-     * Returns the deadline description.
-     *
-     * @return the date or time by which the task should be completed
-     */
-    public String getBy() {
-        return by;
     }
 
     /**

@@ -1,5 +1,5 @@
 /**
- * Represents an error caused by a command that Avon cannot carry out.
+ * Represents an error caused by an invalid input from the user.
  */
 public class AvonException extends Exception {
     private static final String MESSAGE_PREFIX = "Pardon, I beseech thee! ";

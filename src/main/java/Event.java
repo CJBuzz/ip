@@ -9,31 +9,13 @@ public class Event extends Task {
      * Creates an unfinished event task.
      *
      * @param description the text describing the event
-     * @param from the event start date or time
-     * @param to the event end date or time
+     * @param from the event start date and/or time
+     * @param to the event end date and/or time
      */
     public Event(String description, String from, String to) {
         super(description);
         this.from = from;
         this.to = to;
-    }
-
-    /**
-     * Returns the event start date or time.
-     *
-     * @return the event start date or time
-     */
-    public String getFrom() {
-        return from;
-    }
-
-    /**
-     * Returns the event end date or time.
-     *
-     * @return the event end date or time
-     */
-    public String getTo() {
-        return to;
     }
 
     /**
