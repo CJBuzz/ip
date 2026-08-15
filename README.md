@@ -23,3 +23,12 @@ Prerequisites: JDK 25, update Intellij to the most recent version.
    ```
 
 **Warning:** Keep the `src\main\java` folder as the root folder for Java files (i.e., don't rename those folders or move Java files to another folder outside of this folder path), as this is the default location some tools (e.g., Gradle) expect to find Java files.
+
+## Acknowledgement of AI Use
+
+In line with course expectations, AI tools were used throughout the code base. Usage was around AI-5 level in general. 
+The requirements of each increment were read, understood and broken down into small steps for the AI to implement. 
+After each step, the software was tested, to ensure its behaviour conforms to requirements.
+The generated code was also reviewed, and the AI tool would be questioned regarding certain implementation choices. 
+If the justifications provided by the AI tool was not accepted, it would be asked to modify its implementation. 
+It is hoped that this method of usage does not compromise learning, thus aligning with the course's goals.
