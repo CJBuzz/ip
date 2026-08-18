@@ -8,6 +8,37 @@ import java.time.format.DateTimeParseException;
  */
 public class Parser {
     /**
+     * Parses a complete user instruction into an executable command.
+     *
+     * @param command the command entered by the user
+     * @return the command object that represents the instruction
+     * @throws AvonException if the command or its arguments are invalid
+     */
+    public static Command parse(String command) throws AvonException {
+        CommandType commandType = parseCommandType(command);
+        switch (commandType) {
+            case TODO:
+            case DEADLINE:
+            case EVENT:
+                return new AddCommand(parseTask(command, commandType));
+            case LIST:
+                return new ListCommand();
+            case FIND:
+                return new FindCommand(parseFindKeyword(command));
+            case MARK:
+                return new MarkCommand(command);
+            case UNMARK:
+                return new UnmarkCommand(command);
+            case DELETE:
+                return new DeleteCommand(command);
+            case BYE:
+                return new ExitCommand();
+            default:
+                throw new IllegalArgumentException("Unsupported command type.");
+        }
+    }
+
+    /**
      * Identifies the type of a complete command.
      *
      * @param command the command entered by the user

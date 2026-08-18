@@ -3,10 +3,26 @@ package avon;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
 class ParserTest {
+    @Test
+    void parse_validTaskCommand_returnsAddCommand() throws AvonException {
+        Command command = Parser.parse("todo read Hamlet");
+
+        assertInstanceOf(AddCommand.class, command);
+    }
+
+    @Test
+    void parse_byeCommand_returnsExitCommand() throws AvonException {
+        Command command = Parser.parse("bye");
+
+        assertInstanceOf(ExitCommand.class, command);
+        assertTrue(command.isExit());
+    }
+
     @Test
     void parseTask_validDeadline_returnsDeadline() throws AvonException {
         Task task = Parser.parseTask("deadline return book /by 2026-08-20 1800", CommandType.DEADLINE);
