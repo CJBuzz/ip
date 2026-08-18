@@ -1,6 +1,5 @@
 package avon;
 
-import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
 /**
@@ -98,7 +97,7 @@ public class Parser {
      */
     private static Deadline parseDeadline(String command) throws AvonException {
         String deadlineKeyword = CommandType.DEADLINE.getKeyword();
-        String example = "deadline DESCRIPTION /by yyyy-MM-dd";
+        String example = "deadline DESCRIPTION /by yyyy-MM-dd [HHmm]";
         String details = extractDescription(command, deadlineKeyword, example);
         int byIndex = details.indexOf("/by");
         if (byIndex < 0) {
@@ -117,10 +116,11 @@ public class Parser {
         String by = requireTaskDetail(details.substring(byIndex + 3).trim(),
                 deadlineKeyword, "Add a date or time after '/by'.", example);
         try {
-            return new Deadline(description, LocalDate.parse(by));
+            return new Deadline(description, DateTimeParser.parse(by));
         } catch (DateTimeParseException exception) {
             throw new InvalidTaskFormatException(deadlineKeyword,
-                    "Use a real date in yyyy-MM-dd format.", example);
+                    "Use a real date and optional 24-hour time in yyyy-MM-dd [HHmm] format.",
+                    example);
         }
     }
 

@@ -47,7 +47,7 @@ Aim: Verify Deadline and Event parsing, typed display, marking, unmarking, and l
 ### Input
 
 ```text
-deadline return book /by 2026-08-23
+deadline return book /by 2026-08-23 1800
 event project meeting /from Mon 2pm /to 4pm
 mark 1
 unmark 1
@@ -69,7 +69,7 @@ Avon:	How may my hand or wit now serve thy need?
 ____________________________________________________________
 ____________________________________________________________
 Avon:	By thy command, I've added this task:
-        [D][ ] return book (by: Aug 23 2026)
+        [D][ ] return book (by: Aug 23 2026, 6:00PM)
 Avon:	Now thou hast 1 tasks in thy list.
 ____________________________________________________________
 ____________________________________________________________
@@ -79,15 +79,15 @@ Avon:	Now thou hast 2 tasks in thy list.
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Tis well! Thy noble task is now fulfilled:
-        [D][X] return book (by: Aug 23 2026)
+        [D][X] return book (by: Aug 23 2026, 6:00PM)
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Thy noble task is undone once more:
-        [D][ ] return book (by: Aug 23 2026)
+        [D][ ] return book (by: Aug 23 2026, 6:00PM)
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Here are the tasks in thy list:
-        1.[D][ ] return book (by: Aug 23 2026)
+        1.[D][ ] return book (by: Aug 23 2026, 6:00PM)
         2.[E][ ] project meeting (from: Mon 2pm to: 4pm)
 ____________________________________________________________
 ____________________________________________________________
@@ -150,6 +150,7 @@ deadline return book
 deadline /by Sunday
 deadline return book /by
 deadline return book /by Sunday
+deadline return book /by 2026-08-23 2500
 event
 event project meeting /to 4pm
 event project meeting /from 2pm
@@ -173,26 +174,31 @@ Avon:	How may my hand or wit now serve thy need?
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Pardon, I beseech thee! The deadline description cannot be empty.
-        Do enter it in this format: deadline DESCRIPTION /by yyyy-MM-dd
+        Do enter it in this format: deadline DESCRIPTION /by yyyy-MM-dd [HHmm]
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Pardon, I beseech thee! This deadline command is ill-formed.
         Include '/by' before the deadline date or time.
-        Do enter it in this format: deadline DESCRIPTION /by yyyy-MM-dd
+        Do enter it in this format: deadline DESCRIPTION /by yyyy-MM-dd [HHmm]
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Pardon, I beseech thee! The deadline description cannot be empty.
-        Do enter it in this format: deadline DESCRIPTION /by yyyy-MM-dd
+        Do enter it in this format: deadline DESCRIPTION /by yyyy-MM-dd [HHmm]
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Pardon, I beseech thee! This deadline command is ill-formed.
         Add a date or time after '/by'.
-        Do enter it in this format: deadline DESCRIPTION /by yyyy-MM-dd
+        Do enter it in this format: deadline DESCRIPTION /by yyyy-MM-dd [HHmm]
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Pardon, I beseech thee! This deadline command is ill-formed.
-        Use a real date in yyyy-MM-dd format.
-        Do enter it in this format: deadline DESCRIPTION /by yyyy-MM-dd
+        Use a real date and optional 24-hour time in yyyy-MM-dd [HHmm] format.
+        Do enter it in this format: deadline DESCRIPTION /by yyyy-MM-dd [HHmm]
+____________________________________________________________
+____________________________________________________________
+Avon:	Pardon, I beseech thee! This deadline command is ill-formed.
+        Use a real date and optional 24-hour time in yyyy-MM-dd [HHmm] format.
+        Do enter it in this format: deadline DESCRIPTION /by yyyy-MM-dd [HHmm]
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Pardon, I beseech thee! The event description cannot be empty.
@@ -479,7 +485,7 @@ ____________________________________________________________
 ____________________________________________________________
 Avon:	Pardon, I beseech thee! This deadline command is ill-formed.
         Use '/by' exactly once.
-        Do enter it in this format: deadline DESCRIPTION /by yyyy-MM-dd
+        Do enter it in this format: deadline DESCRIPTION /by yyyy-MM-dd [HHmm]
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Pardon, I beseech thee! This event command is ill-formed.

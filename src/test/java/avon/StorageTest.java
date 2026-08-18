@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -25,7 +25,7 @@ class StorageTest {
         todo.markAsDone();
         TaskList taskList = new TaskList(List.of(
                 todo,
-                new Deadline("return book", LocalDate.of(2026, 8, 20)),
+                new Deadline("return book", LocalDateTime.of(2026, 8, 20, 18, 0)),
                 new Event("lecture", "2pm", "4pm")));
 
         storage.save(taskList);
@@ -33,7 +33,8 @@ class StorageTest {
 
         assertEquals(3, loadedTasks.size());
         assertTrue(loadedTasks.get(0).isDone());
-        assertEquals("[D][ ] return book (by: Aug 20 2026)", loadedTasks.get(1).toString());
+        assertEquals("[D][ ] return book (by: Aug 20 2026, 6:00PM)",
+                loadedTasks.get(1).toString());
         assertEquals("[E][ ] lecture (from: 2pm to: 4pm)", loadedTasks.get(2).toString());
     }
 

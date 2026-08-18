@@ -3,7 +3,6 @@ package avon;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -88,7 +87,7 @@ public class Storage {
                 break;
             case "D":
                 requireFieldCount(fields, 4);
-                task = new Deadline(fields[2], LocalDate.parse(fields[3]));
+                task = new Deadline(fields[2], DateTimeParser.parseStoredValue(fields[3]));
                 break;
             case "E":
                 requireFieldCount(fields, 5);

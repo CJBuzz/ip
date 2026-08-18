@@ -1,23 +1,20 @@
 package avon;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
 
 /**
- * Represents a task that must be completed by a specified date.
+ * Represents a task that must be completed by a specified date and optional time.
  */
 public class Deadline extends Task {
-    private static final DateTimeFormatter DISPLAY_FORMAT = DateTimeFormatter.ofPattern("MMM d yyyy");
-
-    private final LocalDate by;
+    private final LocalDateTime by;
 
     /**
      * Creates an unfinished deadline task.
      *
      * @param description the text describing the task
-     * @param by the date by which the task should be completed
+     * @param by the date and time by which the task should be completed
      */
-    public Deadline(String description, LocalDate by) {
+    public Deadline(String description, LocalDateTime by) {
         super(description);
         this.by = by;
     }
@@ -39,6 +36,6 @@ public class Deadline extends Task {
      */
     @Override
     public String toString() {
-        return "[D]" + super.toString() + " (by: " + by.format(DISPLAY_FORMAT) + ")";
+        return "[D]" + super.toString() + " (by: " + DateTimeParser.format(by) + ")";
     }
 }

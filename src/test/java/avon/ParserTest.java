@@ -9,9 +9,16 @@ import org.junit.jupiter.api.Test;
 class ParserTest {
     @Test
     void parseTask_validDeadline_returnsDeadline() throws AvonException {
-        Task task = Parser.parseTask("deadline return book /by 2026-08-20", CommandType.DEADLINE);
+        Task task = Parser.parseTask("deadline return book /by 2026-08-20 1800", CommandType.DEADLINE);
 
         assertInstanceOf(Deadline.class, task);
+        assertEquals("[D][ ] return book (by: Aug 20 2026, 6:00PM)", task.toString());
+    }
+
+    @Test
+    void parseTask_dateOnlyDeadline_returnsDeadlineWithoutTime() throws AvonException {
+        Task task = Parser.parseTask("deadline return book /by 2026-08-20", CommandType.DEADLINE);
+
         assertEquals("[D][ ] return book (by: Aug 20 2026)", task.toString());
     }
 
