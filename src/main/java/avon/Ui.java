@@ -1,5 +1,6 @@
 package avon;
 
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -75,6 +76,18 @@ public class Ui {
         System.out.println(AVON_PREFIX + "Here are the tasks in thy list:");
         for (int index = 0; index < taskList.size(); index++) {
             System.out.println(INDENT + (index + 1) + "." + taskList.getTask(index));
+        }
+    }
+
+    /**
+     * Displays tasks that match a search keyword.
+     *
+     * @param matchingTasks the matching tasks in their original order
+     */
+    public void showMatchingTasks(List<Task> matchingTasks) {
+        System.out.println(AVON_PREFIX + "Here are the matching tasks in thy list:");
+        for (int index = 0; index < matchingTasks.size(); index++) {
+            System.out.println(INDENT + (index + 1) + "." + matchingTasks.get(index));
         }
     }
 

@@ -78,6 +78,18 @@ public class Parser {
     }
 
     /**
+     * Extracts the required keyword from a find command.
+     *
+     * @param command the complete find command
+     * @return the non-empty keyword to search for
+     * @throws EmptyDescriptionException if the command has no keyword
+     */
+    public static String parseFindKeyword(String command) throws EmptyDescriptionException {
+        String findKeyword = CommandType.FIND.getKeyword();
+        return extractDescription(command, findKeyword, "find KEYWORD");
+    }
+
+    /**
      * Parses a deadline command into a deadline task.
      *
      * @param command the deadline command entered by the user

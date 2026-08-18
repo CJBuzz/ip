@@ -122,7 +122,7 @@ Avon:	How may my hand or wit now serve thy need?
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Pardon, I beseech thee! I know not that command.
-        Do start with one of: todo, deadline, event, list, mark, unmark, delete, bye.
+        Do start with one of: todo, deadline, event, list, find, mark, unmark, delete, bye.
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Pardon, I beseech thee! The todo description cannot be empty.
@@ -501,7 +501,67 @@ Avon:	Fare thee well! Pray heavens our paths cross anon.
 ____________________________________________________________
 ```
 
-## TC-009: Match complete command keywords
+## TC-009: Find tasks by description
+
+Aim: Verify that `find` lists tasks containing the case-sensitive keyword and rejects an empty keyword.
+
+### Input
+
+```text
+todo read book
+todo write essay
+deadline return book /by 2026-08-23
+find book
+find Book
+find
+bye
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+    ___
+   /   |_   ______  ____
+  / /| | | / / __ \/ __ \
+ / ___ | |/ / /_/ / / / /
+/_/  |_|___/\____/_/ /_/
+Avon:	Hark! I am Avon who stands before thee.
+Avon:	How may my hand or wit now serve thy need?
+____________________________________________________________
+____________________________________________________________
+Avon:	By thy command, I've added this task:
+        [T][ ] read book
+Avon:	Now thou hast 1 tasks in thy list.
+____________________________________________________________
+____________________________________________________________
+Avon:	By thy command, I've added this task:
+        [T][ ] write essay
+Avon:	Now thou hast 2 tasks in thy list.
+____________________________________________________________
+____________________________________________________________
+Avon:	By thy command, I've added this task:
+        [D][ ] return book (by: Aug 23 2026)
+Avon:	Now thou hast 3 tasks in thy list.
+____________________________________________________________
+____________________________________________________________
+Avon:	Here are the matching tasks in thy list:
+        1.[T][ ] read book
+        2.[D][ ] return book (by: Aug 23 2026)
+____________________________________________________________
+____________________________________________________________
+Avon:	Here are the matching tasks in thy list:
+____________________________________________________________
+____________________________________________________________
+Avon:	Pardon, I beseech thee! The find description cannot be empty.
+        Do enter it in this format: find KEYWORD
+____________________________________________________________
+____________________________________________________________
+Avon:	Fare thee well! Pray heavens our paths cross anon.
+____________________________________________________________
+```
+
+## TC-010: Match complete command keywords
 
 Aim: Verify that command prefixes and arguments after argument-free commands are rejected, while an exact command remains valid.
 
@@ -528,15 +588,15 @@ Avon:	How may my hand or wit now serve thy need?
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Pardon, I beseech thee! I know not that command.
-        Do start with one of: todo, deadline, event, list, mark, unmark, delete, bye.
+        Do start with one of: todo, deadline, event, list, find, mark, unmark, delete, bye.
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Pardon, I beseech thee! I know not that command.
-        Do start with one of: todo, deadline, event, list, mark, unmark, delete, bye.
+        Do start with one of: todo, deadline, event, list, find, mark, unmark, delete, bye.
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Pardon, I beseech thee! I know not that command.
-        Do start with one of: todo, deadline, event, list, mark, unmark, delete, bye.
+        Do start with one of: todo, deadline, event, list, find, mark, unmark, delete, bye.
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Fare thee well! Pray heavens our paths cross anon.
