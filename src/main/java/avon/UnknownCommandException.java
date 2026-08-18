@@ -1,3 +1,5 @@
+package avon;
+
 /**
  * Signals that the first word of a command is not recognised by Avon.
  */

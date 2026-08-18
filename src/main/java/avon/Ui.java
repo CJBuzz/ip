@@ -1,3 +1,5 @@
+package avon;
+
 import java.util.Scanner;
 
 /**
