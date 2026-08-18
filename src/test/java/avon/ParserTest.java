@@ -16,6 +16,15 @@ class ParserTest {
     }
 
     @Test
+    void parse_supportedNonTaskCommands_returnSpecializedCommands() throws AvonException {
+        assertInstanceOf(ListCommand.class, Parser.parse("list"));
+        assertInstanceOf(FindCommand.class, Parser.parse("find Hamlet"));
+        assertInstanceOf(MarkCommand.class, Parser.parse("mark 1"));
+        assertInstanceOf(UnmarkCommand.class, Parser.parse("unmark 1"));
+        assertInstanceOf(DeleteCommand.class, Parser.parse("delete 1"));
+    }
+
+    @Test
     void parse_byeCommand_returnsExitCommand() throws AvonException {
         Command command = Parser.parse("bye");
 
@@ -60,6 +69,14 @@ class ParserTest {
         assertThrows(InvalidTaskFormatException.class,
                 () -> Parser.parseTask(
                         "event lecture /from 2026-08-20 1600 /to 2026-08-20 1400",
+                        CommandType.EVENT));
+    }
+
+    @Test
+    void parseTask_invalidEventDate_throwsInvalidTaskFormatException() {
+        assertThrows(InvalidTaskFormatException.class,
+                () -> Parser.parseTask(
+                        "event lecture /from 2026-02-30 1400 /to 2026-02-30 1600",
                         CommandType.EVENT));
     }
 }

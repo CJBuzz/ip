@@ -18,7 +18,7 @@ class StorageTest {
     Path temporaryDirectory;
 
     @Test
-    void saveAndLoad_multipleTaskTypes_restoresTasks() throws StorageException {
+    void saveAndLoad_multipleTaskTypes_restoresTasks() throws IOException, StorageException {
         Path dataFile = temporaryDirectory.resolve("data/avon.txt");
         Storage storage = new Storage(dataFile);
         Todo todo = new Todo("read Hamlet");
@@ -32,12 +32,30 @@ class StorageTest {
         storage.save(taskList);
         List<Task> loadedTasks = storage.load();
 
+        assertEquals(List.of(
+                "T\ttrue\tread Hamlet",
+                "D\tfalse\treturn book\t2026-08-20T18:00",
+                "E\tfalse\tlecture\t2026-08-20T14:00\t2026-08-20T16:00"),
+                Files.readAllLines(dataFile));
         assertEquals(3, loadedTasks.size());
         assertTrue(loadedTasks.get(0).isDone());
         assertEquals("[D][ ] return book (by: Aug 20 2026, 6:00PM)",
                 loadedTasks.get(1).toString());
         assertEquals("[E][ ] lecture (from: Aug 20 2026, 2:00PM"
                 + " to: Aug 20 2026, 4:00PM)", loadedTasks.get(2).toString());
+    }
+
+    @Test
+    void load_legacyDateOnlyDeadline_restoresDeadlineAtMidnight()
+            throws IOException, StorageException {
+        Path dataFile = temporaryDirectory.resolve("avon.txt");
+        Files.writeString(dataFile, "D\tfalse\treturn book\t2026-08-20");
+
+        Storage storage = new Storage(dataFile);
+
+        List<Task> loadedTasks = storage.load();
+        assertEquals(1, loadedTasks.size());
+        assertEquals("[D][ ] return book (by: Aug 20 2026)", loadedTasks.get(0).toString());
     }
 
     @Test
