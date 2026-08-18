@@ -1,8 +1,6 @@
-import java.util.Scanner;
+package avon;
 
-import avon.AvonException;
-import avon.Task;
-import avon.TaskList;
+import java.util.Scanner;
 
 /**
  * Handles all command-line input and output for Avon.

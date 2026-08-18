@@ -1,11 +1,6 @@
-import java.nio.file.Path;
+package avon;
 
-import avon.AvonException;
-import avon.CommandType;
-import avon.InvalidTaskNumberException;
-import avon.StorageException;
-import avon.Task;
-import avon.TaskList;
+import java.nio.file.Path;
 
 /**
  * Runs the command-line interface for Avon.

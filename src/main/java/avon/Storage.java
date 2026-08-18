@@ -1,16 +1,11 @@
+package avon;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
-import avon.Deadline;
-import avon.Event;
-import avon.StorageException;
-import avon.Task;
-import avon.TaskList;
-import avon.Todo;
 
 /**
  * Loads and saves Avon's tasks in a human-readable text file.

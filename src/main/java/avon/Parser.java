@@ -1,17 +1,7 @@
+package avon;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
-
-import avon.AvonException;
-import avon.CommandType;
-import avon.Deadline;
-import avon.EmptyDescriptionException;
-import avon.Event;
-import avon.InvalidTaskFormatException;
-import avon.InvalidTaskNumberException;
-import avon.Task;
-import avon.TaskList;
-import avon.Todo;
-import avon.UnknownCommandException;
 
 /**
  * Interprets user commands and converts their arguments into domain objects.
