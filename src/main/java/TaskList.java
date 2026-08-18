@@ -8,6 +8,21 @@ public class TaskList {
     private final List<Task> tasks = new ArrayList<>();
 
     /**
+     * Creates an empty task list.
+     */
+    public TaskList() {
+    }
+
+    /**
+     * Creates a task list containing tasks loaded from storage.
+     *
+     * @param tasks the tasks with which to initialize the list
+     */
+    public TaskList(List<Task> tasks) {
+        this.tasks.addAll(tasks);
+    }
+
+    /**
      * Adds a task of any supported type to the end of the list.
      *
      * @param task the task to store

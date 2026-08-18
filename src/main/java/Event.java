@@ -19,6 +19,16 @@ public class Event extends Task {
     }
 
     /**
+     * Returns the event in Avon's tab-separated storage format.
+     *
+     * @return the serialized event
+     */
+    @Override
+    public String toDataString() {
+        return "E\t" + isDone + "\t" + description + "\t" + from + "\t" + to;
+    }
+
+    /**
      * Returns this event with its type, completion status, and time interval.
      *
      * @return the formatted event task
