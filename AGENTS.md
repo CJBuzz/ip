@@ -47,29 +47,13 @@ Additional instructions (if applicable)
 - Comprehensive Documentation: Provide Javadoc comments for at least half of the public classes and methods to aid developer understanding.
 - Thoughtful Refactoring: Before refactoring existing code, investigate the original design rationale (applying Chesterton’s Fence Principle) through commit history and documentation.
 
-## Environment workaround
-
-If repository tools fail with:
-
-`bubblewrap is unavailable: no system bwrap was found on PATH`
-
-do not repeatedly retry `apply_patch`; the failure is in the sandbox runtime. Run repository commands with elevated execution:
-
-```json
-{
-  "sandbox_permissions": "require_escalated"
-}
-```
-
-If apply_patch still fails, apply edits using a standard unified diff piped to git apply. Inspect the diff with git diff --check afterward. This is an environment issue, not a repository or patch-content issue.
-
 ## Required Java code workflow
 
-Use the following sequence for every task that reads or changes Java code. Do not rediscover or replace this workflow unless the repository structure changes.
+Use the following sequence for every task that reads or changes Java code.
 
 ### 1. Inspect before editing
 
-Run these commands from the repository root. Use elevated execution immediately if the known `bubblewrap` error occurs.
+Run these commands from the repository root.
 
 ```bash
 git status --short --branch
@@ -81,19 +65,10 @@ rg -n '<symbol-or-command>' src/main/java
 
 Read every Java file directly involved in the requested change. Before refactoring existing behavior, inspect the relevant commit with `git show <commit> -- <files>`.
 
-### 2. Write Java files
+### 2. Edit Java source files
 
-Use `apply_patch` for focused source edits. Do not write source files with `cat`, shell redirection, or Python.
-
-If `apply_patch` fails with the known `bubblewrap` error, do not retry it repeatedly. Apply the same standard unified diff through elevated execution:
-
-```bash
-git apply --verbose --whitespace=nowarn - <<'PATCH'
-<standard unified diff>
-PATCH
-```
-
-For a new file, use a `/dev/null` to `b/<path>` unified diff. Keep unrelated user changes untouched.
+Use `apply_patch` for focused Java source edits. Do not write source files with `cat`, shell redirection, or Python.
+Keep unrelated user changes untouched.
 
 ### 3. Review each edit
 

@@ -19,8 +19,8 @@ _temp/
 # .class files
 *.class
 
-# Agentic coding
-.agents/
+# data files
+data/
 
 /text-ui-test/ACTUAL.TXT
 text-ui-test/EXPECTED-UNIX.TXT

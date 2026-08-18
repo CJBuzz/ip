@@ -1,6 +1,7 @@
-# Avon project template
+# Avon
 
-This is a project template for a greenfield Java project. It's named _Avon_. Given below are instructions on how to use it.
+_Avon_ is personalised variant of the personal assistance chatbot Duke for the Software Engineering Course' individual project. 
+It is built from the project template for a greenfield Java project. Given below are instructions on how to use it.
 
 ## Setting up in Intellij
 
