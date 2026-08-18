@@ -263,7 +263,7 @@ public class Avon {
      */
     private static Deadline parseDeadline(String command) throws AvonException {
         String deadlineKeyword = CommandType.DEADLINE.getKeyword();
-        String example = "deadline DESCRIPTION /by DATE_OR_TIME";
+        String example = "deadline DESCRIPTION /by yyyy-MM-dd";
         String details = extractDescription(command, deadlineKeyword,
                 example);
         int byIndex = details.indexOf("/by");
