@@ -39,17 +39,19 @@ Do not commit or push unless explicitly asked.
 Avon is a Shakespearen-themed chatbot. This theme is chosen by the user as part of customisation efforts. Instructions sent to the chatbot may contain the original, uncustomised messages. Please do not change the Shakespeare theme unless otherwise stated.
 
 Additional instructions (if applicable)
-- Strict Standard Adherence: Strictly follow the SE-EDU Java coding standard (basic and intermediate rules) and comply with SE-EDU Git conventions, particularly for commit message subjects.
+- Strict Standard Adherence: Explicitly invoke and follow the project-specific `$seedu-java-coding-standard` skill for every task that reads, reviews, creates, or changes Java code.
 - Effective OOP Structure: Demonstrate a reasonable use of OOP by utilizing inheritance and dividing code into specialized classes with clear responsibilities, such as Ui, Storage, Parser, Todo, and Deadline.
 - Adherence to SLAP: Apply the Single Level of Abstraction Principle (SLAP) to ensure methods are not excessively long and to avoid deeply nested code.
 - Code Neatness and Naming: Keep code neat by removing all commented-out code and ensuring variables and methods have clear, meaningful naming.
 - Robust Error Handling: Use Exceptions to handle errors systematically rather than allowing the program to crash.
-- Comprehensive Documentation: Provide Javadoc comments for at least half of the public classes and methods to aid developer understanding.
+- Comprehensive Documentation: Provide Javadoc header comments for every non-private class, constructor, and method, and for every non-trivial private method. Use `/** {@inheritDoc} */` when an inherited method contract applies exactly.
 - Thoughtful Refactoring: Before refactoring existing code, investigate the original design rationale (applying Chesterton’s Fence Principle) through commit history and documentation.
 
 ## Required Java code workflow
 
 Use the following sequence for every task that reads or changes Java code.
+
+Explicitly invoke `$seedu-java-coding-standard` and read `.agents/skills/seedu-java-coding-standard/SKILL.md` completely before inspecting or editing Java code.
 
 ### 1. Inspect before editing
 
