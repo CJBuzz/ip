@@ -13,11 +13,11 @@ public class Deadline extends Task {
      * Creates an unfinished deadline task.
      *
      * @param description the text describing the task
-     * @param by the date by which the task should be completed, in ISO format
+     * @param by the date by which the task should be completed
      */
-    public Deadline(String description, String by) {
+    public Deadline(String description, LocalDate by) {
         super(description);
-        this.by = LocalDate.parse(by);
+        this.by = by;
     }
 
     /**

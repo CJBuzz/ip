@@ -149,6 +149,7 @@ deadline
 deadline return book
 deadline /by Sunday
 deadline return book /by
+deadline return book /by Sunday
 event
 event project meeting /to 4pm
 event project meeting /from 2pm
@@ -186,6 +187,11 @@ ____________________________________________________________
 ____________________________________________________________
 Avon:	Pardon, I beseech thee! This deadline command is ill-formed.
         Add a date or time after '/by'.
+        Do enter it in this format: deadline DESCRIPTION /by yyyy-MM-dd
+____________________________________________________________
+____________________________________________________________
+Avon:	Pardon, I beseech thee! This deadline command is ill-formed.
+        Use a real date in yyyy-MM-dd format.
         Do enter it in this format: deadline DESCRIPTION /by yyyy-MM-dd
 ____________________________________________________________
 ____________________________________________________________
