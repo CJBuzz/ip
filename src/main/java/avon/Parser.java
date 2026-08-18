@@ -82,6 +82,7 @@ public class Parser {
      *
      * @param command the deadline command entered by the user
      * @return the parsed deadline task
+     * @throws AvonException if required details are missing or the date is invalid
      */
     private static Deadline parseDeadline(String command) throws AvonException {
         String deadlineKeyword = CommandType.DEADLINE.getKeyword();
@@ -116,6 +117,7 @@ public class Parser {
      *
      * @param command the event command entered by the user
      * @return the parsed event task
+     * @throws AvonException if required details are missing or misplaced
      */
     private static Event parseEvent(String command) throws AvonException {
         String eventKeyword = CommandType.EVENT.getKeyword();
@@ -159,6 +161,7 @@ public class Parser {
      * @param keyword the command keyword to remove
      * @param example a complete example of the expected command
      * @return the task description
+     * @throws EmptyDescriptionException if no description follows the keyword
      */
     private static String extractDescription(String command, String keyword, String example)
             throws EmptyDescriptionException {
@@ -177,6 +180,7 @@ public class Parser {
      * @param problem the explanation shown if the component is empty
      * @param example a complete example of the expected command
      * @return the original non-empty component
+     * @throws InvalidTaskFormatException if the component is empty
      */
     private static String requireTaskDetail(String value, String taskType, String problem,
             String example) throws InvalidTaskFormatException {
