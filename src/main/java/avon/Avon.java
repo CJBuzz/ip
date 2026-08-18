@@ -51,6 +51,9 @@ public class Avon {
         case LIST:
             ui.showTaskList(taskList);
             break;
+        case FIND:
+            findTasks(taskList, ui, command);
+            break;
         case MARK:
             markTask(taskList, ui, command);
             storage.save(taskList);
@@ -90,6 +93,20 @@ public class Avon {
         taskList.add(task);
         storage.save(taskList);
         ui.showAddedTask(task, taskList.size());
+    }
+
+    /**
+     * Displays tasks whose descriptions contain the keyword in a find command.
+     *
+     * @param taskList the in-memory task list
+     * @param ui the command-line interface
+     * @param command the find command entered by the user
+     * @throws EmptyDescriptionException if the command has no search keyword
+     */
+    private static void findTasks(TaskList taskList, Ui ui, String command)
+            throws EmptyDescriptionException {
+        String keyword = Parser.parseFindKeyword(command);
+        ui.showMatchingTasks(taskList.find(keyword));
     }
 
     /**
