@@ -42,8 +42,7 @@ public class Avon {
      * @param command the command entered by the user
      * @param commandType the identified type of the command
      * @throws AvonException if the command cannot be understood or completed
-     * @throws IllegalArgumentException if the switch-case block reaches a state 
-     *  it is not meant to reach (for future debugging)
+     * @throws IllegalArgumentException if the switch-case block reaches an unexpected state
      */
     private static void executeCommand(TaskList taskList, Storage storage, Ui ui,
             String command, CommandType commandType) throws AvonException {

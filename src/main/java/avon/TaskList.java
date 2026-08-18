@@ -32,8 +32,7 @@ public class TaskList {
      */
     public void add(Task task) {
         if (task == null) {
-            // Defensive checks: this section cannot logically be reached. 
-            // Guards against future changes.
+            // Guard against invalid tasks introduced by future changes.
             throw new IllegalArgumentException("A task cannot be null.");
         }
         tasks.add(task);

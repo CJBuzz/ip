@@ -17,10 +17,10 @@ public class Ui {
      */
     public void showWelcome() {
         String banner = """
-                ___                    
-               /   |_   ______  ____  
-              / /| | | / / __ \\/ __ \\ 
-             / ___ | |/ / /_/ / / / / 
+                ___
+               /   |_   ______  ____
+              / /| | | / / __ \\/ __ \\
+             / ___ | |/ / /_/ / / / /
             /_/  |_|___/\\____/_/ /_/ """;
         System.out.println(SEPARATOR);
         System.out.println(banner);
