@@ -1,3 +1,4 @@
+import java.nio.file.Path;
 import java.util.Scanner;
 
 /**
@@ -7,6 +8,7 @@ public class Avon {
     private static final String SEPARATOR = "____________________________________________________________";
     private static final String AVON_PREFIX = "Avon:\t";
     private static final String INDENT = "        ";
+    private static final Path DATA_FILE_PATH = Path.of("data", "avon.txt");
 
     public static void main(String[] args) {
         String banner = """
@@ -21,8 +23,9 @@ public class Avon {
         System.out.println(AVON_PREFIX + "How may my hand or wit now serve thy need?");
         System.out.println(SEPARATOR);
 
+        Storage storage = new Storage(DATA_FILE_PATH);
+        TaskList taskList = loadTasks(storage);
         Scanner scanner = new Scanner(System.in);
-        TaskList taskList = new TaskList();
         while (scanner.hasNextLine()) {
             String command = scanner.nextLine();
             System.out.println(SEPARATOR);
@@ -34,7 +37,7 @@ public class Avon {
                     System.out.println(SEPARATOR);
                     break;
                 }
-                executeCommand(taskList, command, commandType);
+                executeCommand(taskList, storage, command, commandType);
             } catch (AvonException exception) {
                 printException(exception);
             }
@@ -47,31 +50,35 @@ public class Avon {
      * Executes a non-exit command after identifying its first word.
      *
      * @param taskList the in-memory task list
+     * @param storage the persistent task storage
      * @param command the command entered by the user
      * @param commandType the identified type of the command
      * @throws AvonException if the command cannot be understood or completed
      * @throws IllegalArgumentException if the switch-case block reaches a state 
      *  it is not meant to reach (for future debugging)
      */
-    private static void executeCommand(TaskList taskList, String command, CommandType commandType)
-            throws AvonException {
+    private static void executeCommand(TaskList taskList, Storage storage, String command,
+            CommandType commandType) throws AvonException {
         switch (commandType) {
         case LIST:
             printTasks(taskList);
             break;
         case MARK:
             markTask(taskList, command);
+            storage.save(taskList);
             break;
         case UNMARK:
             unmarkTask(taskList, command);
+            storage.save(taskList);
             break;
         case DELETE:
             deleteTask(taskList, command);
+            storage.save(taskList);
             break;
         case TODO:
         case DEADLINE:
         case EVENT:
-            addTask(taskList, command, commandType);
+            addTask(taskList, storage, command, commandType);
             break;
         case BYE:
             throw new IllegalArgumentException("Bye must be handled before command execution.");
@@ -84,14 +91,31 @@ public class Avon {
      * Adds a command to the task list and acknowledges the addition.
      *
      * @param taskList the in-memory task list
+     * @param storage the persistent task storage
      * @param command the text entered by the user
      * @param commandType the type of task to create
      */
-    private static void addTask(TaskList taskList, String command, CommandType commandType)
-            throws AvonException {
+    private static void addTask(TaskList taskList, Storage storage, String command,
+            CommandType commandType) throws AvonException {
         Task task = parseTask(command, commandType);
         taskList.add(task);
+        storage.save(taskList);
         printAddedTask(taskList, task);
+    }
+
+    /**
+     * Loads saved tasks, falling back to an empty list if loading fails.
+     *
+     * @param storage the persistent task storage
+     * @return the restored task list
+     */
+    private static TaskList loadTasks(Storage storage) {
+        try {
+            return new TaskList(storage.load());
+        } catch (StorageException exception) {
+            printException(exception);
+            return new TaskList();
+        }
     }
 
     /**
