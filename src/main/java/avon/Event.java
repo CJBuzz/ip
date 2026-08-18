@@ -1,21 +1,27 @@
 package avon;
 
+import java.time.LocalDateTime;
+
 /**
  * Represents a task that takes place during a specified time interval.
  */
 public class Event extends Task {
-    private final String from;
-    private final String to;
+    private final LocalDateTime from;
+    private final LocalDateTime to;
 
     /**
      * Creates an unfinished event task.
      *
      * @param description the text describing the event
-     * @param from the event start date and/or time
-     * @param to the event end date and/or time
+     * @param from the event start date and time
+     * @param to the event end date and time
+     * @throws IllegalArgumentException if the event ends before it starts
      */
-    public Event(String description, String from, String to) {
+    public Event(String description, LocalDateTime from, LocalDateTime to) {
         super(description);
+        if (to.isBefore(from)) {
+            throw new IllegalArgumentException("An event cannot end before it starts.");
+        }
         this.from = from;
         this.to = to;
     }
@@ -37,6 +43,7 @@ public class Event extends Task {
      */
     @Override
     public String toString() {
-        return "[E]" + super.toString() + " (from: " + from + " to: " + to + ")";
+        return "[E]" + super.toString() + " (from: " + DateTimeParser.format(from)
+                + " to: " + DateTimeParser.format(to) + ")";
     }
 }

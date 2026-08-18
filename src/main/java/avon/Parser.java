@@ -1,5 +1,6 @@
 package avon;
 
+import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 
 /**
@@ -133,7 +134,7 @@ public class Parser {
      */
     private static Event parseEvent(String command) throws AvonException {
         String eventKeyword = CommandType.EVENT.getKeyword();
-        String example = "event DESCRIPTION /from START /to END";
+        String example = "event DESCRIPTION /from yyyy-MM-dd HHmm /to yyyy-MM-dd HHmm";
         String details = extractDescription(command, eventKeyword, example);
         int fromIndex = details.indexOf("/from");
         int toIndex = details.indexOf("/to");
@@ -159,10 +160,38 @@ public class Parser {
         }
 
         String description = details.substring(0, fromIndex).trim();
-        String from = requireTaskDetail(details.substring(fromIndex + 5, toIndex).trim(),
+        String fromText = requireTaskDetail(details.substring(fromIndex + 5, toIndex).trim(),
                 eventKeyword, "Add a start date or time after '/from'.", example);
-        String to = requireTaskDetail(details.substring(toIndex + 3).trim(),
+        String toText = requireTaskDetail(details.substring(toIndex + 3).trim(),
                 eventKeyword, "Add an end date or time after '/to'.", example);
+        try {
+            return createEvent(description, DateTimeParser.parse(fromText),
+                    DateTimeParser.parse(toText), eventKeyword, example);
+        } catch (DateTimeParseException exception) {
+            throw new InvalidTaskFormatException(eventKeyword,
+                    "Use real dates and optional 24-hour times in yyyy-MM-dd [HHmm] format.",
+                    example);
+        }
+    }
+
+    /**
+     * Creates an event after ensuring its interval runs forwards in time.
+     *
+     * @param description the event description
+     * @param from the event start
+     * @param to the event end
+     * @param eventKeyword the event command keyword
+     * @param example a complete example of the expected command
+     * @return the validated event
+     * @throws InvalidTaskFormatException if the event ends before it starts
+     */
+    private static Event createEvent(String description, LocalDateTime from,
+            LocalDateTime to, String eventKeyword, String example)
+            throws InvalidTaskFormatException {
+        if (to.isBefore(from)) {
+            throw new InvalidTaskFormatException(eventKeyword,
+                    "Set '/to' to the same time as or later than '/from'.", example);
+        }
         return new Event(description, from, to);
     }
 

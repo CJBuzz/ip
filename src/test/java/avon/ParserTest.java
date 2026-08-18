@@ -30,9 +30,20 @@ class ParserTest {
 
     @Test
     void parseTask_validEvent_returnsEvent() throws AvonException {
-        Task task = Parser.parseTask("event lecture /from 2pm /to 4pm", CommandType.EVENT);
+        Task task = Parser.parseTask(
+                "event lecture /from 2026-08-20 1400 /to 2026-08-20 1600",
+                CommandType.EVENT);
 
         assertInstanceOf(Event.class, task);
-        assertEquals("[E][ ] lecture (from: 2pm to: 4pm)", task.toString());
+        assertEquals("[E][ ] lecture (from: Aug 20 2026, 2:00PM to: Aug 20 2026, 4:00PM)",
+                task.toString());
+    }
+
+    @Test
+    void parseTask_eventEndingBeforeStart_throwsInvalidTaskFormatException() {
+        assertThrows(InvalidTaskFormatException.class,
+                () -> Parser.parseTask(
+                        "event lecture /from 2026-08-20 1600 /to 2026-08-20 1400",
+                        CommandType.EVENT));
     }
 }

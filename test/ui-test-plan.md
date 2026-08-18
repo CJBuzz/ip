@@ -48,7 +48,7 @@ Aim: Verify Deadline and Event parsing, typed display, marking, unmarking, and l
 
 ```text
 deadline return book /by 2026-08-23 1800
-event project meeting /from Mon 2pm /to 4pm
+event project meeting /from 2026-08-23 1400 /to 2026-08-23 1600
 mark 1
 unmark 1
 list
@@ -74,7 +74,7 @@ Avon:	Now thou hast 1 tasks in thy list.
 ____________________________________________________________
 ____________________________________________________________
 Avon:	By thy command, I've added this task:
-        [E][ ] project meeting (from: Mon 2pm to: 4pm)
+        [E][ ] project meeting (from: Aug 23 2026, 2:00PM to: Aug 23 2026, 4:00PM)
 Avon:	Now thou hast 2 tasks in thy list.
 ____________________________________________________________
 ____________________________________________________________
@@ -88,7 +88,7 @@ ____________________________________________________________
 ____________________________________________________________
 Avon:	Here are the tasks in thy list:
         1.[D][ ] return book (by: Aug 23 2026, 6:00PM)
-        2.[E][ ] project meeting (from: Mon 2pm to: 4pm)
+        2.[E][ ] project meeting (from: Aug 23 2026, 2:00PM to: Aug 23 2026, 4:00PM)
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Fare thee well! Pray heavens our paths cross anon.
@@ -157,6 +157,8 @@ event project meeting /from 2pm
 event /from 2pm /to 4pm
 event project meeting /from /to 4pm
 event project meeting /from 2pm /to
+event project meeting /from 2026-08-23 2500 /to 2026-08-23 2600
+event project meeting /from 2026-08-23 1600 /to 2026-08-23 1400
 bye
 ```
 
@@ -202,31 +204,41 @@ Avon:	Pardon, I beseech thee! This deadline command is ill-formed.
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Pardon, I beseech thee! The event description cannot be empty.
-        Do enter it in this format: event DESCRIPTION /from START /to END
+        Do enter it in this format: event DESCRIPTION /from yyyy-MM-dd HHmm /to yyyy-MM-dd HHmm
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Pardon, I beseech thee! This event command is ill-formed.
         Include '/from' before the start date or time.
-        Do enter it in this format: event DESCRIPTION /from START /to END
+        Do enter it in this format: event DESCRIPTION /from yyyy-MM-dd HHmm /to yyyy-MM-dd HHmm
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Pardon, I beseech thee! This event command is ill-formed.
         Include '/to' before the end date or time.
-        Do enter it in this format: event DESCRIPTION /from START /to END
+        Do enter it in this format: event DESCRIPTION /from yyyy-MM-dd HHmm /to yyyy-MM-dd HHmm
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Pardon, I beseech thee! The event description cannot be empty.
-        Do enter it in this format: event DESCRIPTION /from START /to END
+        Do enter it in this format: event DESCRIPTION /from yyyy-MM-dd HHmm /to yyyy-MM-dd HHmm
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Pardon, I beseech thee! This event command is ill-formed.
         Add a start date or time after '/from'.
-        Do enter it in this format: event DESCRIPTION /from START /to END
+        Do enter it in this format: event DESCRIPTION /from yyyy-MM-dd HHmm /to yyyy-MM-dd HHmm
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Pardon, I beseech thee! This event command is ill-formed.
         Add an end date or time after '/to'.
-        Do enter it in this format: event DESCRIPTION /from START /to END
+        Do enter it in this format: event DESCRIPTION /from yyyy-MM-dd HHmm /to yyyy-MM-dd HHmm
+____________________________________________________________
+____________________________________________________________
+Avon:	Pardon, I beseech thee! This event command is ill-formed.
+        Use real dates and optional 24-hour times in yyyy-MM-dd [HHmm] format.
+        Do enter it in this format: event DESCRIPTION /from yyyy-MM-dd HHmm /to yyyy-MM-dd HHmm
+____________________________________________________________
+____________________________________________________________
+Avon:	Pardon, I beseech thee! This event command is ill-formed.
+        Set '/to' to the same time as or later than '/from'.
+        Do enter it in this format: event DESCRIPTION /from yyyy-MM-dd HHmm /to yyyy-MM-dd HHmm
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Fare thee well! Pray heavens our paths cross anon.
@@ -325,7 +337,7 @@ Aim: Verify that deleting a middle task retains the other tasks in order and ren
 ```text
 todo read book
 deadline return book /by 2026-06-06
-event project meeting /from Aug 6th 2pm /to 4pm
+event project meeting /from 2026-08-06 1400 /to 2026-08-06 1600
 mark 1
 mark 2
 list
@@ -358,7 +370,7 @@ Avon:	Now thou hast 2 tasks in thy list.
 ____________________________________________________________
 ____________________________________________________________
 Avon:	By thy command, I've added this task:
-        [E][ ] project meeting (from: Aug 6th 2pm to: 4pm)
+        [E][ ] project meeting (from: Aug 6 2026, 2:00PM to: Aug 6 2026, 4:00PM)
 Avon:	Now thou hast 3 tasks in thy list.
 ____________________________________________________________
 ____________________________________________________________
@@ -373,7 +385,7 @@ ____________________________________________________________
 Avon:	Here are the tasks in thy list:
         1.[T][X] read book
         2.[D][X] return book (by: Jun 6 2026)
-        3.[E][ ] project meeting (from: Aug 6th 2pm to: 4pm)
+        3.[E][ ] project meeting (from: Aug 6 2026, 2:00PM to: Aug 6 2026, 4:00PM)
 ____________________________________________________________
 ____________________________________________________________
 Avon:	So be it! I've removed this task:
@@ -383,7 +395,7 @@ ____________________________________________________________
 ____________________________________________________________
 Avon:	Here are the tasks in thy list:
         1.[T][X] read book
-        2.[E][ ] project meeting (from: Aug 6th 2pm to: 4pm)
+        2.[E][ ] project meeting (from: Aug 6 2026, 2:00PM to: Aug 6 2026, 4:00PM)
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Fare thee well! Pray heavens our paths cross anon.
@@ -490,17 +502,17 @@ ____________________________________________________________
 ____________________________________________________________
 Avon:	Pardon, I beseech thee! This event command is ill-formed.
         Place '/from' before '/to'.
-        Do enter it in this format: event DESCRIPTION /from START /to END
+        Do enter it in this format: event DESCRIPTION /from yyyy-MM-dd HHmm /to yyyy-MM-dd HHmm
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Pardon, I beseech thee! This event command is ill-formed.
         Use '/from' and '/to' exactly once each.
-        Do enter it in this format: event DESCRIPTION /from START /to END
+        Do enter it in this format: event DESCRIPTION /from yyyy-MM-dd HHmm /to yyyy-MM-dd HHmm
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Pardon, I beseech thee! This event command is ill-formed.
         Use '/from' and '/to' exactly once each.
-        Do enter it in this format: event DESCRIPTION /from START /to END
+        Do enter it in this format: event DESCRIPTION /from yyyy-MM-dd HHmm /to yyyy-MM-dd HHmm
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Fare thee well! Pray heavens our paths cross anon.

@@ -26,7 +26,8 @@ class StorageTest {
         TaskList taskList = new TaskList(List.of(
                 todo,
                 new Deadline("return book", LocalDateTime.of(2026, 8, 20, 18, 0)),
-                new Event("lecture", "2pm", "4pm")));
+                new Event("lecture", LocalDateTime.of(2026, 8, 20, 14, 0),
+                        LocalDateTime.of(2026, 8, 20, 16, 0))));
 
         storage.save(taskList);
         List<Task> loadedTasks = storage.load();
@@ -35,7 +36,8 @@ class StorageTest {
         assertTrue(loadedTasks.get(0).isDone());
         assertEquals("[D][ ] return book (by: Aug 20 2026, 6:00PM)",
                 loadedTasks.get(1).toString());
-        assertEquals("[E][ ] lecture (from: 2pm to: 4pm)", loadedTasks.get(2).toString());
+        assertEquals("[E][ ] lecture (from: Aug 20 2026, 2:00PM"
+                + " to: Aug 20 2026, 4:00PM)", loadedTasks.get(2).toString());
     }
 
     @Test
