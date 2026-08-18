@@ -1,3 +1,5 @@
+package avon;
+
 /**
  * Signals that Avon could not load or save its task data.
  */

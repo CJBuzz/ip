@@ -1,3 +1,5 @@
+package avon;
+
 /**
  * Represents an error caused by an invalid input from the user.
  */
