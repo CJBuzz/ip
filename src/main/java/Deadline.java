@@ -16,6 +16,16 @@ public class Deadline extends Task {
     }
 
     /**
+     * Returns the deadline in Avon's tab-separated storage format.
+     *
+     * @return the serialized deadline
+     */
+    @Override
+    public String toDataString() {
+        return "D\t" + isDone + "\t" + description + "\t" + by;
+    }
+
+    /**
      * Returns this deadline with its type, completion status, and due date.
      *
      * @return the formatted deadline task
