@@ -28,15 +28,15 @@ public class Parser {
      */
     public static Task parseTask(String command, CommandType commandType) throws AvonException {
         switch (commandType) {
-        case TODO:
-            String todoKeyword = CommandType.TODO.getKeyword();
-            return new Todo(extractDescription(command, todoKeyword, "todo DESCRIPTION"));
-        case DEADLINE:
-            return parseDeadline(command);
-        case EVENT:
-            return parseEvent(command);
-        default:
-            throw new IllegalArgumentException("Command does not create a task.");
+            case TODO:
+                String todoKeyword = CommandType.TODO.getKeyword();
+                return new Todo(extractDescription(command, todoKeyword, "todo DESCRIPTION"));
+            case DEADLINE:
+                return parseDeadline(command);
+            case EVENT:
+                return parseEvent(command);
+            default:
+                throw new IllegalArgumentException("Command does not create a task.");
         }
     }
 

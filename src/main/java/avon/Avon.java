@@ -47,36 +47,37 @@ public class Avon {
      * @param command the command entered by the user
      * @param commandType the identified type of the command
      * @throws AvonException if the command cannot be understood or completed
-     * @throws IllegalArgumentException if the switch-case block reaches a state 
-     *  it is not meant to reach (for future debugging)
+     * @throws IllegalArgumentException if the switch-case block reaches an unexpected state
      */
     private static void executeCommand(TaskList taskList, Storage storage, Ui ui,
             String command, CommandType commandType) throws AvonException {
         switch (commandType) {
-        case LIST:
-            ui.showTaskList(taskList);
-            break;
-        case MARK:
-            markTask(taskList, ui, command);
-            storage.save(taskList);
-            break;
-        case UNMARK:
-            unmarkTask(taskList, ui, command);
-            storage.save(taskList);
-            break;
-        case DELETE:
-            deleteTask(taskList, ui, command);
-            storage.save(taskList);
-            break;
-        case TODO:
-        case DEADLINE:
-        case EVENT:
-            addTask(taskList, storage, ui, command, commandType);
-            break;
-        case BYE:
-            throw new IllegalArgumentException("Bye must be handled before command execution.");
-        default:
-            throw new IllegalArgumentException("Unsupported command type.");
+            case LIST:
+                ui.showTaskList(taskList);
+                break;
+            case MARK:
+                markTask(taskList, ui, command);
+                storage.save(taskList);
+                break;
+            case UNMARK:
+                unmarkTask(taskList, ui, command);
+                storage.save(taskList);
+                break;
+            case DELETE:
+                deleteTask(taskList, ui, command);
+                storage.save(taskList);
+                break;
+            case TODO:
+                // Fallthrough
+            case DEADLINE:
+                // Fallthrough
+            case EVENT:
+                addTask(taskList, storage, ui, command, commandType);
+                break;
+            case BYE:
+                throw new IllegalArgumentException("Bye must be handled before command execution.");
+            default:
+                throw new IllegalArgumentException("Unsupported command type.");
         }
     }
 
