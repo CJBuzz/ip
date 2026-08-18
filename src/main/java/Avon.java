@@ -1,51 +1,36 @@
 import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
-import java.util.Scanner;
 
 /**
  * Runs the command-line interface for Avon.
  */
 public class Avon {
-    private static final String SEPARATOR = "____________________________________________________________";
-    private static final String AVON_PREFIX = "Avon:\t";
-    private static final String INDENT = "        ";
     private static final Path DATA_FILE_PATH = Path.of("data", "avon.txt");
 
     public static void main(String[] args) {
-        String banner = """
-                ___                    
-               /   |_   ______  ____  
-              / /| | | / / __ \\/ __ \\ 
-             / ___ | |/ / /_/ / / / / 
-            /_/  |_|___/\\____/_/ /_/ """;
-        System.out.println(SEPARATOR);
-        System.out.println(banner);
-        System.out.println(AVON_PREFIX + "Hark! I am Avon who stands before thee.");
-        System.out.println(AVON_PREFIX + "How may my hand or wit now serve thy need?");
-        System.out.println(SEPARATOR);
-
+        Ui ui = new Ui();
+        ui.showWelcome();
         Storage storage = new Storage(DATA_FILE_PATH);
-        TaskList taskList = loadTasks(storage);
-        Scanner scanner = new Scanner(System.in);
-        while (scanner.hasNextLine()) {
-            String command = scanner.nextLine();
-            System.out.println(SEPARATOR);
+        TaskList taskList = loadTasks(storage, ui);
+        while (ui.hasNextCommand()) {
+            String command = ui.readCommand();
+            ui.showSeparator();
 
             try {
                 CommandType commandType = CommandType.parse(command);
                 if (commandType == CommandType.BYE) {
-                    System.out.println(AVON_PREFIX + "Fare thee well! Pray heavens our paths cross anon.");
-                    System.out.println(SEPARATOR);
+                    ui.showGoodbye();
+                    ui.showSeparator();
                     break;
                 }
-                executeCommand(taskList, storage, command, commandType);
+                executeCommand(taskList, storage, ui, command, commandType);
             } catch (AvonException exception) {
-                printException(exception);
+                ui.showError(exception);
             }
-            System.out.println(SEPARATOR);
+            ui.showSeparator();
         }
-        scanner.close();
+        ui.close();
     }
 
     /**
@@ -53,34 +38,35 @@ public class Avon {
      *
      * @param taskList the in-memory task list
      * @param storage the persistent task storage
+     * @param ui the command-line interface
      * @param command the command entered by the user
      * @param commandType the identified type of the command
      * @throws AvonException if the command cannot be understood or completed
      * @throws IllegalArgumentException if the switch-case block reaches a state 
      *  it is not meant to reach (for future debugging)
      */
-    private static void executeCommand(TaskList taskList, Storage storage, String command,
-            CommandType commandType) throws AvonException {
+    private static void executeCommand(TaskList taskList, Storage storage, Ui ui,
+            String command, CommandType commandType) throws AvonException {
         switch (commandType) {
         case LIST:
-            printTasks(taskList);
+            ui.showTaskList(taskList);
             break;
         case MARK:
-            markTask(taskList, command);
+            markTask(taskList, ui, command);
             storage.save(taskList);
             break;
         case UNMARK:
-            unmarkTask(taskList, command);
+            unmarkTask(taskList, ui, command);
             storage.save(taskList);
             break;
         case DELETE:
-            deleteTask(taskList, command);
+            deleteTask(taskList, ui, command);
             storage.save(taskList);
             break;
         case TODO:
         case DEADLINE:
         case EVENT:
-            addTask(taskList, storage, command, commandType);
+            addTask(taskList, storage, ui, command, commandType);
             break;
         case BYE:
             throw new IllegalArgumentException("Bye must be handled before command execution.");
@@ -94,46 +80,31 @@ public class Avon {
      *
      * @param taskList the in-memory task list
      * @param storage the persistent task storage
+     * @param ui the command-line interface
      * @param command the text entered by the user
      * @param commandType the type of task to create
      */
-    private static void addTask(TaskList taskList, Storage storage, String command,
-            CommandType commandType) throws AvonException {
+    private static void addTask(TaskList taskList, Storage storage, Ui ui,
+            String command, CommandType commandType) throws AvonException {
         Task task = parseTask(command, commandType);
         taskList.add(task);
         storage.save(taskList);
-        printAddedTask(taskList, task);
+        ui.showAddedTask(task, taskList.size());
     }
 
     /**
      * Loads saved tasks, falling back to an empty list if loading fails.
      *
      * @param storage the persistent task storage
+     * @param ui the command-line interface
      * @return the restored task list
      */
-    private static TaskList loadTasks(Storage storage) {
+    private static TaskList loadTasks(Storage storage, Ui ui) {
         try {
             return new TaskList(storage.load());
         } catch (StorageException exception) {
-            printException(exception);
+            ui.showError(exception);
             return new TaskList();
-        }
-    }
-
-    /**
-     * Displays all tasks in the order in which they were entered.
-     *
-     * @param taskList the in-memory task list
-     */
-    private static void printTasks(TaskList taskList) {
-        if (taskList.size() == 0) {
-            System.out.println(AVON_PREFIX + "Thy task list is empty.");
-            return;
-        }
-
-        System.out.println(AVON_PREFIX + "Here are the tasks in thy list:");
-        for (int index = 0; index < taskList.size(); index++) {
-            System.out.println(INDENT + (index + 1) + "." + taskList.getTask(index));
         }
     }
 
@@ -141,46 +112,45 @@ public class Avon {
      * Marks the task identified by the one-based number in a mark command as done.
      *
      * @param taskList the in-memory task list
+     * @param ui the command-line interface
      * @param command the mark command entered by the user
      */
-    private static void markTask(TaskList taskList, String command)
+    private static void markTask(TaskList taskList, Ui ui, String command)
             throws InvalidTaskNumberException {
         int taskIndex = parseTaskIndex(taskList, command, CommandType.MARK);
         Task task = taskList.getTask(taskIndex);
         task.markAsDone();
-        System.out.println(AVON_PREFIX + "Tis well! Thy noble task is now fulfilled:");
-        System.out.println(INDENT + task);
+        ui.showMarkedTask(task);
     }
 
     /**
      * Marks the task identified by the one-based number in an unmark command as not done.
      *
      * @param taskList the in-memory task list
+     * @param ui the command-line interface
      * @param command the unmark command entered by the user
      */
-    private static void unmarkTask(TaskList taskList, String command)
+    private static void unmarkTask(TaskList taskList, Ui ui, String command)
             throws InvalidTaskNumberException {
         int taskIndex = parseTaskIndex(taskList, command, CommandType.UNMARK);
         Task task = taskList.getTask(taskIndex);
         task.markAsNotDone();
-        System.out.println(AVON_PREFIX + "Thy noble task is undone once more:");
-        System.out.println(INDENT + task);
+        ui.showUnmarkedTask(task);
     }
 
     /**
      * Removes the task identified by the one-based number in a delete command.
      *
      * @param taskList the in-memory task list
+     * @param ui the command-line interface
      * @param command the delete command entered by the user
      * @throws InvalidTaskNumberException if the command does not identify an existing task
      */
-    private static void deleteTask(TaskList taskList, String command)
+    private static void deleteTask(TaskList taskList, Ui ui, String command)
             throws InvalidTaskNumberException {
         int taskIndex = parseTaskIndex(taskList, command, CommandType.DELETE);
         Task removedTask = taskList.removeTask(taskIndex);
-        System.out.println(AVON_PREFIX + "So be it! I've removed this task:");
-        System.out.println(INDENT + removedTask);
-        System.out.println(AVON_PREFIX + "Now thou hast " + taskList.size() + " tasks in thy list.");
+        ui.showDeletedTask(removedTask, taskList.size());
     }
 
     /**
@@ -350,28 +320,6 @@ public class Avon {
             throw new InvalidTaskFormatException(taskType, problem, example);
         }
         return value;
-    }
-
-    /**
-     * Prints the acknowledgement for a newly added task.
-     *
-     * @param taskList the in-memory task list
-     * @param task the task that was added
-     */
-    private static void printAddedTask(TaskList taskList, Task task) {
-        System.out.println(AVON_PREFIX + "By thy command, I've added this task:");
-        System.out.println(INDENT + task);
-        System.out.println(AVON_PREFIX + "Now thou hast " + taskList.size() + " tasks in thy list.");
-    }
-
-    /**
-     * Prints an exception message with each continuation line indented.
-     *
-     * @param exception the exception whose message should be shown
-     */
-    private static void printException(AvonException exception) {
-        String indentedMessage = exception.getMessage().replace("\n", "\n" + INDENT);
-        System.out.println(AVON_PREFIX + indentedMessage);
     }
 
 }
