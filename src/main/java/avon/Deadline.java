@@ -11,8 +11,8 @@ public class Deadline extends Task {
     /**
      * Creates an unfinished deadline task.
      *
-     * @param description the text describing the task
-     * @param by the date and time by which the task should be completed
+     * @param description the text describing the task.
+     * @param by the date and time by which the task should be completed.
      */
     public Deadline(String description, LocalDateTime by) {
         super(description);
@@ -22,7 +22,7 @@ public class Deadline extends Task {
     /**
      * Returns the deadline in Avon's tab-separated storage format.
      *
-     * @return the serialized deadline
+     * @return the serialized deadline.
      */
     @Override
     public String toDataString() {
@@ -32,7 +32,7 @@ public class Deadline extends Task {
     /**
      * Returns this deadline with its type, completion status, and due date.
      *
-     * @return the formatted deadline task
+     * @return the formatted deadline task.
      */
     @Override
     public String toString() {

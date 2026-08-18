@@ -9,12 +9,13 @@ public class DeleteCommand extends Command {
     /**
      * Creates a delete command whose task number is parsed during execution.
      *
-     * @param fullCommand the complete command entered by the user
+     * @param fullCommand the complete command entered by the user.
      */
     public DeleteCommand(String fullCommand) {
         this.fullCommand = fullCommand;
     }
 
+    /** {@inheritDoc} */
     @Override
     public void execute(TaskList taskList, Ui ui, Storage storage) throws AvonException {
         int taskIndex = Parser.parseTaskIndex(taskList, fullCommand, CommandType.DELETE);

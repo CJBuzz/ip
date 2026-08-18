@@ -7,7 +7,7 @@ public class Todo extends Task {
     /**
      * Creates an unfinished todo task.
      *
-     * @param description the text describing the task
+     * @param description the text describing the task.
      */
     public Todo(String description) {
         super(description);
@@ -16,7 +16,7 @@ public class Todo extends Task {
     /**
      * Returns this todo task with its type and completion status.
      *
-     * @return the formatted todo task
+     * @return the formatted todo task.
      */
     @Override
     public String toString() {

@@ -12,10 +12,10 @@ public class Event extends Task {
     /**
      * Creates an unfinished event task.
      *
-     * @param description the text describing the event
-     * @param from the event start date and time
-     * @param to the event end date and time
-     * @throws IllegalArgumentException if the event ends before it starts
+     * @param description the text describing the event.
+     * @param from the event start date and time.
+     * @param to the event end date and time.
+     * @throws IllegalArgumentException if the event ends before it starts.
      */
     public Event(String description, LocalDateTime from, LocalDateTime to) {
         super(description);
@@ -29,7 +29,7 @@ public class Event extends Task {
     /**
      * Returns the event in Avon's tab-separated storage format.
      *
-     * @return the serialized event
+     * @return the serialized event.
      */
     @Override
     public String toDataString() {
@@ -39,7 +39,7 @@ public class Event extends Task {
     /**
      * Returns this event with its type, completion status, and time interval.
      *
-     * @return the formatted event task
+     * @return the formatted event task.
      */
     @Override
     public String toString() {

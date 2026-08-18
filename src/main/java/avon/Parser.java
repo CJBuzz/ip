@@ -10,15 +10,17 @@ public class Parser {
     /**
      * Parses a complete user instruction into an executable command.
      *
-     * @param command the command entered by the user
-     * @return the command object that represents the instruction
-     * @throws AvonException if the command or its arguments are invalid
+     * @param command the command entered by the user.
+     * @return the command object that represents the instruction.
+     * @throws AvonException if the command or its arguments are invalid.
      */
     public static Command parse(String command) throws AvonException {
         CommandType commandType = parseCommandType(command);
         switch (commandType) {
             case TODO:
+                // Fallthrough
             case DEADLINE:
+                // Fallthrough
             case EVENT:
                 return new AddCommand(parseTask(command, commandType));
             case LIST:
@@ -41,9 +43,9 @@ public class Parser {
     /**
      * Identifies the type of a complete command.
      *
-     * @param command the command entered by the user
-     * @return the matching command type
-     * @throws UnknownCommandException if the command is unsupported
+     * @param command the command entered by the user.
+     * @return the matching command type.
+     * @throws UnknownCommandException if the command is unsupported.
      */
     public static CommandType parseCommandType(String command) throws UnknownCommandException {
         return CommandType.parse(command);
@@ -52,10 +54,10 @@ public class Parser {
     /**
      * Creates the appropriate task subtype for a command.
      *
-     * @param command the command entered by the user
-     * @param commandType the type of task to create
-     * @return the task represented by the command
-     * @throws AvonException if the task details are invalid
+     * @param command the command entered by the user.
+     * @param commandType the type of task to create.
+     * @return the task represented by the command.
+     * @throws AvonException if the task details are invalid.
      */
     public static Task parseTask(String command, CommandType commandType) throws AvonException {
         switch (commandType) {
@@ -74,11 +76,11 @@ public class Parser {
     /**
      * Parses and validates the one-based task number in a task-number command.
      *
-     * @param taskList the in-memory task list
-     * @param command the complete command entered by the user
-     * @param commandType the type of task-number command
-     * @return the corresponding zero-based task index
-     * @throws InvalidTaskNumberException if the number is missing, malformed, or out of range
+     * @param taskList the in-memory task list.
+     * @param command the complete command entered by the user.
+     * @param commandType the type of task-number command.
+     * @return the corresponding zero-based task index.
+     * @throws InvalidTaskNumberException if the number is missing, malformed, or out of range.
      */
     public static int parseTaskIndex(TaskList taskList, String command, CommandType commandType)
             throws InvalidTaskNumberException {
@@ -111,9 +113,9 @@ public class Parser {
     /**
      * Extracts the required keyword from a find command.
      *
-     * @param command the complete find command
-     * @return the non-empty keyword to search for
-     * @throws EmptyDescriptionException if the command has no keyword
+     * @param command the complete find command.
+     * @return the non-empty keyword to search for.
+     * @throws EmptyDescriptionException if the command has no keyword.
      */
     public static String parseFindKeyword(String command) throws EmptyDescriptionException {
         String findKeyword = CommandType.FIND.getKeyword();
@@ -123,9 +125,9 @@ public class Parser {
     /**
      * Parses a deadline command into a deadline task.
      *
-     * @param command the deadline command entered by the user
-     * @return the parsed deadline task
-     * @throws AvonException if required details are missing or the date is invalid
+     * @param command the deadline command entered by the user.
+     * @return the parsed deadline task.
+     * @throws AvonException if required details are missing or the date is invalid.
      */
     private static Deadline parseDeadline(String command) throws AvonException {
         String deadlineKeyword = CommandType.DEADLINE.getKeyword();
@@ -159,9 +161,9 @@ public class Parser {
     /**
      * Parses an event command into an event task.
      *
-     * @param command the event command entered by the user
-     * @return the parsed event task
-     * @throws AvonException if required details are missing or misplaced
+     * @param command the event command entered by the user.
+     * @return the parsed event task.
+     * @throws AvonException if required details are missing or misplaced.
      */
     private static Event parseEvent(String command) throws AvonException {
         String eventKeyword = CommandType.EVENT.getKeyword();
@@ -208,13 +210,13 @@ public class Parser {
     /**
      * Creates an event after ensuring its interval runs forwards in time.
      *
-     * @param description the event description
-     * @param from the event start
-     * @param to the event end
-     * @param eventKeyword the event command keyword
-     * @param example a complete example of the expected command
-     * @return the validated event
-     * @throws InvalidTaskFormatException if the event ends before it starts
+     * @param description the event description.
+     * @param from the event start.
+     * @param to the event end.
+     * @param eventKeyword the event command keyword.
+     * @param example a complete example of the expected command.
+     * @return the validated event.
+     * @throws InvalidTaskFormatException if the event ends before it starts.
      */
     private static Event createEvent(String description, LocalDateTime from,
             LocalDateTime to, String eventKeyword, String example)
@@ -229,11 +231,11 @@ public class Parser {
     /**
      * Extracts a non-empty task description after a command keyword.
      *
-     * @param command the complete command
-     * @param keyword the command keyword to remove
-     * @param example a complete example of the expected command
-     * @return the task description
-     * @throws EmptyDescriptionException if no description follows the keyword
+     * @param command the complete command.
+     * @param keyword the command keyword to remove.
+     * @param example a complete example of the expected command.
+     * @return the task description.
+     * @throws EmptyDescriptionException if no description follows the keyword.
      */
     private static String extractDescription(String command, String keyword, String example)
             throws EmptyDescriptionException {
@@ -247,12 +249,12 @@ public class Parser {
     /**
      * Ensures that a parsed command component is not empty.
      *
-     * @param value the component to validate
-     * @param taskType the type of task being entered
-     * @param problem the explanation shown if the component is empty
-     * @param example a complete example of the expected command
-     * @return the original non-empty component
-     * @throws InvalidTaskFormatException if the component is empty
+     * @param value the component to validate.
+     * @param taskType the type of task being entered.
+     * @param problem the explanation shown if the component is empty.
+     * @param example a complete example of the expected command.
+     * @return the original non-empty component.
+     * @throws InvalidTaskFormatException if the component is empty.
      */
     private static String requireTaskDetail(String value, String taskType, String problem,
             String example) throws InvalidTaskFormatException {

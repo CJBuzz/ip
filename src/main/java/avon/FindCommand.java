@@ -9,12 +9,13 @@ public class FindCommand extends Command {
     /**
      * Creates a command for the keyword to find.
      *
-     * @param keyword the text to find in task descriptions
+     * @param keyword the text to find in task descriptions.
      */
     public FindCommand(String keyword) {
         this.keyword = keyword;
     }
 
+    /** {@inheritDoc} */
     @Override
     public void execute(TaskList taskList, Ui ui, Storage storage) {
         ui.showMatchingTasks(taskList.find(keyword));

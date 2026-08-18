@@ -23,9 +23,9 @@ public final class DateTimeParser {
     /**
      * Parses an ISO date with an optional 24-hour time.
      *
-     * @param value a value in {@code yyyy-MM-dd} or {@code yyyy-MM-dd HHmm} format
-     * @return the parsed value, using midnight when no time is supplied
-     * @throws DateTimeParseException if the value is not a real date and time
+     * @param value a value in {@code yyyy-MM-dd} or {@code yyyy-MM-dd HHmm} format.
+     * @return the parsed value, using midnight when no time is supplied.
+     * @throws DateTimeParseException if the value is not a real date and time.
      */
     public static LocalDateTime parse(String value) {
         try {
@@ -38,9 +38,9 @@ public final class DateTimeParser {
     /**
      * Parses a persisted ISO date-time or a legacy date-only value.
      *
-     * @param value the stored date-time text
-     * @return the restored date-time
-     * @throws DateTimeParseException if the stored value is invalid
+     * @param value the stored date-time text.
+     * @return the restored date-time.
+     * @throws DateTimeParseException if the stored value is invalid.
      */
     public static LocalDateTime parseStoredValue(String value) {
         try {
@@ -53,8 +53,8 @@ public final class DateTimeParser {
     /**
      * Formats a date-time for display, omitting midnight for date-only inputs.
      *
-     * @param dateTime the date-time to format
-     * @return the human-readable date and optional time
+     * @param dateTime the date-time to format.
+     * @return the human-readable date and optional time.
      */
     public static String format(LocalDateTime dateTime) {
         if (dateTime.toLocalTime().equals(LocalTime.MIDNIGHT)) {

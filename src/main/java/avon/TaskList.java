@@ -18,7 +18,7 @@ public class TaskList {
     /**
      * Creates a task list containing tasks loaded from storage.
      *
-     * @param tasks the tasks with which to initialize the list
+     * @param tasks the tasks with which to initialize the list.
      */
     public TaskList(List<Task> tasks) {
         this.tasks.addAll(tasks);
@@ -27,8 +27,8 @@ public class TaskList {
     /**
      * Adds a task of any supported type to the end of the list.
      *
-     * @param task the task to store
-     * @throws IllegalArgumentException if the task is null
+     * @param task the task to store.
+     * @throws IllegalArgumentException if the task is null.
      */
     public void add(Task task) {
         if (task == null) {
@@ -41,7 +41,7 @@ public class TaskList {
     /**
      * Returns the number of tasks currently stored.
      *
-     * @return the number of stored tasks
+     * @return the number of stored tasks.
      */
     public int size() {
         return tasks.size();
@@ -50,9 +50,9 @@ public class TaskList {
     /**
      * Returns the task at the requested zero-based index.
      *
-     * @param index the zero-based position of the task
-     * @return the task at the requested position
-     * @throws IndexOutOfBoundsException if the index does not refer to a stored task
+     * @param index the zero-based position of the task.
+     * @return the task at the requested position.
+     * @throws IndexOutOfBoundsException if the index does not refer to a stored task.
      */
     public Task getTask(int index) {
         validateIndex(index);
@@ -62,9 +62,9 @@ public class TaskList {
     /**
      * Removes and returns the task at the requested zero-based index.
      *
-     * @param index the zero-based position of the task to remove
-     * @return the task that was removed
-     * @throws IndexOutOfBoundsException if the index does not refer to a stored task
+     * @param index the zero-based position of the task to remove.
+     * @return the task that was removed.
+     * @throws IndexOutOfBoundsException if the index does not refer to a stored task.
      */
     public Task removeTask(int index) {
         validateIndex(index);
@@ -74,8 +74,8 @@ public class TaskList {
     /**
      * Returns tasks whose descriptions contain the given keyword.
      *
-     * @param keyword the text to find in task descriptions
-     * @return matching tasks in their original order
+     * @param keyword the text to find in task descriptions.
+     * @return matching tasks in their original order.
      */
     public List<Task> find(String keyword) {
         List<Task> matchingTasks = new ArrayList<>();
@@ -90,8 +90,8 @@ public class TaskList {
     /**
      * Ensures that an index points to a task currently stored in the list.
      *
-     * @param index the zero-based position to validate
-     * @throws IndexOutOfBoundsException if the index does not refer to a stored task
+     * @param index the zero-based position to validate.
+     * @throws IndexOutOfBoundsException if the index does not refer to a stored task.
      */
     private void validateIndex(int index) {
         if (index < 0 || index >= tasks.size()) {

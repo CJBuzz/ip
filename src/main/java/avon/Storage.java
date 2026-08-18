@@ -15,7 +15,7 @@ public class Storage {
     /**
      * Creates storage backed by the specified file.
      *
-     * @param filePath the path of the task data file
+     * @param filePath the path of the task data file.
      */
     public Storage(Path filePath) {
         this.filePath = filePath;
@@ -24,8 +24,8 @@ public class Storage {
     /**
      * Loads all saved tasks, or returns an empty list when no data file exists.
      *
-     * @return the saved tasks
-     * @throws StorageException if the data cannot be read or parsed
+     * @return the saved tasks.
+     * @throws StorageException if the data cannot be read or parsed.
      */
     public List<Task> load() throws StorageException {
         if (!Files.exists(filePath)) {
@@ -48,8 +48,8 @@ public class Storage {
     /**
      * Saves all current tasks, creating the parent directory when necessary.
      *
-     * @param taskList the tasks to save
-     * @throws StorageException if the data cannot be written
+     * @param taskList the tasks to save.
+     * @throws StorageException if the data cannot be written.
      */
     public void save(TaskList taskList) throws StorageException {
         try {
@@ -70,8 +70,8 @@ public class Storage {
     /**
      * Recreates one task from a line in the storage file.
      *
-     * @param line the serialized task
-     * @return the restored task
+     * @param line the serialized task.
+     * @return the restored task.
      */
     private Task parseTask(String line) {
         String[] fields = line.split("\\t", -1);
@@ -107,8 +107,8 @@ public class Storage {
     /**
      * Ensures that a serialized task has exactly the expected fields.
      *
-     * @param fields the parsed fields
-     * @param expectedCount the required number of fields
+     * @param fields the parsed fields.
+     * @param expectedCount the required number of fields.
      */
     private void requireFieldCount(String[] fields, int expectedCount) {
         if (fields.length != expectedCount) {

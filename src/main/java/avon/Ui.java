@@ -33,7 +33,7 @@ public class Ui {
     /**
      * Returns whether another command is available from standard input.
      *
-     * @return {@code true} if another command can be read
+     * @return {@code true} if another command can be read.
      */
     public boolean hasNextCommand() {
         return scanner.hasNextLine();
@@ -42,7 +42,7 @@ public class Ui {
     /**
      * Reads the next complete command.
      *
-     * @return the command entered by the user
+     * @return the command entered by the user.
      */
     public String readCommand() {
         return scanner.nextLine();
@@ -65,7 +65,7 @@ public class Ui {
     /**
      * Displays all tasks in their current order.
      *
-     * @param taskList the tasks to display
+     * @param taskList the tasks to display.
      */
     public void showTaskList(TaskList taskList) {
         if (taskList.size() == 0) {
@@ -82,7 +82,7 @@ public class Ui {
     /**
      * Displays tasks that match a search keyword.
      *
-     * @param matchingTasks the matching tasks in their original order
+     * @param matchingTasks the matching tasks in their original order.
      */
     public void showMatchingTasks(List<Task> matchingTasks) {
         System.out.println(AVON_PREFIX + "Here are the matching tasks in thy list:");
@@ -94,8 +94,8 @@ public class Ui {
     /**
      * Displays confirmation that a task was added.
      *
-     * @param task the task that was added
-     * @param taskCount the resulting number of tasks
+     * @param task the task that was added.
+     * @param taskCount the resulting number of tasks.
      */
     public void showAddedTask(Task task, int taskCount) {
         System.out.println(AVON_PREFIX + "By thy command, I've added this task:");
@@ -106,7 +106,7 @@ public class Ui {
     /**
      * Displays confirmation that a task was marked as completed.
      *
-     * @param task the completed task
+     * @param task the completed task.
      */
     public void showMarkedTask(Task task) {
         System.out.println(AVON_PREFIX + "Tis well! Thy noble task is now fulfilled:");
@@ -116,7 +116,7 @@ public class Ui {
     /**
      * Displays confirmation that a task was marked as not completed.
      *
-     * @param task the uncompleted task
+     * @param task the uncompleted task.
      */
     public void showUnmarkedTask(Task task) {
         System.out.println(AVON_PREFIX + "Thy noble task is undone once more:");
@@ -126,8 +126,8 @@ public class Ui {
     /**
      * Displays confirmation that a task was removed.
      *
-     * @param task the removed task
-     * @param taskCount the resulting number of tasks
+     * @param task the removed task.
+     * @param taskCount the resulting number of tasks.
      */
     public void showDeletedTask(Task task, int taskCount) {
         System.out.println(AVON_PREFIX + "So be it! I've removed this task:");
@@ -138,7 +138,7 @@ public class Ui {
     /**
      * Displays a user-facing exception message.
      *
-     * @param exception the exception to display
+     * @param exception the exception to display.
      */
     public void showError(AvonException exception) {
         String indentedMessage = exception.getMessage().replace("\n", "\n" + INDENT);
@@ -155,7 +155,7 @@ public class Ui {
     /**
      * Displays the current number of tasks.
      *
-     * @param taskCount the number of tasks
+     * @param taskCount the number of tasks.
      */
     private void showTaskCount(int taskCount) {
         System.out.println(AVON_PREFIX + "Now thou hast " + taskCount + " tasks in thy list.");

@@ -7,8 +7,8 @@ public class InvalidTaskNumberException extends AvonException {
     /**
      * Creates a task-number error with guidance tailored to the command.
      *
-     * @param commandType the type of task-number command
-     * @param problem a clear explanation of the invalid number
+     * @param commandType the type of task-number command.
+     * @param problem a clear explanation of the invalid number.
      */
     public InvalidTaskNumberException(CommandType commandType, String problem) {
         this(commandType, problem, true);
@@ -17,9 +17,9 @@ public class InvalidTaskNumberException extends AvonException {
     /**
      * Creates a task-number error, optionally with a valid command example.
      *
-     * @param commandType the type of task-number command
-     * @param problem a clear explanation of the invalid number
-     * @param shouldShowExample whether a command example would help resolve the error
+     * @param commandType the type of task-number command.
+     * @param problem a clear explanation of the invalid number.
+     * @param shouldShowExample whether a command example would help resolve the error.
      */
     public InvalidTaskNumberException(CommandType commandType, String problem,
             boolean shouldShowExample) {

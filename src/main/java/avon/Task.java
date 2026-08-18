@@ -13,7 +13,7 @@ public class Task {
     /**
      * Creates an unfinished task with the given description.
      *
-     * @param description the text describing the task
+     * @param description the text describing the task.
      */
     public Task(String description) {
         this.description = description;
@@ -23,7 +23,7 @@ public class Task {
     /**
      * Returns the status icon used when displaying this task.
      *
-     * @return {@code X} for a completed task, or a space otherwise
+     * @return {@code X} for a completed task, or a space otherwise.
      */
     public String getStatusIcon() {
         return isDone ? "X" : " ";
@@ -46,7 +46,7 @@ public class Task {
     /**
      * Returns the task description for persistence and searching.
      *
-     * @return the text describing this task
+     * @return the text describing this task.
      */
     public String getDescription() {
         return description;
@@ -55,7 +55,7 @@ public class Task {
     /**
      * Returns whether this task has been completed.
      *
-     * @return {@code true} if the task is completed
+     * @return {@code true} if the task is completed.
      */
     public boolean isDone() {
         return isDone;
@@ -64,7 +64,7 @@ public class Task {
     /**
      * Converts this task into Avon's tab-separated storage format.
      *
-     * @return the serialized task
+     * @return the serialized task.
      */
     public String toDataString() {
         return "T\t" + isDone + "\t" + description;
@@ -73,7 +73,7 @@ public class Task {
     /**
      * Returns this task in the format used by Avon’s task list.
      *
-     * @return the status icon and description of this task
+     * @return the status icon and description of this task.
      */
     @Override
     public String toString() {

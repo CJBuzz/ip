@@ -9,12 +9,13 @@ public class AddCommand extends Command {
     /**
      * Creates a command for the task to add.
      *
-     * @param task the parsed task
+     * @param task the parsed task.
      */
     public AddCommand(Task task) {
         this.task = task;
     }
 
+    /** {@inheritDoc} */
     @Override
     public void execute(TaskList taskList, Ui ui, Storage storage) throws StorageException {
         taskList.add(task);

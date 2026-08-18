@@ -11,7 +11,7 @@ public class Avon {
     /**
      * Starts Avon and processes commands until the user exits or input ends.
      *
-     * @param args command-line arguments, which Avon does not use
+     * @param args command-line arguments, which Avon does not use.
      */
     public static void main(String[] args) {
         new Avon().run();
@@ -46,9 +46,9 @@ public class Avon {
     /**
      * Loads saved tasks, falling back to an empty list if loading fails.
      *
-     * @param storage the persistent task storage
-     * @param ui the command-line interface
-     * @return the restored task list
+     * @param storage the persistent task storage.
+     * @param ui the command-line interface.
+     * @return the restored task list.
      */
     private static TaskList loadTasks(Storage storage, Ui ui) {
         try {

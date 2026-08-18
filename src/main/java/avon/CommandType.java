@@ -22,8 +22,8 @@ public enum CommandType {
     /**
      * Creates a command type with its parsing properties.
      *
-     * @param keyword the first word that identifies the command
-     * @param allowsArguments whether text may follow the command keyword
+     * @param keyword the first word that identifies the command.
+     * @param allowsArguments whether text may follow the command keyword.
      */
     CommandType(String keyword, boolean allowsArguments) {
         this.keyword = keyword;
@@ -33,7 +33,7 @@ public enum CommandType {
     /**
      * Returns the word used to invoke this command.
      *
-     * @return the command keyword
+     * @return the command keyword.
      */
     public String getKeyword() {
         return keyword;
@@ -42,9 +42,9 @@ public enum CommandType {
     /**
      * Identifies the type of a complete command.
      *
-     * @param command the complete command entered by the user
-     * @return the matching command type
-     * @throws UnknownCommandException if no supported command matches the input
+     * @param command the complete command entered by the user.
+     * @return the matching command type.
+     * @throws UnknownCommandException if no supported command matches the input.
      */
     public static CommandType parse(String command) throws UnknownCommandException {
         for (CommandType commandType : values()) {
@@ -58,7 +58,7 @@ public enum CommandType {
     /**
      * Returns all supported command keywords in display order.
      *
-     * @return a comma-separated list of command keywords
+     * @return a comma-separated list of command keywords.
      */
     public static String getSupportedKeywords() {
         StringJoiner keywords = new StringJoiner(", ");
@@ -71,8 +71,8 @@ public enum CommandType {
     /**
      * Checks whether a complete command matches this command type.
      *
-     * @param command the complete command entered by the user
-     * @return true if the command has this type
+     * @param command the complete command entered by the user.
+     * @return true if the command has this type.
      */
     private boolean matches(String command) {
         return command.equals(keyword)
