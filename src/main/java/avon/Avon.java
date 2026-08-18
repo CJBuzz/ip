@@ -8,6 +8,11 @@ import java.nio.file.Path;
 public class Avon {
     private static final Path DATA_FILE_PATH = Path.of("data", "avon.txt");
 
+    /**
+     * Starts Avon and processes commands until the user exits or input ends.
+     *
+     * @param args command-line arguments, which Avon does not use
+     */
     public static void main(String[] args) {
         Ui ui = new Ui();
         ui.showWelcome();
