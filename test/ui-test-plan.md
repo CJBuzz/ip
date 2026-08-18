@@ -47,7 +47,7 @@ Aim: Verify Deadline and Event parsing, typed display, marking, unmarking, and l
 ### Input
 
 ```text
-deadline return book /by Sunday
+deadline return book /by 2026-08-23
 event project meeting /from Mon 2pm /to 4pm
 mark 1
 unmark 1
@@ -69,7 +69,7 @@ Avon:	How may my hand or wit now serve thy need?
 ____________________________________________________________
 ____________________________________________________________
 Avon:	By thy command, I've added this task:
-        [D][ ] return book (by: Sunday)
+        [D][ ] return book (by: Aug 23 2026)
 Avon:	Now thou hast 1 tasks in thy list.
 ____________________________________________________________
 ____________________________________________________________
@@ -79,15 +79,15 @@ Avon:	Now thou hast 2 tasks in thy list.
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Tis well! Thy noble task is now fulfilled:
-        [D][X] return book (by: Sunday)
+        [D][X] return book (by: Aug 23 2026)
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Thy noble task is undone once more:
-        [D][ ] return book (by: Sunday)
+        [D][ ] return book (by: Aug 23 2026)
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Here are the tasks in thy list:
-        1.[D][ ] return book (by: Sunday)
+        1.[D][ ] return book (by: Aug 23 2026)
         2.[E][ ] project meeting (from: Mon 2pm to: 4pm)
 ____________________________________________________________
 ____________________________________________________________
@@ -149,6 +149,7 @@ deadline
 deadline return book
 deadline /by Sunday
 deadline return book /by
+deadline return book /by Sunday
 event
 event project meeting /to 4pm
 event project meeting /from 2pm
@@ -172,21 +173,26 @@ Avon:	How may my hand or wit now serve thy need?
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Pardon, I beseech thee! The deadline description cannot be empty.
-        Do enter it in this format: deadline DESCRIPTION /by DATE_OR_TIME
+        Do enter it in this format: deadline DESCRIPTION /by yyyy-MM-dd
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Pardon, I beseech thee! This deadline command is ill-formed.
         Include '/by' before the deadline date or time.
-        Do enter it in this format: deadline DESCRIPTION /by DATE_OR_TIME
+        Do enter it in this format: deadline DESCRIPTION /by yyyy-MM-dd
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Pardon, I beseech thee! The deadline description cannot be empty.
-        Do enter it in this format: deadline DESCRIPTION /by DATE_OR_TIME
+        Do enter it in this format: deadline DESCRIPTION /by yyyy-MM-dd
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Pardon, I beseech thee! This deadline command is ill-formed.
         Add a date or time after '/by'.
-        Do enter it in this format: deadline DESCRIPTION /by DATE_OR_TIME
+        Do enter it in this format: deadline DESCRIPTION /by yyyy-MM-dd
+____________________________________________________________
+____________________________________________________________
+Avon:	Pardon, I beseech thee! This deadline command is ill-formed.
+        Use a real date in yyyy-MM-dd format.
+        Do enter it in this format: deadline DESCRIPTION /by yyyy-MM-dd
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Pardon, I beseech thee! The event description cannot be empty.
@@ -312,7 +318,7 @@ Aim: Verify that deleting a middle task retains the other tasks in order and ren
 
 ```text
 todo read book
-deadline return book /by June 6th
+deadline return book /by 2026-06-06
 event project meeting /from Aug 6th 2pm /to 4pm
 mark 1
 mark 2
@@ -341,7 +347,7 @@ Avon:	Now thou hast 1 tasks in thy list.
 ____________________________________________________________
 ____________________________________________________________
 Avon:	By thy command, I've added this task:
-        [D][ ] return book (by: June 6th)
+        [D][ ] return book (by: Jun 6 2026)
 Avon:	Now thou hast 2 tasks in thy list.
 ____________________________________________________________
 ____________________________________________________________
@@ -355,17 +361,17 @@ Avon:	Tis well! Thy noble task is now fulfilled:
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Tis well! Thy noble task is now fulfilled:
-        [D][X] return book (by: June 6th)
+        [D][X] return book (by: Jun 6 2026)
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Here are the tasks in thy list:
         1.[T][X] read book
-        2.[D][X] return book (by: June 6th)
+        2.[D][X] return book (by: Jun 6 2026)
         3.[E][ ] project meeting (from: Aug 6th 2pm to: 4pm)
 ____________________________________________________________
 ____________________________________________________________
 Avon:	So be it! I've removed this task:
-        [D][X] return book (by: June 6th)
+        [D][X] return book (by: Jun 6 2026)
 Avon:	Now thou hast 2 tasks in thy list.
 ____________________________________________________________
 ____________________________________________________________
@@ -473,7 +479,7 @@ ____________________________________________________________
 ____________________________________________________________
 Avon:	Pardon, I beseech thee! This deadline command is ill-formed.
         Use '/by' exactly once.
-        Do enter it in this format: deadline DESCRIPTION /by DATE_OR_TIME
+        Do enter it in this format: deadline DESCRIPTION /by yyyy-MM-dd
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Pardon, I beseech thee! This event command is ill-formed.

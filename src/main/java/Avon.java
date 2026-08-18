@@ -1,4 +1,6 @@
 import java.nio.file.Path;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
 /**
@@ -263,7 +265,7 @@ public class Avon {
      */
     private static Deadline parseDeadline(String command) throws AvonException {
         String deadlineKeyword = CommandType.DEADLINE.getKeyword();
-        String example = "deadline DESCRIPTION /by DATE_OR_TIME";
+        String example = "deadline DESCRIPTION /by yyyy-MM-dd";
         String details = extractDescription(command, deadlineKeyword,
                 example);
         int byIndex = details.indexOf("/by");
@@ -282,7 +284,12 @@ public class Avon {
         String description = details.substring(0, byIndex).trim();
         String by = requireTaskDetail(details.substring(byIndex + 3).trim(),
                 deadlineKeyword, "Add a date or time after '/by'.", example);
-        return new Deadline(description, by);
+        try {
+            return new Deadline(description, LocalDate.parse(by));
+        } catch (DateTimeParseException exception) {
+            throw new InvalidTaskFormatException(deadlineKeyword,
+                    "Use a real date in yyyy-MM-dd format.", example);
+        }
     }
 
     /**
