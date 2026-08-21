@@ -34,6 +34,22 @@ Run `./gradlew shadowJar` from the project root. The executable JAR is created a
 java -jar build/libs/avon.jar
 ```
 
+## Running tests
+
+Use JDK 25 and run the following command from the project root:
+
+```shell
+./gradlew test
+```
+
+To force all tests to run again and show each test result, use:
+
+```shell
+./gradlew test --rerun-tasks --console=plain
+```
+
+On Windows, use `gradlew.bat test` instead.
+
 ## Acknowledgement of AI Use
 
 In line with course expectations, AI tools were used throughout the code base. Usage was around AI-5 level in general. 
