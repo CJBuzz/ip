@@ -51,7 +51,15 @@ public class Avon {
      */
     public void run() {
         ui.showWelcome();
-        TaskList taskList = loadTasks(storage, ui);
+        TaskList taskList;
+        try {
+            taskList = loadTasks(storage);
+        } catch (StorageException exception) {
+            ui.showError(exception);
+            ui.close();
+            return;
+        }
+
         boolean isExit = false;
         while (!isExit && ui.hasNextCommand()) {
             String fullCommand = ui.readCommand();
@@ -71,19 +79,14 @@ public class Avon {
     }
 
     /**
-     * Loads saved tasks, falling back to an empty list if loading fails.
+     * Loads saved tasks before command processing begins.
      *
      * @param storage the persistent task storage.
-     * @param ui the command-line interface.
      * @return the restored task list.
+     * @throws StorageException if the saved tasks cannot be restored safely.
      */
-    private static TaskList loadTasks(Storage storage, Ui ui) {
-        try {
-            return new TaskList(storage.load());
-        } catch (StorageException exception) {
-            ui.showError(exception);
-            return new TaskList();
-        }
+    private static TaskList loadTasks(Storage storage) throws StorageException {
+        return new TaskList(storage.load());
     }
 
 }
