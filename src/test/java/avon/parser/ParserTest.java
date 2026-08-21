@@ -5,11 +5,16 @@ import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.nio.file.Path;
+
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 import avon.command.AddCommand;
 import avon.command.Command;
-import avon.command.CommandType;
 import avon.command.DeleteCommand;
 import avon.command.ExitCommand;
 import avon.command.FindCommand;
@@ -18,11 +23,17 @@ import avon.command.MarkCommand;
 import avon.command.UnmarkCommand;
 import avon.exception.AvonException;
 import avon.exception.InvalidTaskFormatException;
+import avon.storage.Storage;
 import avon.task.Deadline;
 import avon.task.Event;
 import avon.task.Task;
+import avon.task.TaskList;
+import avon.ui.Ui;
 
 class ParserTest {
+    @TempDir
+    Path temporaryDirectory;
+
     @Test
     void parse_validTaskCommand_returnsAddCommand() throws AvonException {
         Command command = Parser.parse("todo read Hamlet");
@@ -57,7 +68,7 @@ class ParserTest {
 
     @Test
     void parseTask_validDeadline_returnsDeadline() throws AvonException {
-        Task task = Parser.parseTask("deadline return book /by 2026-08-20 1800", CommandType.DEADLINE);
+        Task task = parseAddedTask("deadline return book /by 2026-08-20 1800");
 
         assertInstanceOf(Deadline.class, task);
         assertEquals("[D][ ] return book (by: Aug 20 2026, 6:00PM)", task.toString());
@@ -65,7 +76,7 @@ class ParserTest {
 
     @Test
     void parseTask_dateOnlyDeadline_returnsDeadlineWithoutTime() throws AvonException {
-        Task task = Parser.parseTask("deadline return book /by 2026-08-20", CommandType.DEADLINE);
+        Task task = parseAddedTask("deadline return book /by 2026-08-20");
 
         assertEquals("[D][ ] return book (by: Aug 20 2026)", task.toString());
     }
@@ -73,14 +84,13 @@ class ParserTest {
     @Test
     void parseTask_invalidDeadline_throwsInvalidTaskFormatException() {
         assertThrows(InvalidTaskFormatException.class,
-                () -> Parser.parseTask("deadline return book /by tomorrow", CommandType.DEADLINE));
+                () -> Parser.parse("deadline return book /by tomorrow"));
     }
 
     @Test
     void parseTask_validEvent_returnsEvent() throws AvonException {
-        Task task = Parser.parseTask(
-                "event lecture /from 2026-08-20 1400 /to 2026-08-20 1600",
-                CommandType.EVENT);
+        Task task = parseAddedTask(
+                "event lecture /from 2026-08-20 1400 /to 2026-08-20 1600");
 
         assertInstanceOf(Event.class, task);
         assertEquals("[E][ ] lecture (from: Aug 20 2026, 2:00PM to: Aug 20 2026, 4:00PM)",
@@ -89,8 +99,7 @@ class ParserTest {
 
     @Test
     void parseTask_dateOnlyEvent_returnsEventWithoutTimes() throws AvonException {
-        Task task = Parser.parseTask(
-                "event conference /from 2026-08-20 /to 2026-08-21", CommandType.EVENT);
+        Task task = parseAddedTask("event conference /from 2026-08-20 /to 2026-08-21");
 
         assertEquals("[E][ ] conference (from: Aug 20 2026 to: Aug 21 2026)", task.toString());
     }
@@ -98,29 +107,37 @@ class ParserTest {
     @Test
     void parseTask_eventEndingBeforeStart_throwsInvalidTaskFormatException() {
         assertThrows(InvalidTaskFormatException.class,
-                () -> Parser.parseTask(
-                        "event lecture /from 2026-08-20 1600 /to 2026-08-20 1400",
-                        CommandType.EVENT));
+                () -> Parser.parse(
+                        "event lecture /from 2026-08-20 1600 /to 2026-08-20 1400"));
     }
 
     @Test
     void parseTask_invalidEventDate_throwsInvalidTaskFormatException() {
         assertThrows(InvalidTaskFormatException.class,
-                () -> Parser.parseTask(
-                        "event lecture /from 2026-02-30 1400 /to 2026-02-30 1600",
-                        CommandType.EVENT));
+                () -> Parser.parse(
+                        "event lecture /from 2026-02-30 1400 /to 2026-02-30 1600"));
     }
 
     @Test
     void parseTask_delimiterPrefixesInDescriptions_preservesDescriptions()
             throws AvonException {
-        Task deadline = Parser.parseTask(
-                "deadline study /byte encoding /by 2026-08-20", CommandType.DEADLINE);
-        Task event = Parser.parseTask(
-                "event prepare /today notes /from 2026-08-20 1400 /to 2026-08-20 1600",
-                CommandType.EVENT);
+        Task deadline = parseAddedTask("deadline study /byte encoding /by 2026-08-20");
+        Task event = parseAddedTask(
+                "event prepare /today notes /from 2026-08-20 1400 /to 2026-08-20 1600");
 
         assertEquals("study /byte encoding", deadline.getDescription());
         assertEquals("prepare /today notes", event.getDescription());
+    }
+
+    private Task parseAddedTask(String commandText) throws AvonException {
+        Command command = Parser.parse(commandText);
+        TaskList taskList = new TaskList();
+        Ui ui = new Ui(new ByteArrayInputStream(new byte[0]),
+                new PrintStream(new ByteArrayOutputStream()));
+        Storage storage = new Storage(temporaryDirectory.resolve("avon.txt"));
+
+        command.execute(taskList, ui, storage);
+
+        return taskList.getTask(0);
     }
 }

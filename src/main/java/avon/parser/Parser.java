@@ -20,7 +20,6 @@ import avon.exception.AvonException;
 import avon.exception.EmptyDescriptionException;
 import avon.exception.InvalidTaskFormatException;
 import avon.exception.InvalidTaskNumberException;
-import avon.exception.UnknownCommandException;
 import avon.task.Deadline;
 import avon.task.Event;
 import avon.task.Task;
@@ -30,7 +29,7 @@ import avon.util.DateTimeParser;
 /**
  * Interprets user commands and converts their arguments into domain objects.
  */
-public class Parser {
+public final class Parser {
     /**
      * Parses a complete user instruction into an executable command.
      *
@@ -40,7 +39,7 @@ public class Parser {
      */
     public static Command parse(String command) throws AvonException {
         String normalizedCommand = command.strip();
-        CommandType commandType = parseCommandType(normalizedCommand);
+        CommandType commandType = CommandType.parse(normalizedCommand);
         switch (commandType) {
             case TODO:
                 // Fallthrough
@@ -66,17 +65,6 @@ public class Parser {
     }
 
     /**
-     * Identifies the type of a complete command.
-     *
-     * @param command the command entered by the user.
-     * @return the matching command type.
-     * @throws UnknownCommandException if the command is unsupported.
-     */
-    public static CommandType parseCommandType(String command) throws UnknownCommandException {
-        return CommandType.parse(command);
-    }
-
-    /**
      * Creates the appropriate task subtype for a command.
      *
      * @param command the command entered by the user.
@@ -84,7 +72,7 @@ public class Parser {
      * @return the task represented by the command.
      * @throws AvonException if the task details are invalid.
      */
-    public static Task parseTask(String command, CommandType commandType) throws AvonException {
+    private static Task parseTask(String command, CommandType commandType) throws AvonException {
         switch (commandType) {
             case TODO:
                 String todoKeyword = CommandType.TODO.getKeyword();
@@ -106,7 +94,7 @@ public class Parser {
      * @return the parsed one-based task number.
      * @throws InvalidTaskNumberException if the number is missing or malformed.
      */
-    public static int parseTaskNumber(String command, CommandType commandType)
+    private static int parseTaskNumber(String command, CommandType commandType)
             throws InvalidTaskNumberException {
         String keyword = commandType.getKeyword();
         String taskNumberText = command.substring(keyword.length()).trim();
@@ -130,7 +118,7 @@ public class Parser {
      * @return the non-empty keyword to search for.
      * @throws EmptyDescriptionException if the command has no keyword.
      */
-    public static String parseFindKeyword(String command) throws EmptyDescriptionException {
+    private static String parseFindKeyword(String command) throws EmptyDescriptionException {
         String findKeyword = CommandType.FIND.getKeyword();
         return extractDescription(command, findKeyword, "find KEYWORD");
     }
@@ -283,5 +271,8 @@ public class Parser {
             indexes.add(matcher.start());
         }
         return indexes;
+    }
+
+    private Parser() {
     }
 }
