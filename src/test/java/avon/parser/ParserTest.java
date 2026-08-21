@@ -48,6 +48,14 @@ class ParserTest {
     }
 
     @Test
+    void parse_commandsWithSurroundingOrSeparatorWhitespace_returnsCommands()
+            throws AvonException {
+        assertInstanceOf(AddCommand.class, Parser.parse("  todo read Hamlet  "));
+        assertInstanceOf(MarkCommand.class, Parser.parse("mark\t1"));
+        assertInstanceOf(ListCommand.class, Parser.parse("list   "));
+    }
+
+    @Test
     void parseTask_validDeadline_returnsDeadline() throws AvonException {
         Task task = Parser.parseTask("deadline return book /by 2026-08-20 1800", CommandType.DEADLINE);
 

@@ -35,24 +35,25 @@ public class Parser {
      * @throws AvonException if the command or its arguments are invalid.
      */
     public static Command parse(String command) throws AvonException {
-        CommandType commandType = parseCommandType(command);
+        String normalizedCommand = command.strip();
+        CommandType commandType = parseCommandType(normalizedCommand);
         switch (commandType) {
             case TODO:
                 // Fallthrough
             case DEADLINE:
                 // Fallthrough
             case EVENT:
-                return new AddCommand(parseTask(command, commandType));
+                return new AddCommand(parseTask(normalizedCommand, commandType));
             case LIST:
                 return new ListCommand();
             case FIND:
-                return new FindCommand(parseFindKeyword(command));
+                return new FindCommand(parseFindKeyword(normalizedCommand));
             case MARK:
-                return new MarkCommand(parseTaskNumber(command, commandType));
+                return new MarkCommand(parseTaskNumber(normalizedCommand, commandType));
             case UNMARK:
-                return new UnmarkCommand(parseTaskNumber(command, commandType));
+                return new UnmarkCommand(parseTaskNumber(normalizedCommand, commandType));
             case DELETE:
-                return new DeleteCommand(parseTaskNumber(command, commandType));
+                return new DeleteCommand(parseTaskNumber(normalizedCommand, commandType));
             case BYE:
                 return new ExitCommand();
             default:

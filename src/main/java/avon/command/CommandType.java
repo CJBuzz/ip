@@ -77,7 +77,12 @@ public enum CommandType {
      * @return true if the command has this type.
      */
     private boolean matches(String command) {
-        return command.equals(keyword)
-                || allowsArguments && command.startsWith(keyword + " ");
+        if (command.equals(keyword)) {
+            return true;
+        }
+        return allowsArguments
+                && command.startsWith(keyword)
+                && command.length() > keyword.length()
+                && Character.isWhitespace(command.charAt(keyword.length()));
     }
 }

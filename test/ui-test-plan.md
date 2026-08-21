@@ -40,6 +40,44 @@ Avon:	Fare thee well! Pray heavens our paths cross anon.
 ____________________________________________________________
 ```
 
+## TC-011: Normalize command whitespace
+
+Aim: Verify that leading whitespace is ignored while command arguments remain intact.
+
+### Input
+
+```text
+   todo rehearse scene
+   list
+   bye
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+    ___
+   /   |_   ______  ____
+  / /| | | / / __ \/ __ \
+ / ___ | |/ / /_/ / / / /
+/_/  |_|___/\____/_/ /_/
+Avon:	Hark! I am Avon who stands before thee.
+Avon:	How may my hand or wit now serve thy need?
+____________________________________________________________
+____________________________________________________________
+Avon:	By thy command, I've added this task:
+        [T][ ] rehearse scene
+Avon:	Now thou hast 1 tasks in thy list.
+____________________________________________________________
+____________________________________________________________
+Avon:	Here are the tasks in thy list:
+        1.[T][ ] rehearse scene
+____________________________________________________________
+____________________________________________________________
+Avon:	Fare thee well! Pray heavens our paths cross anon.
+____________________________________________________________
+```
+
 ## TC-002: Add timed tasks and reverse completion
 
 Aim: Verify Deadline and Event parsing, typed display, marking, unmarking, and list ordering.
