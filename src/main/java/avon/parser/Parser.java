@@ -181,7 +181,7 @@ public class Parser {
      */
     private static Event parseEvent(String command) throws AvonException {
         String eventKeyword = CommandType.EVENT.getKeyword();
-        String example = "event DESCRIPTION /from yyyy-MM-dd HHmm /to yyyy-MM-dd HHmm";
+        String example = "event DESCRIPTION /from yyyy-MM-dd [HHmm] /to yyyy-MM-dd [HHmm]";
         String details = extractDescription(command, eventKeyword, example);
         List<Integer> fromIndexes = findDelimiterIndexes(details, "/from");
         List<Integer> toIndexes = findDelimiterIndexes(details, "/to");

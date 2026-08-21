@@ -88,6 +88,14 @@ class ParserTest {
     }
 
     @Test
+    void parseTask_dateOnlyEvent_returnsEventWithoutTimes() throws AvonException {
+        Task task = Parser.parseTask(
+                "event conference /from 2026-08-20 /to 2026-08-21", CommandType.EVENT);
+
+        assertEquals("[E][ ] conference (from: Aug 20 2026 to: Aug 21 2026)", task.toString());
+    }
+
+    @Test
     void parseTask_eventEndingBeforeStart_throwsInvalidTaskFormatException() {
         assertThrows(InvalidTaskFormatException.class,
                 () -> Parser.parseTask(

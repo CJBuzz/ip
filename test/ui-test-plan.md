@@ -242,41 +242,41 @@ Avon:	Pardon, I beseech thee! This deadline command is ill-formed.
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Pardon, I beseech thee! The event description cannot be empty.
-        Do enter it in this format: event DESCRIPTION /from yyyy-MM-dd HHmm /to yyyy-MM-dd HHmm
+        Do enter it in this format: event DESCRIPTION /from yyyy-MM-dd [HHmm] /to yyyy-MM-dd [HHmm]
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Pardon, I beseech thee! This event command is ill-formed.
         Include '/from' before the start date or time.
-        Do enter it in this format: event DESCRIPTION /from yyyy-MM-dd HHmm /to yyyy-MM-dd HHmm
+        Do enter it in this format: event DESCRIPTION /from yyyy-MM-dd [HHmm] /to yyyy-MM-dd [HHmm]
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Pardon, I beseech thee! This event command is ill-formed.
         Include '/to' before the end date or time.
-        Do enter it in this format: event DESCRIPTION /from yyyy-MM-dd HHmm /to yyyy-MM-dd HHmm
+        Do enter it in this format: event DESCRIPTION /from yyyy-MM-dd [HHmm] /to yyyy-MM-dd [HHmm]
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Pardon, I beseech thee! The event description cannot be empty.
-        Do enter it in this format: event DESCRIPTION /from yyyy-MM-dd HHmm /to yyyy-MM-dd HHmm
+        Do enter it in this format: event DESCRIPTION /from yyyy-MM-dd [HHmm] /to yyyy-MM-dd [HHmm]
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Pardon, I beseech thee! This event command is ill-formed.
         Add a start date or time after '/from'.
-        Do enter it in this format: event DESCRIPTION /from yyyy-MM-dd HHmm /to yyyy-MM-dd HHmm
+        Do enter it in this format: event DESCRIPTION /from yyyy-MM-dd [HHmm] /to yyyy-MM-dd [HHmm]
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Pardon, I beseech thee! This event command is ill-formed.
         Add an end date or time after '/to'.
-        Do enter it in this format: event DESCRIPTION /from yyyy-MM-dd HHmm /to yyyy-MM-dd HHmm
+        Do enter it in this format: event DESCRIPTION /from yyyy-MM-dd [HHmm] /to yyyy-MM-dd [HHmm]
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Pardon, I beseech thee! This event command is ill-formed.
         Use real dates and optional 24-hour times in yyyy-MM-dd [HHmm] format.
-        Do enter it in this format: event DESCRIPTION /from yyyy-MM-dd HHmm /to yyyy-MM-dd HHmm
+        Do enter it in this format: event DESCRIPTION /from yyyy-MM-dd [HHmm] /to yyyy-MM-dd [HHmm]
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Pardon, I beseech thee! This event command is ill-formed.
         Set '/to' to the same time as or later than '/from'.
-        Do enter it in this format: event DESCRIPTION /from yyyy-MM-dd HHmm /to yyyy-MM-dd HHmm
+        Do enter it in this format: event DESCRIPTION /from yyyy-MM-dd [HHmm] /to yyyy-MM-dd [HHmm]
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Fare thee well! Pray heavens our paths cross anon.
@@ -540,17 +540,17 @@ ____________________________________________________________
 ____________________________________________________________
 Avon:	Pardon, I beseech thee! This event command is ill-formed.
         Place '/from' before '/to'.
-        Do enter it in this format: event DESCRIPTION /from yyyy-MM-dd HHmm /to yyyy-MM-dd HHmm
+        Do enter it in this format: event DESCRIPTION /from yyyy-MM-dd [HHmm] /to yyyy-MM-dd [HHmm]
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Pardon, I beseech thee! This event command is ill-formed.
         Use '/from' and '/to' exactly once each.
-        Do enter it in this format: event DESCRIPTION /from yyyy-MM-dd HHmm /to yyyy-MM-dd HHmm
+        Do enter it in this format: event DESCRIPTION /from yyyy-MM-dd [HHmm] /to yyyy-MM-dd [HHmm]
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Pardon, I beseech thee! This event command is ill-formed.
         Use '/from' and '/to' exactly once each.
-        Do enter it in this format: event DESCRIPTION /from yyyy-MM-dd HHmm /to yyyy-MM-dd HHmm
+        Do enter it in this format: event DESCRIPTION /from yyyy-MM-dd [HHmm] /to yyyy-MM-dd [HHmm]
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Fare thee well! Pray heavens our paths cross anon.
