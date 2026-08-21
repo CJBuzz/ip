@@ -59,13 +59,6 @@ public abstract class Task {
     }
 
     /**
-     * Converts this task into Avon's tab-separated storage format.
-     *
-     * @return the serialized task.
-     */
-    public abstract String toDataString();
-
-    /**
      * Returns this task in the format used by Avon’s task list.
      *
      * @return the status icon and description of this task.

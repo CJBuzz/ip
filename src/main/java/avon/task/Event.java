@@ -3,7 +3,6 @@ package avon.task;
 import java.time.LocalDateTime;
 
 import avon.util.DateTimeParser;
-import avon.util.StorageFieldCodec;
 
 /**
  * Represents a task that takes place during a specified time interval.
@@ -30,14 +29,21 @@ public class Event extends Task {
     }
 
     /**
-     * Returns the event in Avon's tab-separated storage format.
+     * Returns the event start date and time.
      *
-     * @return the serialized event.
+     * @return the event start.
      */
-    @Override
-    public String toDataString() {
-        return "E2\t" + isDone() + "\t" + StorageFieldCodec.escape(getDescription())
-                + "\t" + from + "\t" + to;
+    public LocalDateTime getFrom() {
+        return from;
+    }
+
+    /**
+     * Returns the event end date and time.
+     *
+     * @return the event end.
+     */
+    public LocalDateTime getTo() {
+        return to;
     }
 
     /**

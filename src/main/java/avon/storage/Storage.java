@@ -69,10 +69,10 @@ public class Storage {
             }
             List<String> lines = new ArrayList<>();
             for (int index = 0; index < taskList.size(); index++) {
-                lines.add(taskList.getTask(index).toDataString());
+                lines.add(serializeTask(taskList.getTask(index)));
             }
             Files.write(filePath, lines);
-        } catch (IOException exception) {
+        } catch (IOException | IllegalArgumentException exception) {
             throw new StorageException("I could not preserve thy tasks upon the disk.");
         }
     }
@@ -127,6 +127,29 @@ public class Storage {
             task.markAsDone();
         }
         return task;
+    }
+
+    /**
+     * Converts a task into Avon's current tab-separated storage format.
+     *
+     * @param task the task to serialize.
+     * @return the serialized task record.
+     * @throws IllegalArgumentException if the task subtype is unsupported.
+     */
+    private String serializeTask(Task task) {
+        String escapedDescription = StorageFieldCodec.escape(task.getDescription());
+        if (task instanceof Todo) {
+            return "T2\t" + task.isDone() + "\t" + escapedDescription;
+        }
+        if (task instanceof Deadline deadline) {
+            return "D2\t" + task.isDone() + "\t" + escapedDescription
+                    + "\t" + deadline.getBy();
+        }
+        if (task instanceof Event event) {
+            return "E2\t" + task.isDone() + "\t" + escapedDescription
+                    + "\t" + event.getFrom() + "\t" + event.getTo();
+        }
+        throw new IllegalArgumentException("Unsupported task type.");
     }
 
     /**

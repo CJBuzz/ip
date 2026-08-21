@@ -3,7 +3,6 @@ package avon.task;
 import java.time.LocalDateTime;
 
 import avon.util.DateTimeParser;
-import avon.util.StorageFieldCodec;
 
 /**
  * Represents a task that must be completed by a specified date and optional time.
@@ -23,13 +22,12 @@ public class Deadline extends Task {
     }
 
     /**
-     * Returns the deadline in Avon's tab-separated storage format.
+     * Returns the date and time by which this task should be completed.
      *
-     * @return the serialized deadline.
+     * @return the deadline date and time.
      */
-    @Override
-    public String toDataString() {
-        return "D2\t" + isDone() + "\t" + StorageFieldCodec.escape(getDescription()) + "\t" + by;
+    public LocalDateTime getBy() {
+        return by;
     }
 
     /**
