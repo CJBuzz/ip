@@ -39,6 +39,21 @@ public class TaskList {
     }
 
     /**
+     * Inserts a task at the requested zero-based index.
+     *
+     * @param index the zero-based position at which to insert the task.
+     * @param task the task to store.
+     * @throws IllegalArgumentException if the task is null.
+     * @throws IndexOutOfBoundsException if the index is outside the insertion range.
+     */
+    public void add(int index, Task task) {
+        if (task == null) {
+            throw new IllegalArgumentException("A task cannot be null.");
+        }
+        tasks.add(index, task);
+    }
+
+    /**
      * Returns the number of tasks currently stored.
      *
      * @return the number of stored tasks.

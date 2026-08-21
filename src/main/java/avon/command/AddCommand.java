@@ -25,7 +25,12 @@ public class AddCommand extends Command {
     @Override
     public void execute(TaskList taskList, Ui ui, Storage storage) throws StorageException {
         taskList.add(task);
-        storage.save(taskList);
+        try {
+            storage.save(taskList);
+        } catch (StorageException exception) {
+            taskList.removeTask(taskList.size() - 1);
+            throw exception;
+        }
         ui.showAddedTask(task, taskList.size());
     }
 }

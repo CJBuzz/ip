@@ -1,6 +1,7 @@
 package avon.command;
 
 import avon.exception.AvonException;
+import avon.exception.StorageException;
 import avon.storage.Storage;
 import avon.task.Task;
 import avon.task.TaskList;
@@ -26,8 +27,16 @@ public class UnmarkCommand extends Command {
     public void execute(TaskList taskList, Ui ui, Storage storage) throws AvonException {
         int taskIndex = getTaskIndex(taskList, taskNumber, CommandType.UNMARK.getKeyword());
         Task task = taskList.getTask(taskIndex);
+        boolean wasDone = task.isDone();
         task.markAsNotDone();
+        try {
+            storage.save(taskList);
+        } catch (StorageException exception) {
+            if (wasDone) {
+                task.markAsDone();
+            }
+            throw exception;
+        }
         ui.showUnmarkedTask(task);
-        storage.save(taskList);
     }
 }
