@@ -29,7 +29,7 @@ public class Deadline extends Task {
      */
     @Override
     public String toDataString() {
-        return "D2\t" + isDone + "\t" + StorageFieldCodec.escape(description) + "\t" + by;
+        return "D2\t" + isDone() + "\t" + StorageFieldCodec.escape(getDescription()) + "\t" + by;
     }
 
     /**

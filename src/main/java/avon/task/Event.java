@@ -36,7 +36,7 @@ public class Event extends Task {
      */
     @Override
     public String toDataString() {
-        return "E2\t" + isDone + "\t" + StorageFieldCodec.escape(description)
+        return "E2\t" + isDone() + "\t" + StorageFieldCodec.escape(getDescription())
                 + "\t" + from + "\t" + to;
     }
 

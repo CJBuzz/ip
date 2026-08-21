@@ -1,5 +1,7 @@
 package avon.task;
 
+import avon.util.StorageFieldCodec;
+
 /**
  * Represents a task without an attached date or time.
  */
@@ -11,6 +13,12 @@ public class Todo extends Task {
      */
     public Todo(String description) {
         super(description);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public String toDataString() {
+        return "T2\t" + isDone() + "\t" + StorageFieldCodec.escape(getDescription());
     }
 
     /**

@@ -1,16 +1,11 @@
 package avon.task;
 
-import avon.util.StorageFieldCodec;
-
 /**
  * Represents a task and whether it has been completed.
  */
-public class Task {
-    /** The text describing this task. */
-    protected String description;
-
-    /** Whether this task has been completed. */
-    protected boolean isDone;
+public abstract class Task {
+    private final String description;
+    private boolean isDone;
 
     /**
      * Creates an unfinished task with the given description.
@@ -68,9 +63,7 @@ public class Task {
      *
      * @return the serialized task.
      */
-    public String toDataString() {
-        return "T2\t" + isDone + "\t" + StorageFieldCodec.escape(description);
-    }
+    public abstract String toDataString();
 
     /**
      * Returns this task in the format used by Avon’s task list.
@@ -79,6 +72,6 @@ public class Task {
      */
     @Override
     public String toString() {
-        return "[" + getStatusIcon() + "] " + description;
+        return "[" + getStatusIcon() + "] " + getDescription();
     }
 }
