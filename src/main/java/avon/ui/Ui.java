@@ -1,5 +1,7 @@
 package avon.ui;
 
+import java.io.InputStream;
+import java.io.PrintStream;
 import java.util.List;
 import java.util.Scanner;
 
@@ -15,7 +17,26 @@ public class Ui {
     private static final String AVON_PREFIX = "Avon:\t";
     private static final String INDENT = "        ";
 
-    private final Scanner scanner = new Scanner(System.in);
+    private final Scanner scanner;
+    private final PrintStream output;
+
+    /**
+     * Creates a UI that reads from standard input and writes to standard output.
+     */
+    public Ui() {
+        this(System.in, System.out);
+    }
+
+    /**
+     * Creates a UI backed by the specified input and output streams.
+     *
+     * @param input the stream from which commands are read.
+     * @param output the stream to which responses are written.
+     */
+    public Ui(InputStream input, PrintStream output) {
+        scanner = new Scanner(input);
+        this.output = output;
+    }
 
     /**
      * Displays Avon's banner and greeting.
@@ -27,11 +48,11 @@ public class Ui {
               / /| | | / / __ \\/ __ \\
              / ___ | |/ / /_/ / / / /
             /_/  |_|___/\\____/_/ /_/ """;
-        System.out.println(SEPARATOR);
-        System.out.println(banner);
-        System.out.println(AVON_PREFIX + "Hark! I am Avon who stands before thee.");
-        System.out.println(AVON_PREFIX + "How may my hand or wit now serve thy need?");
-        System.out.println(SEPARATOR);
+        output.println(SEPARATOR);
+        output.println(banner);
+        output.println(AVON_PREFIX + "Hark! I am Avon who stands before thee.");
+        output.println(AVON_PREFIX + "How may my hand or wit now serve thy need?");
+        output.println(SEPARATOR);
     }
 
     /**
@@ -56,14 +77,14 @@ public class Ui {
      * Displays the divider between command responses.
      */
     public void showSeparator() {
-        System.out.println(SEPARATOR);
+        output.println(SEPARATOR);
     }
 
     /**
      * Displays Avon's farewell.
      */
     public void showGoodbye() {
-        System.out.println(AVON_PREFIX + "Fare thee well! Pray heavens our paths cross anon.");
+        output.println(AVON_PREFIX + "Fare thee well! Pray heavens our paths cross anon.");
     }
 
     /**
@@ -73,13 +94,13 @@ public class Ui {
      */
     public void showTaskList(TaskList taskList) {
         if (taskList.size() == 0) {
-            System.out.println(AVON_PREFIX + "Thy task list is empty.");
+            output.println(AVON_PREFIX + "Thy task list is empty.");
             return;
         }
 
-        System.out.println(AVON_PREFIX + "Here are the tasks in thy list:");
+        output.println(AVON_PREFIX + "Here are the tasks in thy list:");
         for (int index = 0; index < taskList.size(); index++) {
-            System.out.println(INDENT + (index + 1) + "." + taskList.getTask(index));
+            output.println(INDENT + (index + 1) + "." + taskList.getTask(index));
         }
     }
 
@@ -89,9 +110,9 @@ public class Ui {
      * @param matchingTasks the matching tasks in their original order.
      */
     public void showMatchingTasks(List<Task> matchingTasks) {
-        System.out.println(AVON_PREFIX + "Here are the matching tasks in thy list:");
+        output.println(AVON_PREFIX + "Here are the matching tasks in thy list:");
         for (int index = 0; index < matchingTasks.size(); index++) {
-            System.out.println(INDENT + (index + 1) + "." + matchingTasks.get(index));
+            output.println(INDENT + (index + 1) + "." + matchingTasks.get(index));
         }
     }
 
@@ -102,8 +123,8 @@ public class Ui {
      * @param taskCount the resulting number of tasks.
      */
     public void showAddedTask(Task task, int taskCount) {
-        System.out.println(AVON_PREFIX + "By thy command, I've added this task:");
-        System.out.println(INDENT + task);
+        output.println(AVON_PREFIX + "By thy command, I've added this task:");
+        output.println(INDENT + task);
         showTaskCount(taskCount);
     }
 
@@ -113,8 +134,8 @@ public class Ui {
      * @param task the completed task.
      */
     public void showMarkedTask(Task task) {
-        System.out.println(AVON_PREFIX + "Tis well! Thy noble task is now fulfilled:");
-        System.out.println(INDENT + task);
+        output.println(AVON_PREFIX + "Tis well! Thy noble task is now fulfilled:");
+        output.println(INDENT + task);
     }
 
     /**
@@ -123,8 +144,8 @@ public class Ui {
      * @param task the uncompleted task.
      */
     public void showUnmarkedTask(Task task) {
-        System.out.println(AVON_PREFIX + "Thy noble task is undone once more:");
-        System.out.println(INDENT + task);
+        output.println(AVON_PREFIX + "Thy noble task is undone once more:");
+        output.println(INDENT + task);
     }
 
     /**
@@ -134,8 +155,8 @@ public class Ui {
      * @param taskCount the resulting number of tasks.
      */
     public void showDeletedTask(Task task, int taskCount) {
-        System.out.println(AVON_PREFIX + "So be it! I've removed this task:");
-        System.out.println(INDENT + task);
+        output.println(AVON_PREFIX + "So be it! I've removed this task:");
+        output.println(INDENT + task);
         showTaskCount(taskCount);
     }
 
@@ -146,7 +167,7 @@ public class Ui {
      */
     public void showError(AvonException exception) {
         String indentedMessage = exception.getMessage().replace("\n", "\n" + INDENT);
-        System.out.println(AVON_PREFIX + indentedMessage);
+        output.println(AVON_PREFIX + indentedMessage);
     }
 
     /**
@@ -162,6 +183,6 @@ public class Ui {
      * @param taskCount the number of tasks.
      */
     private void showTaskCount(int taskCount) {
-        System.out.println(AVON_PREFIX + "Now thou hast " + taskCount + " tasks in thy list.");
+        output.println(AVON_PREFIX + "Now thou hast " + taskCount + " tasks in thy list.");
     }
 }

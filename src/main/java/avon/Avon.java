@@ -16,6 +16,27 @@ import avon.ui.Ui;
 public class Avon {
     private static final Path DATA_FILE_PATH = Path.of("data", "avon.txt");
 
+    private final Ui ui;
+    private final Storage storage;
+
+    /**
+     * Creates Avon with its standard console and data file dependencies.
+     */
+    public Avon() {
+        this(new Ui(), new Storage(DATA_FILE_PATH));
+    }
+
+    /**
+     * Creates Avon with the specified interface and storage dependencies.
+     *
+     * @param ui the command-line interface.
+     * @param storage the persistent task storage.
+     */
+    public Avon(Ui ui, Storage storage) {
+        this.ui = ui;
+        this.storage = storage;
+    }
+
     /**
      * Starts Avon and processes commands until the user exits or input ends.
      *
@@ -29,9 +50,7 @@ public class Avon {
      * Processes commands until the user exits or input ends.
      */
     public void run() {
-        Ui ui = new Ui();
         ui.showWelcome();
-        Storage storage = new Storage(DATA_FILE_PATH);
         TaskList taskList = loadTasks(storage, ui);
         boolean isExit = false;
         while (!isExit && ui.hasNextCommand()) {
