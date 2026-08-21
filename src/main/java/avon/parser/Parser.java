@@ -2,6 +2,10 @@ package avon.parser;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import avon.command.AddCommand;
 import avon.command.Command;
@@ -142,15 +146,16 @@ public class Parser {
         String deadlineKeyword = CommandType.DEADLINE.getKeyword();
         String example = "deadline DESCRIPTION /by yyyy-MM-dd [HHmm]";
         String details = extractDescription(command, deadlineKeyword, example);
-        int byIndex = details.indexOf("/by");
-        if (byIndex < 0) {
+        List<Integer> byIndexes = findDelimiterIndexes(details, "/by");
+        if (byIndexes.isEmpty()) {
             throw new InvalidTaskFormatException(deadlineKeyword,
                     "Include '/by' before the deadline date or time.", example);
         }
-        if (details.indexOf("/by", byIndex + 3) >= 0) {
+        if (byIndexes.size() > 1) {
             throw new InvalidTaskFormatException(deadlineKeyword,
                     "Use '/by' exactly once.", example);
         }
+        int byIndex = byIndexes.get(0);
         if (byIndex == 0) {
             throw new EmptyDescriptionException(deadlineKeyword, example);
         }
@@ -178,21 +183,22 @@ public class Parser {
         String eventKeyword = CommandType.EVENT.getKeyword();
         String example = "event DESCRIPTION /from yyyy-MM-dd HHmm /to yyyy-MM-dd HHmm";
         String details = extractDescription(command, eventKeyword, example);
-        int fromIndex = details.indexOf("/from");
-        int toIndex = details.indexOf("/to");
-        if (fromIndex < 0) {
+        List<Integer> fromIndexes = findDelimiterIndexes(details, "/from");
+        List<Integer> toIndexes = findDelimiterIndexes(details, "/to");
+        if (fromIndexes.isEmpty()) {
             throw new InvalidTaskFormatException(eventKeyword,
                     "Include '/from' before the start date or time.", example);
         }
-        if (toIndex < 0) {
+        if (toIndexes.isEmpty()) {
             throw new InvalidTaskFormatException(eventKeyword,
                     "Include '/to' before the end date or time.", example);
         }
-        if (details.indexOf("/from", fromIndex + 5) >= 0
-                || details.indexOf("/to", toIndex + 3) >= 0) {
+        if (fromIndexes.size() > 1 || toIndexes.size() > 1) {
             throw new InvalidTaskFormatException(eventKeyword,
                     "Use '/from' and '/to' exactly once each.", example);
         }
+        int fromIndex = fromIndexes.get(0);
+        int toIndex = toIndexes.get(0);
         if (toIndex < fromIndex) {
             throw new InvalidTaskFormatException(eventKeyword,
                     "Place '/from' before '/to'.", example);
@@ -259,5 +265,23 @@ public class Parser {
             throw new InvalidTaskFormatException(taskType, problem, example);
         }
         return value;
+    }
+
+    /**
+     * Finds delimiters that appear as complete whitespace-separated tokens.
+     *
+     * @param value the command details to inspect.
+     * @param delimiter the delimiter token to find.
+     * @return the starting indexes of every complete delimiter token.
+     */
+    private static List<Integer> findDelimiterIndexes(String value, String delimiter) {
+        Pattern delimiterPattern = Pattern.compile(
+                "(?<!\\S)" + Pattern.quote(delimiter) + "(?=\\s|$)");
+        Matcher matcher = delimiterPattern.matcher(value);
+        List<Integer> indexes = new ArrayList<>();
+        while (matcher.find()) {
+            indexes.add(matcher.start());
+        }
+        return indexes;
     }
 }

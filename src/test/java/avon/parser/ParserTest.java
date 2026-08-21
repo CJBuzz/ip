@@ -102,4 +102,17 @@ class ParserTest {
                         "event lecture /from 2026-02-30 1400 /to 2026-02-30 1600",
                         CommandType.EVENT));
     }
+
+    @Test
+    void parseTask_delimiterPrefixesInDescriptions_preservesDescriptions()
+            throws AvonException {
+        Task deadline = Parser.parseTask(
+                "deadline study /byte encoding /by 2026-08-20", CommandType.DEADLINE);
+        Task event = Parser.parseTask(
+                "event prepare /today notes /from 2026-08-20 1400 /to 2026-08-20 1600",
+                CommandType.EVENT);
+
+        assertEquals("study /byte encoding", deadline.getDescription());
+        assertEquals("prepare /today notes", event.getDescription());
+    }
 }

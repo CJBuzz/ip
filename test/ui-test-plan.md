@@ -658,3 +658,48 @@ ____________________________________________________________
 Avon:	Fare thee well! Pray heavens our paths cross anon.
 ____________________________________________________________
 ```
+
+## TC-012: Preserve delimiter prefixes
+
+Aim: Verify that delimiter prefixes embedded in descriptions are not treated as separator tokens.
+
+### Input
+
+```text
+deadline study /byte encoding /by 2026-08-23 1800
+event prepare /today notes /from 2026-08-23 1400 /to 2026-08-23 1600
+list
+bye
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+    ___
+   /   |_   ______  ____
+  / /| | | / / __ \/ __ \
+ / ___ | |/ / /_/ / / / /
+/_/  |_|___/\____/_/ /_/
+Avon:	Hark! I am Avon who stands before thee.
+Avon:	How may my hand or wit now serve thy need?
+____________________________________________________________
+____________________________________________________________
+Avon:	By thy command, I've added this task:
+        [D][ ] study /byte encoding (by: Aug 23 2026, 6:00PM)
+Avon:	Now thou hast 1 tasks in thy list.
+____________________________________________________________
+____________________________________________________________
+Avon:	By thy command, I've added this task:
+        [E][ ] prepare /today notes (from: Aug 23 2026, 2:00PM to: Aug 23 2026, 4:00PM)
+Avon:	Now thou hast 2 tasks in thy list.
+____________________________________________________________
+____________________________________________________________
+Avon:	Here are the tasks in thy list:
+        1.[D][ ] study /byte encoding (by: Aug 23 2026, 6:00PM)
+        2.[E][ ] prepare /today notes (from: Aug 23 2026, 2:00PM to: Aug 23 2026, 4:00PM)
+____________________________________________________________
+____________________________________________________________
+Avon:	Fare thee well! Pray heavens our paths cross anon.
+____________________________________________________________
+```
