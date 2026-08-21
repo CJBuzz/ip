@@ -14,6 +14,7 @@ import avon.task.Task;
 import avon.task.TaskList;
 import avon.task.Todo;
 import avon.util.DateTimeParser;
+import avon.util.StorageFieldCodec;
 
 /**
  * Loads and saves Avon's tasks in a human-readable text file.
@@ -94,13 +95,28 @@ public class Storage {
                 requireFieldCount(fields, 3);
                 task = new Todo(fields[2]);
                 break;
+            case "T2":
+                requireFieldCount(fields, 3);
+                task = new Todo(StorageFieldCodec.unescape(fields[2]));
+                break;
             case "D":
                 requireFieldCount(fields, 4);
                 task = new Deadline(fields[2], DateTimeParser.parseStoredValue(fields[3]));
                 break;
+            case "D2":
+                requireFieldCount(fields, 4);
+                task = new Deadline(StorageFieldCodec.unescape(fields[2]),
+                        DateTimeParser.parseStoredValue(fields[3]));
+                break;
             case "E":
                 requireFieldCount(fields, 5);
                 task = new Event(fields[2], DateTimeParser.parseStoredValue(fields[3]),
+                        DateTimeParser.parseStoredValue(fields[4]));
+                break;
+            case "E2":
+                requireFieldCount(fields, 5);
+                task = new Event(StorageFieldCodec.unescape(fields[2]),
+                        DateTimeParser.parseStoredValue(fields[3]),
                         DateTimeParser.parseStoredValue(fields[4]));
                 break;
             default:

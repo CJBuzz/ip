@@ -3,6 +3,7 @@ package avon.task;
 import java.time.LocalDateTime;
 
 import avon.util.DateTimeParser;
+import avon.util.StorageFieldCodec;
 
 /**
  * Represents a task that takes place during a specified time interval.
@@ -35,7 +36,8 @@ public class Event extends Task {
      */
     @Override
     public String toDataString() {
-        return "E\t" + isDone + "\t" + description + "\t" + from + "\t" + to;
+        return "E2\t" + isDone + "\t" + StorageFieldCodec.escape(description)
+                + "\t" + from + "\t" + to;
     }
 
     /**

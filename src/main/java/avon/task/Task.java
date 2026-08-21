@@ -1,5 +1,7 @@
 package avon.task;
 
+import avon.util.StorageFieldCodec;
+
 /**
  * Represents a task and whether it has been completed.
  */
@@ -67,7 +69,7 @@ public class Task {
      * @return the serialized task.
      */
     public String toDataString() {
-        return "T\t" + isDone + "\t" + description;
+        return "T2\t" + isDone + "\t" + StorageFieldCodec.escape(description);
     }
 
     /**
