@@ -123,10 +123,27 @@ public class Storage {
                 throw new IllegalArgumentException("Unknown task type.");
         }
 
-        if (Boolean.parseBoolean(fields[1])) {
+        if (parseIsDone(fields[1])) {
             task.markAsDone();
         }
         return task;
+    }
+
+    /**
+     * Parses a stored completion flag without silently accepting corrupted values.
+     *
+     * @param value the stored boolean text.
+     * @return the parsed completion state.
+     * @throws IllegalArgumentException if the value is not {@code true} or {@code false}.
+     */
+    private boolean parseIsDone(String value) {
+        if (value.equals("true")) {
+            return true;
+        }
+        if (value.equals("false")) {
+            return false;
+        }
+        throw new IllegalArgumentException("Invalid completion state.");
     }
 
     /**

@@ -109,4 +109,14 @@ class StorageTest {
 
         assertThrows(StorageException.class, storage::load);
     }
+
+    @Test
+    void load_invalidCompletionState_throwsStorageException() throws IOException {
+        Path dataFile = temporaryDirectory.resolve("avon.txt");
+        Files.writeString(dataFile, "T2\tyes\tread Hamlet");
+
+        Storage storage = new Storage(dataFile);
+
+        assertThrows(StorageException.class, storage::load);
+    }
 }
