@@ -40,9 +40,9 @@ class StorageTest {
         List<Task> loadedTasks = storage.load();
 
         assertEquals(List.of(
-                "T2\ttrue\tread Hamlet",
-                "D2\tfalse\treturn book\t2026-08-20T18:00",
-                "E2\tfalse\tlecture\t2026-08-20T14:00\t2026-08-20T16:00"),
+                "T\ttrue\tread Hamlet",
+                "D\tfalse\treturn book\t2026-08-20T18:00",
+                "E\tfalse\tlecture\t2026-08-20T14:00\t2026-08-20T16:00"),
                 Files.readAllLines(dataFile));
         assertEquals(3, loadedTasks.size());
         assertTrue(loadedTasks.get(0).isDone());
@@ -95,7 +95,7 @@ class StorageTest {
         storage.save(new TaskList(List.of(new Todo(description))));
         List<Task> loadedTasks = storage.load();
 
-        assertEquals("T2\tfalse\tread\\tHamlet\\\\notes\\nnext line",
+        assertEquals("T\tfalse\tread\\tHamlet\\\\notes\\nnext line",
                 Files.readString(dataFile).strip());
         assertEquals(description, loadedTasks.get(0).getDescription());
     }
@@ -103,7 +103,7 @@ class StorageTest {
     @Test
     void load_invalidEscapeSequence_throwsStorageException() throws IOException {
         Path dataFile = temporaryDirectory.resolve("avon.txt");
-        Files.writeString(dataFile, "T2\tfalse\tread\\qHamlet");
+        Files.writeString(dataFile, "T\tfalse\tread\\qHamlet");
 
         Storage storage = new Storage(dataFile);
 
@@ -113,7 +113,17 @@ class StorageTest {
     @Test
     void load_invalidCompletionState_throwsStorageException() throws IOException {
         Path dataFile = temporaryDirectory.resolve("avon.txt");
-        Files.writeString(dataFile, "T2\tyes\tread Hamlet");
+        Files.writeString(dataFile, "T\tyes\tread Hamlet");
+
+        Storage storage = new Storage(dataFile);
+
+        assertThrows(StorageException.class, storage::load);
+    }
+
+    @Test
+    void load_versionedTaskType_throwsStorageException() throws IOException {
+        Path dataFile = temporaryDirectory.resolve("avon.txt");
+        Files.writeString(dataFile, "T2\tfalse\tread Hamlet");
 
         Storage storage = new Storage(dataFile);
 

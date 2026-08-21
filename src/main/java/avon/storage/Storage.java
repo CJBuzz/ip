@@ -93,27 +93,14 @@ public class Storage {
         switch (fields[0]) {
             case "T":
                 requireFieldCount(fields, 3);
-                task = new Todo(fields[2]);
-                break;
-            case "T2":
-                requireFieldCount(fields, 3);
                 task = new Todo(StorageFieldCodec.unescape(fields[2]));
                 break;
             case "D":
-                requireFieldCount(fields, 4);
-                task = new Deadline(fields[2], DateTimeParser.parseStoredValue(fields[3]));
-                break;
-            case "D2":
                 requireFieldCount(fields, 4);
                 task = new Deadline(StorageFieldCodec.unescape(fields[2]),
                         DateTimeParser.parseStoredValue(fields[3]));
                 break;
             case "E":
-                requireFieldCount(fields, 5);
-                task = new Event(fields[2], DateTimeParser.parseStoredValue(fields[3]),
-                        DateTimeParser.parseStoredValue(fields[4]));
-                break;
-            case "E2":
                 requireFieldCount(fields, 5);
                 task = new Event(StorageFieldCodec.unescape(fields[2]),
                         DateTimeParser.parseStoredValue(fields[3]),
@@ -139,14 +126,14 @@ public class Storage {
     private String serializeTask(Task task) {
         String escapedDescription = StorageFieldCodec.escape(task.getDescription());
         if (task instanceof Todo) {
-            return "T2\t" + task.isDone() + "\t" + escapedDescription;
+            return "T\t" + task.isDone() + "\t" + escapedDescription;
         }
         if (task instanceof Deadline deadline) {
-            return "D2\t" + task.isDone() + "\t" + escapedDescription
+            return "D\t" + task.isDone() + "\t" + escapedDescription
                     + "\t" + deadline.getBy();
         }
         if (task instanceof Event event) {
-            return "E2\t" + task.isDone() + "\t" + escapedDescription
+            return "E\t" + task.isDone() + "\t" + escapedDescription
                     + "\t" + event.getFrom() + "\t" + event.getTo();
         }
         throw new IllegalArgumentException("Unsupported task type.");
