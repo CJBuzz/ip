@@ -19,9 +19,15 @@ public class TaskList {
      * Creates a task list containing tasks loaded from storage.
      *
      * @param tasks the tasks with which to initialize the list.
+     * @throws IllegalArgumentException if the list or one of its tasks is null.
      */
     public TaskList(List<Task> tasks) {
-        this.tasks.addAll(tasks);
+        if (tasks == null) {
+            throw new IllegalArgumentException("A task list cannot be null.");
+        }
+        for (Task task : tasks) {
+            add(task);
+        }
     }
 
     /**
