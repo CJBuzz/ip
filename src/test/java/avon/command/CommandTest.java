@@ -36,8 +36,8 @@ class CommandTest {
     void addCommand_saveFails_restoresTaskListAndShowsNoSuccess() {
         TaskList taskList = new TaskList();
 
-        assertThrows(StorageException.class,
-                () -> new AddCommand(new Todo("read Hamlet")).execute(taskList, ui, failingStorage));
+        assertThrows(StorageException.class, () ->
+                new AddCommand(new Todo("read Hamlet")).execute(taskList, ui, failingStorage));
 
         assertEquals(0, taskList.size());
         assertEquals("", output.toString());
@@ -47,8 +47,8 @@ class CommandTest {
     void deleteCommand_saveFails_restoresTaskAtOriginalPositionAndShowsNoSuccess() {
         TaskList taskList = new TaskList(List.of(new Todo("first"), new Todo("second")));
 
-        assertThrows(StorageException.class,
-                () -> new DeleteCommand(1).execute(taskList, ui, failingStorage));
+        assertThrows(StorageException.class, () ->
+                new DeleteCommand(1).execute(taskList, ui, failingStorage));
 
         assertEquals(2, taskList.size());
         assertEquals("first", taskList.getTask(0).getDescription());
@@ -59,8 +59,8 @@ class CommandTest {
     void markCommand_saveFails_restoresCompletionStateAndShowsNoSuccess() {
         TaskList taskList = new TaskList(List.of(new Todo("read Hamlet")));
 
-        assertThrows(StorageException.class,
-                () -> new MarkCommand(1).execute(taskList, ui, failingStorage));
+        assertThrows(StorageException.class, () ->
+                new MarkCommand(1).execute(taskList, ui, failingStorage));
 
         assertFalse(taskList.getTask(0).isDone());
         assertEquals("", output.toString());
@@ -72,8 +72,8 @@ class CommandTest {
         todo.markAsDone();
         TaskList taskList = new TaskList(List.of(todo));
 
-        assertThrows(StorageException.class,
-                () -> new UnmarkCommand(1).execute(taskList, ui, failingStorage));
+        assertThrows(StorageException.class, () ->
+                new UnmarkCommand(1).execute(taskList, ui, failingStorage));
 
         assertTrue(taskList.getTask(0).isDone());
         assertEquals("", output.toString());

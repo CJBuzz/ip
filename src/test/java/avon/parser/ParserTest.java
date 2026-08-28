@@ -83,14 +83,13 @@ class ParserTest {
 
     @Test
     void parseTask_invalidDeadline_throwsInvalidTaskFormatException() {
-        assertThrows(InvalidTaskFormatException.class,
-                () -> Parser.parse("deadline return book /by tomorrow"));
+        assertThrows(InvalidTaskFormatException.class, () ->
+                Parser.parse("deadline return book /by tomorrow"));
     }
 
     @Test
     void parseTask_validEvent_returnsEvent() throws AvonException {
-        Task task = parseAddedTask(
-                "event lecture /from 2026-08-20 1400 /to 2026-08-20 1600");
+        Task task = parseAddedTask("event lecture /from 2026-08-20 1400 /to 2026-08-20 1600");
 
         assertInstanceOf(Event.class, task);
         assertEquals("[E][ ] lecture (from: Aug 20 2026, 2:00PM to: Aug 20 2026, 4:00PM)",
@@ -106,24 +105,21 @@ class ParserTest {
 
     @Test
     void parseTask_eventEndingBeforeStart_throwsInvalidTaskFormatException() {
-        assertThrows(InvalidTaskFormatException.class,
-                () -> Parser.parse(
-                        "event lecture /from 2026-08-20 1600 /to 2026-08-20 1400"));
+        assertThrows(InvalidTaskFormatException.class, () -> Parser.parse(
+                "event lecture /from 2026-08-20 1600 /to 2026-08-20 1400"));
     }
 
     @Test
     void parseTask_invalidEventDate_throwsInvalidTaskFormatException() {
-        assertThrows(InvalidTaskFormatException.class,
-                () -> Parser.parse(
-                        "event lecture /from 2026-02-30 1400 /to 2026-02-30 1600"));
+        assertThrows(InvalidTaskFormatException.class, () -> Parser.parse(
+                "event lecture /from 2026-02-30 1400 /to 2026-02-30 1600"));
     }
 
     @Test
     void parseTask_delimiterPrefixesInDescriptions_preservesDescriptions()
             throws AvonException {
         Task deadline = parseAddedTask("deadline study /byte encoding /by 2026-08-20");
-        Task event = parseAddedTask(
-                "event prepare /today notes /from 2026-08-20 1400 /to 2026-08-20 1600");
+        Task event = parseAddedTask("event prepare /today notes /from 2026-08-20 1400 /to 2026-08-20 1600");
 
         assertEquals("study /byte encoding", deadline.getDescription());
         assertEquals("prepare /today notes", event.getDescription());

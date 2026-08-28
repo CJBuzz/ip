@@ -19,7 +19,6 @@ class EventTest {
     void constructor_endBeforeStart_throwsIllegalArgumentException() {
         LocalDateTime earlierTime = EVENT_TIME.minusHours(1);
 
-        assertThrows(IllegalArgumentException.class,
-                () -> new Event("lecture", EVENT_TIME, earlierTime));
+        assertThrows(IllegalArgumentException.class, () -> new Event("lecture", EVENT_TIME, earlierTime));
     }
 }

@@ -23,8 +23,7 @@ class DateTimeParserTest {
 
     @Test
     void parse_invalidDateAndTime_throwsDateTimeParseException() {
-        assertThrows(DateTimeParseException.class,
-                () -> DateTimeParser.parse("2026-02-30 2500"));
+        assertThrows(DateTimeParseException.class, () -> DateTimeParser.parse("2026-02-30 2500"));
     }
 
     @Test

@@ -4,6 +4,9 @@ package avon.util;
  * Escapes and restores text fields in Avon's tab-separated storage format.
  */
 public final class StorageFieldCodec {
+    private StorageFieldCodec() {
+    }
+
     /**
      * Escapes backslashes and control-character delimiters in a storage field.
      *
@@ -53,14 +56,11 @@ public final class StorageFieldCodec {
      */
     private static char unescapeCharacter(char character) {
         return switch (character) {
-        case '\\' -> '\\';
-        case 't' -> '\t';
-        case 'n' -> '\n';
-        case 'r' -> '\r';
-        default -> throw new IllegalArgumentException("Unsupported escape sequence.");
+            case '\\' -> '\\';
+            case 't' -> '\t';
+            case 'n' -> '\n';
+            case 'r' -> '\r';
+            default -> throw new IllegalArgumentException("Unsupported escape sequence.");
         };
-    }
-
-    private StorageFieldCodec() {
     }
 }
