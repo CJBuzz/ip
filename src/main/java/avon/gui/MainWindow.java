@@ -29,7 +29,7 @@ public class MainWindow extends AnchorPane {
     @FXML
     public void initialize() {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
-        dialogContainer.getChildren().add(DialogBox.getAvonDialog(
+        addDialogs(DialogBox.getAvonDialog(
                 "Hark! I am Avon. How may my hand or wit now serve thy need?"));
     }
 
@@ -49,7 +49,7 @@ public class MainWindow extends AnchorPane {
     private void handleUserInput() {
         String input = userInput.getText();
         String response = avon.getResponse(input);
-        dialogContainer.getChildren().addAll(
+        addDialogs(
                 DialogBox.getUserDialog(input),
                 DialogBox.getAvonDialog(response));
         userInput.clear();
@@ -57,5 +57,14 @@ public class MainWindow extends AnchorPane {
         if (input.strip().equals("bye")) {
             Platform.exit();
         }
+    }
+
+    /**
+     * Appends any number of dialogs to the conversation in their supplied order.
+     *
+     * @param dialogBoxes the dialogs to append.
+     */
+    private void addDialogs(DialogBox... dialogBoxes) {
+        dialogContainer.getChildren().addAll(dialogBoxes);
     }
 }
