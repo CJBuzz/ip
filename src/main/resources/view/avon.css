@@ -18,14 +18,20 @@
 }
 
 .dialog-text {
-    -fx-max-width: 310;
+    -fx-font-size: 15px;
+    -fx-line-spacing: 3px;
     -fx-padding: 6;
+}
+
+.list-number {
+    -fx-font-weight: bold;
 }
 
 .speaker {
     -fx-background-color: #6d1830;
     -fx-background-radius: 20;
     -fx-font-weight: bold;
+    -fx-font-size: 13px;
     -fx-padding: 10;
     -fx-text-fill: #fff8e7;
 }

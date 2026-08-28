@@ -48,7 +48,7 @@ public class MainWindow extends AnchorPane {
     @FXML
     private void handleUserInput() {
         String input = userInput.getText();
-        String response = avon.getResponse(input);
+        String response = GuiResponseFormatter.formatAvonResponse(avon.getResponse(input));
         addDialogs(
                 DialogBox.getUserDialog(input),
                 DialogBox.getAvonDialog(response));
