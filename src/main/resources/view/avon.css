@@ -1,0 +1,41 @@
+.root {
+    -fx-background-color: #f5ecd8;
+    -fx-font-family: "Georgia";
+}
+
+.scroll-pane,
+.scroll-pane > .viewport {
+    -fx-background-color: #f5ecd8;
+}
+
+.dialog-box {
+    -fx-background-color: #ead8b0;
+    -fx-background-radius: 8;
+}
+
+.avon-dialog {
+    -fx-background-color: #dfc7a0;
+}
+
+.dialog-text {
+    -fx-max-width: 310;
+    -fx-padding: 6;
+}
+
+.speaker {
+    -fx-background-color: #6d1830;
+    -fx-background-radius: 20;
+    -fx-font-weight: bold;
+    -fx-padding: 10;
+    -fx-text-fill: #fff8e7;
+}
+
+.input-bar {
+    -fx-background-color: #2f1720;
+    -fx-padding: 10;
+}
+
+.button {
+    -fx-background-color: #8a2945;
+    -fx-text-fill: white;
+}

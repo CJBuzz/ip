@@ -36,4 +36,21 @@ class AvonTest {
         assertEquals(corruptedData, Files.readString(dataFile));
         assertFalse(output.toString(StandardCharsets.UTF_8).contains("I've added this task"));
     }
+
+    @Test
+    void getResponse_commandsAcrossCalls_sharePersistedTasks() {
+        Path dataFile = temporaryDirectory.resolve("avon.txt");
+        Avon avon = new Avon(new Ui(), new Storage(dataFile));
+
+        String addResponse = avon.getResponse("todo rehearse Hamlet");
+        String listResponse = avon.getResponse("list");
+
+        assertEquals("""
+                Avon:\tBy thy command, I've added this task:
+                        [T][ ] rehearse Hamlet
+                Avon:\tNow thou hast 1 tasks in thy list.""", addResponse);
+        assertEquals("""
+                Avon:\tHere are the tasks in thy list:
+                        1.[T][ ] rehearse Hamlet""", listResponse);
+    }
 }

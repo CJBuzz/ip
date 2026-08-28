@@ -1,5 +1,8 @@
 package avon;
 
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.PrintStream;
 import java.nio.file.Path;
 
 import avon.command.Command;
@@ -65,17 +68,49 @@ public class Avon {
             String fullCommand = ui.readCommand();
             ui.showSeparator();
 
-            try {
-                Command command = Parser.parse(fullCommand);
-                command.execute(taskList, ui, storage);
-                isExit = command.isExit();
-            } catch (AvonException exception) {
-                ui.showError(exception);
-            } finally {
-                ui.showSeparator();
-            }
+            isExit = executeCommand(fullCommand, taskList, ui);
+            ui.showSeparator();
         }
         ui.close();
+    }
+
+    /**
+     * Executes one GUI command and returns Avon's complete response.
+     *
+     * @param input the command entered in the GUI.
+     * @return the response to display in Avon's dialog box.
+     */
+    public String getResponse(String input) {
+        ByteArrayOutputStream responseBytes = new ByteArrayOutputStream();
+        Ui responseUi = new Ui(InputStream.nullInputStream(), new PrintStream(responseBytes));
+        try {
+            TaskList taskList = loadTasks(storage);
+            executeCommand(input, taskList, responseUi);
+        } catch (StorageException exception) {
+            responseUi.showError(exception);
+        } finally {
+            responseUi.close();
+        }
+        return responseBytes.toString().stripTrailing();
+    }
+
+    /**
+     * Parses and executes one command against the supplied task list and UI.
+     *
+     * @param fullCommand the complete command to execute.
+     * @param taskList the tasks affected by the command.
+     * @param commandUi the interface that receives the command response.
+     * @return whether the command requests that Avon exit.
+     */
+    private boolean executeCommand(String fullCommand, TaskList taskList, Ui commandUi) {
+        try {
+            Command command = Parser.parse(fullCommand);
+            command.execute(taskList, commandUi, storage);
+            return command.isExit();
+        } catch (AvonException exception) {
+            commandUi.showError(exception);
+            return false;
+        }
     }
 
     /**
