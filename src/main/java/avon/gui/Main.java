@@ -1,0 +1,19 @@
+package avon.gui;
+
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.stage.Stage;
+
+/**
+ * Displays Avon's JavaFX user interface.
+ */
+public class Main extends Application {
+    /** {@inheritDoc} */
+    @Override
+    public void start(Stage stage) {
+        stage.setScene(new Scene(new Label("Hark! Avon shall appear anon."), 400, 600));
+        stage.setTitle("Avon");
+        stage.show();
+    }
+}

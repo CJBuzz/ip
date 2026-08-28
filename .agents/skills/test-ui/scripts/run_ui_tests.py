@@ -100,13 +100,13 @@ def require_java_25(project_root: Path) -> None:
         raise RuntimeError(f"Java 25 is required; active compiler reports: {version or 'unavailable'}")
 
 
-def compile_project(project_root: Path, classes_dir: Path) -> None:
-    """Compile all production Java sources into a temporary directory."""
+def compile_project(project_root: Path, classes_dir: Path) -> Path:
+    """Compile all production Java sources with the project's Gradle dependencies."""
     sources = sorted((project_root / "src/main/java").rglob("*.java"))
     if not sources:
         raise RuntimeError("No Java source files were found under src/main/java.")
     result = subprocess.run(
-        ["javac", "-d", str(classes_dir), *(str(source) for source in sources)],
+        [str(project_root / "gradlew"), "classes"],
         cwd=project_root,
         text=True,
         stdout=subprocess.PIPE,
@@ -115,6 +115,7 @@ def compile_project(project_root: Path, classes_dir: Path) -> None:
     )
     if result.returncode != 0:
         raise RuntimeError("Compilation failed:\n" + result.stdout.rstrip())
+    return project_root / "build/classes/java/main"
 
 
 def normalize_output(output: str) -> str:
@@ -183,7 +184,7 @@ def main() -> int:
         require_java_25(project_root)
         with tempfile.TemporaryDirectory(prefix="avon-ui-test-") as temporary_directory:
             classes_dir = Path(temporary_directory)
-            compile_project(project_root, classes_dir)
+            classes_dir = compile_project(project_root, classes_dir)
             for test_case in test_cases:
                 actual_output = run_test_case(project_root, classes_dir, test_case)
                 print_transcript(test_case, actual_output)
