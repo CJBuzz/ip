@@ -30,6 +30,9 @@ import avon.util.DateTimeParser;
  * Interprets user commands and converts their arguments into domain objects.
  */
 public final class Parser {
+    private Parser() {
+    }
+
     /**
      * Parses a complete user instruction into an executable command.
      *
@@ -273,6 +276,4 @@ public final class Parser {
         return indexes;
     }
 
-    private Parser() {
-    }
 }

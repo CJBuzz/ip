@@ -20,6 +20,9 @@ public final class DateTimeParser {
     private static final DateTimeFormatter DATE_TIME_DISPLAY_FORMAT =
             DateTimeFormatter.ofPattern("MMM d uuuu, h:mma", Locale.ENGLISH);
 
+    private DateTimeParser() {
+    }
+
     /**
      * Parses an ISO date with an optional 24-hour time.
      *
@@ -63,6 +66,4 @@ public final class DateTimeParser {
         return dateTime.format(DATE_TIME_DISPLAY_FORMAT);
     }
 
-    private DateTimeParser() {
-    }
 }
