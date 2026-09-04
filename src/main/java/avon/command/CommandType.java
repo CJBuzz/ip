@@ -16,6 +16,7 @@ public enum CommandType {
     MARK("mark", true),
     UNMARK("unmark", true),
     DELETE("delete", true),
+    HELP("help", false),
     BYE("bye", false);
 
     private final String keyword;
