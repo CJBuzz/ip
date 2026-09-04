@@ -1,5 +1,7 @@
 package avon.command;
 
+import avon.exception.AvonException;
+import avon.exception.DuplicateTaskException;
 import avon.exception.StorageException;
 import avon.storage.Storage;
 import avon.task.Task;
@@ -23,7 +25,11 @@ public class AddCommand extends Command {
 
     /** {@inheritDoc} */
     @Override
-    public void execute(TaskList taskList, Ui ui, Storage storage) throws StorageException {
+    public void execute(TaskList taskList, Ui ui, Storage storage) throws AvonException {
+        if (taskList.containsDuplicateOf(task)) {
+            throw new DuplicateTaskException();
+        }
+
         int originalTaskCount = taskList.size();
         taskList.add(task);
         assert taskList.size() == originalTaskCount + 1

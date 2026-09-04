@@ -20,6 +20,11 @@ Example: `keyword (optional arguments)`
 expected output
 ```
 
+## Detecting duplicate tasks
+
+Avon rejects a new task when an existing task has the same type, description, and dates or times.
+Completion status does not make otherwise identical tasks different.
+
 ## Feature ABC
 
 // Feature details

@@ -78,6 +78,57 @@ Avon:	Fare thee well! Pray heavens our paths cross anon.
 ____________________________________________________________
 ```
 
+## TC-013: Reject duplicate tasks
+
+Aim: Verify that Avon rejects tasks with identical details even after the stored task is completed.
+
+### Input
+
+```text
+todo read book
+todo read book
+mark 1
+todo read book
+list
+bye
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+    ___
+   /   |_   ______  ____
+  / /| | | / / __ \/ __ \
+ / ___ | |/ / /_/ / / / /
+/_/  |_|___/\____/_/ /_/
+Avon:	Hark! I am Avon who stands before thee.
+Avon:	How may my hand or wit now serve thy need?
+____________________________________________________________
+____________________________________________________________
+Avon:	By thy command, I've added this task:
+        [T][ ] read book
+Avon:	Now thou hast 1 tasks in thy list.
+____________________________________________________________
+____________________________________________________________
+Avon:	Pardon, I beseech thee! That task already dwells within thy list.
+____________________________________________________________
+____________________________________________________________
+Avon:	Tis well! Thy noble task is now fulfilled:
+        [T][X] read book
+____________________________________________________________
+____________________________________________________________
+Avon:	Pardon, I beseech thee! That task already dwells within thy list.
+____________________________________________________________
+____________________________________________________________
+Avon:	Here are the tasks in thy list:
+        1.[T][X] read book
+____________________________________________________________
+____________________________________________________________
+Avon:	Fare thee well! Pray heavens our paths cross anon.
+____________________________________________________________
+```
+
 ## TC-002: Add timed tasks and reverse completion
 
 Aim: Verify Deadline and Event parsing, typed display, marking, unmarking, and list ordering.
