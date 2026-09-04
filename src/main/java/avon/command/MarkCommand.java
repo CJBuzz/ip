@@ -29,12 +29,15 @@ public class MarkCommand extends Command {
         Task task = taskList.getTask(taskIndex);
         boolean wasDone = task.isDone();
         task.markAsDone();
+        assert task.isDone() : "A marked task must be done";
         try {
             storage.save(taskList);
         } catch (StorageException exception) {
             if (!wasDone) {
                 task.markAsNotDone();
             }
+            assert task.isDone() == wasDone
+                    : "A failed save must restore the original completion state";
             throw exception;
         }
         ui.showMarkedTask(task);

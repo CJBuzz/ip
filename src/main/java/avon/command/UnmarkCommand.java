@@ -29,12 +29,15 @@ public class UnmarkCommand extends Command {
         Task task = taskList.getTask(taskIndex);
         boolean wasDone = task.isDone();
         task.markAsNotDone();
+        assert !task.isDone() : "An unmarked task must not be done";
         try {
             storage.save(taskList);
         } catch (StorageException exception) {
             if (wasDone) {
                 task.markAsDone();
             }
+            assert task.isDone() == wasDone
+                    : "A failed save must restore the original completion state";
             throw exception;
         }
         ui.showUnmarkedTask(task);
