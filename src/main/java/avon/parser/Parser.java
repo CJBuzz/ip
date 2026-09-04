@@ -30,6 +30,10 @@ import avon.util.DateTimeParser;
  * Interprets user commands and converts their arguments into domain objects.
  */
 public final class Parser {
+    private static final String DEADLINE_DELIMITER = "/by";
+    private static final String EVENT_START_DELIMITER = "/from";
+    private static final String EVENT_END_DELIMITER = "/to";
+
     private Parser() {
     }
 
@@ -137,7 +141,7 @@ public final class Parser {
         String deadlineKeyword = CommandType.DEADLINE.getKeyword();
         String example = "deadline DESCRIPTION /by yyyy-MM-dd [HHmm]";
         String details = extractDescription(command, deadlineKeyword, example);
-        List<Integer> byIndexes = findDelimiterIndexes(details, "/by");
+        List<Integer> byIndexes = findDelimiterIndexes(details, DEADLINE_DELIMITER);
         if (byIndexes.isEmpty()) {
             throw new InvalidTaskFormatException(deadlineKeyword,
                     "Include '/by' before the deadline date or time.", example);
@@ -152,7 +156,7 @@ public final class Parser {
         }
 
         String description = details.substring(0, byIndex).trim();
-        String by = requireTaskDetail(details.substring(byIndex + 3).trim(),
+        String by = requireTaskDetail(details.substring(byIndex + DEADLINE_DELIMITER.length()).trim(),
                 deadlineKeyword, "Add a date or time after '/by'.", example);
         try {
             return new Deadline(description, DateTimeParser.parse(by));
@@ -174,8 +178,49 @@ public final class Parser {
         String eventKeyword = CommandType.EVENT.getKeyword();
         String example = "event DESCRIPTION /from yyyy-MM-dd [HHmm] /to yyyy-MM-dd [HHmm]";
         String details = extractDescription(command, eventKeyword, example);
-        List<Integer> fromIndexes = findDelimiterIndexes(details, "/from");
-        List<Integer> toIndexes = findDelimiterIndexes(details, "/to");
+        List<Integer> fromIndexes = findDelimiterIndexes(details, EVENT_START_DELIMITER);
+        List<Integer> toIndexes = findDelimiterIndexes(details, EVENT_END_DELIMITER);
+        validateEventDelimiters(fromIndexes, toIndexes, eventKeyword, example);
+
+        int fromIndex = fromIndexes.get(0);
+        int toIndex = toIndexes.get(0);
+        String description = details.substring(0, fromIndex).trim();
+        String fromText = requireTaskDetail(
+                details.substring(fromIndex + EVENT_START_DELIMITER.length(), toIndex).trim(),
+                eventKeyword, "Add a start date or time after '/from'.", example);
+        String toText = requireTaskDetail(
+                details.substring(toIndex + EVENT_END_DELIMITER.length()).trim(),
+                eventKeyword, "Add an end date or time after '/to'.", example);
+        LocalDateTime from;
+        LocalDateTime to;
+        try {
+            from = DateTimeParser.parse(fromText);
+            to = DateTimeParser.parse(toText);
+        } catch (DateTimeParseException exception) {
+            throw new InvalidTaskFormatException(eventKeyword,
+                    "Use real dates and optional 24-hour times in yyyy-MM-dd [HHmm] format.",
+                    example);
+        }
+
+        try {
+            return new Event(description, from, to);
+        } catch (IllegalArgumentException exception) {
+            throw new InvalidTaskFormatException(eventKeyword,
+                    "Set '/to' to the same time as or later than '/from'.", example);
+        }
+    }
+
+    /**
+     * Ensures that an event has one start delimiter followed by one end delimiter.
+     *
+     * @param fromIndexes the indexes of all start delimiters.
+     * @param toIndexes the indexes of all end delimiters.
+     * @param eventKeyword the event command keyword.
+     * @param example a complete example of the expected command.
+     * @throws AvonException if a delimiter is missing, duplicated, or misplaced.
+     */
+    private static void validateEventDelimiters(List<Integer> fromIndexes, List<Integer> toIndexes,
+            String eventKeyword, String example) throws AvonException {
         if (fromIndexes.isEmpty()) {
             throw new InvalidTaskFormatException(eventKeyword,
                     "Include '/from' before the start date or time.", example);
@@ -196,29 +241,6 @@ public final class Parser {
         }
         if (fromIndex == 0) {
             throw new EmptyDescriptionException(eventKeyword, example);
-        }
-
-        String description = details.substring(0, fromIndex).trim();
-        String fromText = requireTaskDetail(details.substring(fromIndex + 5, toIndex).trim(),
-                eventKeyword, "Add a start date or time after '/from'.", example);
-        String toText = requireTaskDetail(details.substring(toIndex + 3).trim(),
-                eventKeyword, "Add an end date or time after '/to'.", example);
-        LocalDateTime from;
-        LocalDateTime to;
-        try {
-            from = DateTimeParser.parse(fromText);
-            to = DateTimeParser.parse(toText);
-        } catch (DateTimeParseException exception) {
-            throw new InvalidTaskFormatException(eventKeyword,
-                    "Use real dates and optional 24-hour times in yyyy-MM-dd [HHmm] format.",
-                    example);
-        }
-
-        try {
-            return new Event(description, from, to);
-        } catch (IllegalArgumentException exception) {
-            throw new InvalidTaskFormatException(eventKeyword,
-                    "Set '/to' to the same time as or later than '/from'.", example);
         }
     }
 
