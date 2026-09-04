@@ -20,6 +20,16 @@ Example: `keyword (optional arguments)`
 expected output
 ```
 
+## Viewing command help
+
+Enter `help` to view the syntax of every command Avon supports.
+
+```text
+help
+```
+
+Avon displays the command list without changing any tasks.
+
 ## Feature ABC
 
 // Feature details

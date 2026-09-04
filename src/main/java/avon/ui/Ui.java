@@ -88,6 +88,23 @@ public class Ui {
     }
 
     /**
+     * Displays the syntax of every supported command.
+     */
+    public void showHelp() {
+        output.println(AVON_PREFIX + "Here are the commands at thy service:");
+        output.println(INDENT + "todo DESCRIPTION");
+        output.println(INDENT + "deadline DESCRIPTION /by yyyy-MM-dd [HHmm]");
+        output.println(INDENT + "event DESCRIPTION /from yyyy-MM-dd [HHmm] /to yyyy-MM-dd [HHmm]");
+        output.println(INDENT + "list");
+        output.println(INDENT + "find KEYWORD");
+        output.println(INDENT + "mark TASK_NUMBER");
+        output.println(INDENT + "unmark TASK_NUMBER");
+        output.println(INDENT + "delete TASK_NUMBER");
+        output.println(INDENT + "help");
+        output.println(INDENT + "bye");
+    }
+
+    /**
      * Displays all tasks in their current order.
      *
      * @param taskList the tasks to display.

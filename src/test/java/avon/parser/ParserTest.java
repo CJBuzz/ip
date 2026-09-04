@@ -18,6 +18,7 @@ import avon.command.Command;
 import avon.command.DeleteCommand;
 import avon.command.ExitCommand;
 import avon.command.FindCommand;
+import avon.command.HelpCommand;
 import avon.command.ListCommand;
 import avon.command.MarkCommand;
 import avon.command.UnmarkCommand;
@@ -48,6 +49,7 @@ class ParserTest {
         assertInstanceOf(MarkCommand.class, Parser.parse("mark 1"));
         assertInstanceOf(UnmarkCommand.class, Parser.parse("unmark 1"));
         assertInstanceOf(DeleteCommand.class, Parser.parse("delete 1"));
+        assertInstanceOf(HelpCommand.class, Parser.parse("help"));
     }
 
     @Test
