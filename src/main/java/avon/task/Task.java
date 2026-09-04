@@ -63,6 +63,19 @@ public abstract class Task {
     }
 
     /**
+     * Returns whether another task has the same type and task-specific details.
+     * Completion status is intentionally ignored.
+     *
+     * @param other the task to compare with this task.
+     * @return {@code true} if both tasks have the same type and details.
+     */
+    public boolean hasSameDetailsAs(Task other) {
+        return other != null
+                && getClass().equals(other.getClass())
+                && description.equals(other.description);
+    }
+
+    /**
      * Returns this task in the format used by Avon’s task list.
      *
      * @return the status icon and description of this task.

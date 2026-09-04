@@ -46,6 +46,14 @@ public class Event extends Task {
         return to;
     }
 
+    /** {@inheritDoc} */
+    @Override
+    public boolean hasSameDetailsAs(Task other) {
+        return super.hasSameDetailsAs(other)
+                && from.equals(((Event) other).from)
+                && to.equals(((Event) other).to);
+    }
+
     /**
      * Returns this event with its type, completion status, and time interval.
      *

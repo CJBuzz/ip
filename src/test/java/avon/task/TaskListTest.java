@@ -1,8 +1,11 @@
 package avon.task;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -28,6 +31,31 @@ class TaskListTest {
         TaskList taskList = new TaskList(List.of(new Todo("read book")));
 
         assertEquals(0, taskList.find("Book").size());
+    }
+
+    @Test
+    void containsDuplicateOf_sameDetailsIgnoringCompletion_returnsTrue() {
+        Todo storedTodo = new Todo("read book");
+        storedTodo.markAsDone();
+        TaskList taskList = new TaskList(List.of(storedTodo));
+
+        assertTrue(taskList.containsDuplicateOf(new Todo("read book")));
+    }
+
+    @Test
+    void containsDuplicateOf_differentTypeOrTime_returnsFalse() {
+        LocalDateTime firstDeadline = LocalDateTime.of(2026, 9, 10, 18, 0);
+        LocalDateTime secondDeadline = LocalDateTime.of(2026, 9, 11, 18, 0);
+        LocalDateTime differentEventStart = LocalDateTime.of(2026, 9, 10, 19, 0);
+        LocalDateTime eventEnd = LocalDateTime.of(2026, 9, 10, 20, 0);
+        TaskList taskList = new TaskList(List.of(
+                new Deadline("return book", firstDeadline),
+                new Event("attend lecture", firstDeadline, eventEnd)));
+
+        assertFalse(taskList.containsDuplicateOf(new Todo("return book")));
+        assertFalse(taskList.containsDuplicateOf(new Deadline("return book", secondDeadline)));
+        assertFalse(taskList.containsDuplicateOf(new Event("attend lecture", differentEventStart, eventEnd)));
+        assertTrue(taskList.containsDuplicateOf(new Event("attend lecture", firstDeadline, eventEnd)));
     }
 
     @Test

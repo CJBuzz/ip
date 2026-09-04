@@ -30,6 +30,13 @@ public class Deadline extends Task {
         return by;
     }
 
+    /** {@inheritDoc} */
+    @Override
+    public boolean hasSameDetailsAs(Task other) {
+        return super.hasSameDetailsAs(other)
+                && by.equals(((Deadline) other).by);
+    }
+
     /**
      * Returns this deadline with its type, completion status, and due date.
      *

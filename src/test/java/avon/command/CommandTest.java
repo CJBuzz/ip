@@ -14,6 +14,7 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import avon.exception.DuplicateTaskException;
 import avon.exception.StorageException;
 import avon.storage.Storage;
 import avon.task.TaskList;
@@ -40,6 +41,17 @@ class CommandTest {
                 new AddCommand(new Todo("read Hamlet")).execute(taskList, ui, failingStorage));
 
         assertEquals(0, taskList.size());
+        assertEquals("", output.toString());
+    }
+
+    @Test
+    void addCommand_duplicateTask_throwsDuplicateTaskExceptionAndDoesNotAdd() {
+        TaskList taskList = new TaskList(List.of(new Todo("read Hamlet")));
+
+        assertThrows(DuplicateTaskException.class, () ->
+                new AddCommand(new Todo("read Hamlet")).execute(taskList, ui, failingStorage));
+
+        assertEquals(1, taskList.size());
         assertEquals("", output.toString());
     }
 

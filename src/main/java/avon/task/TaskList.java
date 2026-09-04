@@ -106,6 +106,16 @@ public class TaskList {
     }
 
     /**
+     * Returns whether a stored task has the same details as the given task.
+     *
+     * @param task the task whose details should be checked.
+     * @return {@code true} if an equivalent task is already stored.
+     */
+    public boolean containsDuplicateOf(Task task) {
+        return tasks.stream().anyMatch(storedTask -> storedTask.hasSameDetailsAs(task));
+    }
+
+    /**
      * Ensures that an index points to a task currently stored in the list.
      *
      * @param index the zero-based position to validate.
