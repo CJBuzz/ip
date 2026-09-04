@@ -160,7 +160,7 @@ Avon:	How may my hand or wit now serve thy need?
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Pardon, I beseech thee! I know not that command.
-        Do start with one of: todo, deadline, event, list, find, mark, unmark, delete, bye.
+        Do start with one of: todo, deadline, event, list, find, mark, unmark, delete, help, bye.
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Pardon, I beseech thee! The todo description cannot be empty.
@@ -644,15 +644,60 @@ Avon:	How may my hand or wit now serve thy need?
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Pardon, I beseech thee! I know not that command.
-        Do start with one of: todo, deadline, event, list, find, mark, unmark, delete, bye.
+        Do start with one of: todo, deadline, event, list, find, mark, unmark, delete, help, bye.
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Pardon, I beseech thee! I know not that command.
-        Do start with one of: todo, deadline, event, list, find, mark, unmark, delete, bye.
+        Do start with one of: todo, deadline, event, list, find, mark, unmark, delete, help, bye.
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Pardon, I beseech thee! I know not that command.
-        Do start with one of: todo, deadline, event, list, find, mark, unmark, delete, bye.
+        Do start with one of: todo, deadline, event, list, find, mark, unmark, delete, help, bye.
+____________________________________________________________
+____________________________________________________________
+Avon:	Fare thee well! Pray heavens our paths cross anon.
+____________________________________________________________
+```
+
+## TC-013: Display command help
+
+Aim: Verify that `help` displays the syntax of every supported command without changing the task list.
+
+### Input
+
+```text
+help
+list
+bye
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+    ___
+   /   |_   ______  ____
+  / /| | | / / __ \/ __ \
+ / ___ | |/ / /_/ / / / /
+/_/  |_|___/\____/_/ /_/
+Avon:	Hark! I am Avon who stands before thee.
+Avon:	How may my hand or wit now serve thy need?
+____________________________________________________________
+____________________________________________________________
+Avon:	Here are the commands at thy service:
+        todo DESCRIPTION
+        deadline DESCRIPTION /by yyyy-MM-dd [HHmm]
+        event DESCRIPTION /from yyyy-MM-dd [HHmm] /to yyyy-MM-dd [HHmm]
+        list
+        find KEYWORD
+        mark TASK_NUMBER
+        unmark TASK_NUMBER
+        delete TASK_NUMBER
+        help
+        bye
+____________________________________________________________
+____________________________________________________________
+Avon:	Thy task list is empty.
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Fare thee well! Pray heavens our paths cross anon.

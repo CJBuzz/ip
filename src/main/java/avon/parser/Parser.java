@@ -13,6 +13,7 @@ import avon.command.CommandType;
 import avon.command.DeleteCommand;
 import avon.command.ExitCommand;
 import avon.command.FindCommand;
+import avon.command.HelpCommand;
 import avon.command.ListCommand;
 import avon.command.MarkCommand;
 import avon.command.UnmarkCommand;
@@ -64,6 +65,8 @@ public final class Parser {
                 return new UnmarkCommand(parseTaskNumber(normalizedCommand, commandType));
             case DELETE:
                 return new DeleteCommand(parseTaskNumber(normalizedCommand, commandType));
+            case HELP:
+                return new HelpCommand();
             case BYE:
                 return new ExitCommand();
             default:
