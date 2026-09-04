@@ -24,11 +24,16 @@ public class AddCommand extends Command {
     /** {@inheritDoc} */
     @Override
     public void execute(TaskList taskList, Ui ui, Storage storage) throws StorageException {
+        int originalTaskCount = taskList.size();
         taskList.add(task);
+        assert taskList.size() == originalTaskCount + 1
+                : "Adding a task must increase the task count by one";
         try {
             storage.save(taskList);
         } catch (StorageException exception) {
             taskList.removeTask(taskList.size() - 1);
+            assert taskList.size() == originalTaskCount
+                    : "A failed save must restore the original task count";
             throw exception;
         }
         ui.showAddedTask(task, taskList.size());
