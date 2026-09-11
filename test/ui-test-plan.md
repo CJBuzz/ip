@@ -248,6 +248,7 @@ event project meeting /from /to 4pm
 event project meeting /from 2pm /to
 event project meeting /from 2026-08-23 2500 /to 2026-08-23 2600
 event project meeting /from 2026-08-23 1600 /to 2026-08-23 1400
+event project meeting /from 2026-08-23 1600 /to 2026-08-23 1600
 bye
 ```
 
@@ -326,7 +327,12 @@ Avon:	Pardon, I beseech thee! This event command is ill-formed.
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Pardon, I beseech thee! This event command is ill-formed.
-        Set '/to' to the same time as or later than '/from'.
+        Set '/to' to a time later than '/from'.
+        Do enter it in this format: event DESCRIPTION /from yyyy-MM-dd [HHmm] /to yyyy-MM-dd [HHmm]
+____________________________________________________________
+____________________________________________________________
+Avon:	Pardon, I beseech thee! This event command is ill-formed.
+        Set '/to' to a time later than '/from'.
         Do enter it in this format: event DESCRIPTION /from yyyy-MM-dd [HHmm] /to yyyy-MM-dd [HHmm]
 ____________________________________________________________
 ____________________________________________________________

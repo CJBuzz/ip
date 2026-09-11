@@ -1,8 +1,10 @@
 package avon.storage;
 
 import java.io.IOException;
+import java.nio.file.AtomicMoveNotSupportedException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.time.DateTimeException;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +48,7 @@ public class Storage {
             List<Task> tasks = new ArrayList<>();
             for (String line : Files.readAllLines(filePath)) {
                 if (!line.isBlank()) {
-                    tasks.add(parseTask(line));
+                    addLoadedTask(tasks, parseTask(line));
                 }
             }
             return tasks;
@@ -62,18 +64,71 @@ public class Storage {
      * @throws StorageException if the data cannot be written.
      */
     public void save(TaskList taskList) throws StorageException {
+        Path temporaryFile = null;
         try {
-            Path parent = filePath.getParent();
-            if (parent != null) {
-                Files.createDirectories(parent);
-            }
+            Path absoluteFilePath = filePath.toAbsolutePath();
+            Path parent = absoluteFilePath.getParent();
+            Files.createDirectories(parent);
             List<String> lines = new ArrayList<>();
             for (int index = 0; index < taskList.size(); index++) {
                 lines.add(serializeTask(taskList.getTask(index)));
             }
-            Files.write(filePath, lines);
+            temporaryFile = Files.createTempFile(parent,
+                    absoluteFilePath.getFileName().toString(), ".tmp");
+            Files.write(temporaryFile, lines);
+            replaceDataFile(temporaryFile, absoluteFilePath);
         } catch (IOException | IllegalArgumentException exception) {
             throw new StorageException("I could not preserve thy tasks upon the disk.");
+        } finally {
+            deleteTemporaryFile(temporaryFile);
+        }
+    }
+
+    /**
+     * Adds a restored task after checking that the data file contains no duplicate record.
+     *
+     * @param tasks the tasks restored so far.
+     * @param task the next task restored from the data file.
+     * @throws IllegalArgumentException if an equivalent task was already restored.
+     */
+    private void addLoadedTask(List<Task> tasks, Task task) {
+        boolean isDuplicate = tasks.stream()
+                .anyMatch(storedTask -> storedTask.hasSameDetailsAs(task));
+        if (isDuplicate) {
+            throw new IllegalArgumentException("Duplicate task data.");
+        }
+        tasks.add(task);
+    }
+
+    /**
+     * Replaces the data file atomically where the file system supports atomic moves.
+     *
+     * @param temporaryFile the completely written replacement file.
+     * @param absoluteFilePath the destination data file.
+     * @throws IOException if neither an atomic nor a regular replacement succeeds.
+     */
+    private void replaceDataFile(Path temporaryFile, Path absoluteFilePath) throws IOException {
+        try {
+            Files.move(temporaryFile, absoluteFilePath,
+                    StandardCopyOption.ATOMIC_MOVE, StandardCopyOption.REPLACE_EXISTING);
+        } catch (AtomicMoveNotSupportedException exception) {
+            Files.move(temporaryFile, absoluteFilePath, StandardCopyOption.REPLACE_EXISTING);
+        }
+    }
+
+    /**
+     * Removes an abandoned temporary save file without masking the original save outcome.
+     *
+     * @param temporaryFile the temporary file, or {@code null} if none was created.
+     */
+    private void deleteTemporaryFile(Path temporaryFile) {
+        if (temporaryFile == null) {
+            return;
+        }
+        try {
+            Files.deleteIfExists(temporaryFile);
+        } catch (IOException exception) {
+            // A stale temporary file is safer than hiding the original save error.
         }
     }
 

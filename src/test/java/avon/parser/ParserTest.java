@@ -112,6 +112,12 @@ class ParserTest {
     }
 
     @Test
+    void parseTask_eventWithNoDuration_throwsInvalidTaskFormatException() {
+        assertThrows(InvalidTaskFormatException.class, () -> Parser.parse(
+                "event lecture /from 2026-08-20 1600 /to 2026-08-20 1600"));
+    }
+
+    @Test
     void parseTask_invalidEventDate_throwsInvalidTaskFormatException() {
         assertThrows(InvalidTaskFormatException.class, () -> Parser.parse(
                 "event lecture /from 2026-02-30 1400 /to 2026-02-30 1600"));

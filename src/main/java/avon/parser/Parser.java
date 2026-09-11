@@ -209,7 +209,7 @@ public final class Parser {
             return new Event(description, from, to);
         } catch (IllegalArgumentException exception) {
             throw new InvalidTaskFormatException(eventKeyword,
-                    "Set '/to' to the same time as or later than '/from'.", example);
+                    "Set '/to' to a time later than '/from'.", example);
         }
     }
 

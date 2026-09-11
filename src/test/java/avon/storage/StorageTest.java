@@ -129,4 +129,15 @@ class StorageTest {
 
         assertThrows(StorageException.class, storage::load);
     }
+
+    @Test
+    void load_duplicateTasksWithDifferentCompletionStates_throwsStorageException()
+            throws IOException {
+        Path dataFile = temporaryDirectory.resolve("avon.txt");
+        Files.writeString(dataFile, "T\tfalse\tread Hamlet\nT\ttrue\tread Hamlet");
+
+        Storage storage = new Storage(dataFile);
+
+        assertThrows(StorageException.class, storage::load);
+    }
 }
