@@ -69,4 +69,35 @@ class TaskListTest {
 
         assertThrows(IllegalArgumentException.class, () -> new TaskList(tasks));
     }
+
+    @Test
+    void addAtIndexAndRemoveTask_validIndex_preservesExpectedOrder() {
+        TaskList taskList = new TaskList(List.of(new Todo("first"), new Todo("third")));
+
+        taskList.add(1, new Todo("second"));
+        Task removedTask = taskList.removeTask(0);
+
+        assertEquals("first", removedTask.getDescription());
+        assertEquals(2, taskList.size());
+        assertEquals("second", taskList.getTask(0).getDescription());
+        assertEquals("third", taskList.getTask(1).getDescription());
+    }
+
+    @Test
+    void add_nullTask_throwsIllegalArgumentException() {
+        TaskList taskList = new TaskList();
+
+        assertThrows(IllegalArgumentException.class, () -> taskList.add(null));
+        assertThrows(IllegalArgumentException.class, () -> taskList.add(0, null));
+    }
+
+    @Test
+    void getOrRemoveTask_outsideList_throwsIndexOutOfBoundsException() {
+        TaskList taskList = new TaskList(List.of(new Todo("only")));
+
+        assertThrows(IndexOutOfBoundsException.class, () -> taskList.getTask(-1));
+        assertThrows(IndexOutOfBoundsException.class, () -> taskList.getTask(1));
+        assertThrows(IndexOutOfBoundsException.class, () -> taskList.removeTask(-1));
+        assertThrows(IndexOutOfBoundsException.class, () -> taskList.removeTask(1));
+    }
 }
