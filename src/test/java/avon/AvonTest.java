@@ -2,6 +2,7 @@ package avon;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -52,5 +53,30 @@ class AvonTest {
         assertEquals("""
                 Avon:\tHere are the tasks in thy list:
                         1.[T][ ] rehearse Hamlet""", listResponse);
+    }
+
+    @Test
+    void getResponse_invalidCommand_returnsGuidanceWithoutChangingStorage() {
+        Path dataFile = temporaryDirectory.resolve("avon.txt");
+        Avon avon = new Avon(new Ui(), new Storage(dataFile));
+
+        String response = avon.getResponse("unknown");
+
+        assertTrue(response.contains("Pardon, I beseech thee! I know not that command."));
+        assertFalse(Files.exists(dataFile));
+    }
+
+    @Test
+    void run_inputEndsWithoutBye_closesCleanlyAfterProcessingCommands() {
+        Path dataFile = temporaryDirectory.resolve("avon.txt");
+        ByteArrayInputStream input = new ByteArrayInputStream(
+                "todo rehearse Hamlet\n".getBytes(StandardCharsets.UTF_8));
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        Avon avon = new Avon(new Ui(input, new PrintStream(output)), new Storage(dataFile));
+
+        avon.run();
+
+        assertTrue(output.toString(StandardCharsets.UTF_8).contains("I've added this task"));
+        assertFalse(output.toString(StandardCharsets.UTF_8).contains("Fare thee well!"));
     }
 }
