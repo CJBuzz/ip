@@ -1,6 +1,5 @@
 package avon.task;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.time.LocalDateTime;
@@ -11,8 +10,9 @@ class EventTest {
     private static final LocalDateTime EVENT_TIME = LocalDateTime.of(2026, 8, 20, 14, 0);
 
     @Test
-    void constructor_sameStartAndEnd_createsEvent() {
-        assertDoesNotThrow(() -> new Event("lecture", EVENT_TIME, EVENT_TIME));
+    void constructor_sameStartAndEnd_throwsIllegalArgumentException() {
+        assertThrows(IllegalArgumentException.class, () ->
+                new Event("lecture", EVENT_TIME, EVENT_TIME));
     }
 
     @Test
