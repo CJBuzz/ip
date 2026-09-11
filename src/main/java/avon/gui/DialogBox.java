@@ -13,6 +13,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
@@ -20,6 +21,7 @@ import javafx.scene.text.TextFlow;
  * Displays one speaker label and one message in the conversation.
  */
 public class DialogBox extends HBox {
+    private static final double USER_DIALOG_MAX_WIDTH = 360.0;
     private static final Pattern NUMBERED_ITEM_PATTERN = Pattern.compile("^(\\d+\\.)(.*)$");
 
     @FXML
@@ -38,7 +40,21 @@ public class DialogBox extends HBox {
             throw new IllegalStateException("Unable to load the dialog box view.", exception);
         }
         setDialogText(text, isNumberFormattingEnabled);
+        setDialogSizing(isNumberFormattingEnabled);
         speaker.setText(speakerName);
+    }
+
+    /**
+     * Gives Avon room for detailed replies while keeping short user commands compact.
+     *
+     * @param isAvonDialog whether this dialog contains an Avon response.
+     */
+    private void setDialogSizing(boolean isAvonDialog) {
+        if (isAvonDialog) {
+            HBox.setHgrow(dialog, Priority.ALWAYS);
+        } else {
+            dialog.setMaxWidth(USER_DIALOG_MAX_WIDTH);
+        }
     }
 
     /**
