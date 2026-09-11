@@ -1,6 +1,8 @@
 package avon.gui;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
@@ -27,5 +29,18 @@ class GuiResponseFormatterTest {
         String response = "Speak to Avon:\twhen rehearsal begins.";
 
         assertEquals(response, GuiResponseFormatter.formatAvonResponse(response));
+    }
+
+    @Test
+    void isErrorResponse_standardErrorPhrase_returnsTrue() {
+        assertTrue(GuiResponseFormatter.isErrorResponse(
+                "Avon:\tPardon, I beseech thee! I know not that command."));
+    }
+
+    @Test
+    void isErrorResponse_successOrEmbeddedPhrase_returnsFalse() {
+        assertFalse(GuiResponseFormatter.isErrorResponse("Avon:\tHere are thy tasks."));
+        assertFalse(GuiResponseFormatter.isErrorResponse(
+                "A note for Avon:\tPardon, I beseech thee!"));
     }
 }

@@ -48,10 +48,12 @@ public class MainWindow extends AnchorPane {
     @FXML
     private void handleUserInput() {
         String input = userInput.getText();
-        String response = GuiResponseFormatter.formatAvonResponse(avon.getResponse(input));
+        String consoleResponse = avon.getResponse(input);
+        String response = GuiResponseFormatter.formatAvonResponse(consoleResponse);
         addDialogs(
                 DialogBox.getUserDialog(input),
-                DialogBox.getAvonDialog(response));
+                DialogBox.getAvonDialog(response,
+                        GuiResponseFormatter.isErrorResponse(consoleResponse)));
         userInput.clear();
 
         if (input.strip().equals("bye")) {
