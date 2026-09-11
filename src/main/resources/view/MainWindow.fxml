@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -12,11 +13,20 @@
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="avon.gui.MainWindow">
     <children>
+        <VBox spacing="2.0" styleClass="title-bar"
+              AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+              AnchorPane.topAnchor="0.0">
+            <children>
+                <Label styleClass="title" text="AVON" />
+                <Label styleClass="subtitle" text="Thy keeper of tasks and time" />
+            </children>
+        </VBox>
         <ScrollPane fx:id="scrollPane" fitToWidth="true" hbarPolicy="NEVER"
                     AnchorPane.bottomAnchor="52.0" AnchorPane.leftAnchor="0.0"
-                    AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="68.0">
             <content>
-                <VBox fx:id="dialogContainer" spacing="8.0" />
+                <VBox fx:id="dialogContainer" fillWidth="true" spacing="8.0"
+                      styleClass="dialog-container" />
             </content>
         </ScrollPane>
         <HBox spacing="8.0" styleClass="input-bar"
