@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 public final class GuiResponseFormatter {
     private static final String AVON_PREFIX = "Avon:\t";
     private static final String CONSOLE_INDENT = "        ";
+    private static final String ERROR_PREFIX = AVON_PREFIX + "Pardon, I beseech thee!";
 
     private GuiResponseFormatter() {
     }
@@ -22,6 +23,16 @@ public final class GuiResponseFormatter {
         return response.lines()
                 .map(GuiResponseFormatter::removeConsoleDecoration)
                 .collect(Collectors.joining("\n"));
+    }
+
+    /**
+     * Returns whether a console response reports an error to the user.
+     *
+     * @param response the response generated through the console UI.
+     * @return {@code true} when the response begins with Avon's standard error phrase.
+     */
+    public static boolean isErrorResponse(String response) {
+        return response.startsWith(ERROR_PREFIX);
     }
 
     /**

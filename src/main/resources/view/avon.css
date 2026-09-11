@@ -17,6 +17,12 @@
     -fx-background-color: #dfc7a0;
 }
 
+.error-dialog {
+    -fx-background-color: #f8d7d2;
+    -fx-border-color: #a63f49;
+    -fx-border-width: 0 0 0 4;
+}
+
 .dialog-text {
     -fx-font-size: 15px;
     -fx-line-spacing: 3px;

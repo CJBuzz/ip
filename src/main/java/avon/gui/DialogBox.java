@@ -58,9 +58,23 @@ public class DialogBox extends HBox {
      * @return Avon's dialog.
      */
     public static DialogBox getAvonDialog(String text) {
+        return getAvonDialog(text, false);
+    }
+
+    /**
+     * Creates a left-aligned dialog for Avon and highlights it when it reports an error.
+     *
+     * @param text Avon's response.
+     * @param isError whether the response reports an error.
+     * @return Avon's dialog.
+     */
+    public static DialogBox getAvonDialog(String text, boolean isError) {
         DialogBox dialogBox = new DialogBox(text, "AVON", true);
         dialogBox.flip();
         dialogBox.getStyleClass().add("avon-dialog");
+        if (isError) {
+            dialogBox.getStyleClass().add("error-dialog");
+        }
         return dialogBox;
     }
 
