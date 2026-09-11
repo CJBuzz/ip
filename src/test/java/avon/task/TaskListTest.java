@@ -34,6 +34,18 @@ class TaskListTest {
     }
 
     @Test
+    void getTaskNumber_storedAndUnknownTasks_returnsOriginalNumberOrThrows() {
+        Todo firstTask = new Todo("first");
+        Todo thirdTask = new Todo("third");
+        TaskList taskList = new TaskList(List.of(firstTask, new Todo("second"), thirdTask));
+
+        assertEquals(1, taskList.getTaskNumber(firstTask));
+        assertEquals(3, taskList.getTaskNumber(thirdTask));
+        assertThrows(IllegalArgumentException.class, () ->
+                taskList.getTaskNumber(new Todo("unknown")));
+    }
+
+    @Test
     void containsDuplicateOf_sameDetailsIgnoringCompletion_returnsTrue() {
         Todo storedTodo = new Todo("read book");
         storedTodo.markAsDone();

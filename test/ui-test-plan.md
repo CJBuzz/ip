@@ -29,7 +29,7 @@ ____________________________________________________________
 ____________________________________________________________
 Avon:	By thy command, I've added this task:
         [T][ ] borrow book
-Avon:	Now thou hast 1 tasks in thy list.
+Avon:	Now thou hast 1 task in thy list.
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Here are the tasks in thy list:
@@ -67,7 +67,7 @@ ____________________________________________________________
 ____________________________________________________________
 Avon:	By thy command, I've added this task:
         [T][ ] rehearse scene
-Avon:	Now thou hast 1 tasks in thy list.
+Avon:	Now thou hast 1 task in thy list.
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Here are the tasks in thy list:
@@ -108,7 +108,7 @@ ____________________________________________________________
 ____________________________________________________________
 Avon:	By thy command, I've added this task:
         [T][ ] read book
-Avon:	Now thou hast 1 tasks in thy list.
+Avon:	Now thou hast 1 task in thy list.
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Pardon, I beseech thee! That task already dwells within thy list.
@@ -159,7 +159,7 @@ ____________________________________________________________
 ____________________________________________________________
 Avon:	By thy command, I've added this task:
         [D][ ] return book (by: Aug 23 2026, 6:00PM)
-Avon:	Now thou hast 1 tasks in thy list.
+Avon:	Now thou hast 1 task in thy list.
 ____________________________________________________________
 ____________________________________________________________
 Avon:	By thy command, I've added this task:
@@ -220,7 +220,7 @@ ____________________________________________________________
 ____________________________________________________________
 Avon:	By thy command, I've added this task:
         [T][ ] read Macbeth
-Avon:	Now thou hast 1 tasks in thy list.
+Avon:	Now thou hast 1 task in thy list.
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Fare thee well! Pray heavens our paths cross anon.
@@ -393,7 +393,7 @@ ____________________________________________________________
 ____________________________________________________________
 Avon:	By thy command, I've added this task:
         [T][ ] rehearse scene
-Avon:	Now thou hast 1 tasks in thy list.
+Avon:	Now thou hast 1 task in thy list.
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Pardon, I beseech thee! I cannot mark that task.
@@ -456,7 +456,7 @@ ____________________________________________________________
 ____________________________________________________________
 Avon:	By thy command, I've added this task:
         [T][ ] read book
-Avon:	Now thou hast 1 tasks in thy list.
+Avon:	Now thou hast 1 task in thy list.
 ____________________________________________________________
 ____________________________________________________________
 Avon:	By thy command, I've added this task:
@@ -546,7 +546,7 @@ ____________________________________________________________
 ____________________________________________________________
 Avon:	By thy command, I've added this task:
         [T][ ] rehearse scene
-Avon:	Now thou hast 1 tasks in thy list.
+Avon:	Now thou hast 1 task in thy list.
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Pardon, I beseech thee! I cannot delete that task.
@@ -616,7 +616,7 @@ ____________________________________________________________
 
 ## TC-009: Find tasks by description
 
-Aim: Verify that `find` lists tasks containing the case-sensitive keyword and rejects an empty keyword.
+Aim: Verify that `find` preserves original task numbers, remains case-sensitive, and rejects an empty keyword.
 
 ### Input
 
@@ -645,7 +645,7 @@ ____________________________________________________________
 ____________________________________________________________
 Avon:	By thy command, I've added this task:
         [T][ ] read book
-Avon:	Now thou hast 1 tasks in thy list.
+Avon:	Now thou hast 1 task in thy list.
 ____________________________________________________________
 ____________________________________________________________
 Avon:	By thy command, I've added this task:
@@ -660,7 +660,7 @@ ____________________________________________________________
 ____________________________________________________________
 Avon:	Here are the matching tasks in thy list:
         1.[T][ ] read book
-        2.[D][ ] return book (by: Aug 23 2026)
+        3.[D][ ] return book (by: Aug 23 2026)
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Here are the matching tasks in thy list:
@@ -789,7 +789,7 @@ ____________________________________________________________
 ____________________________________________________________
 Avon:	By thy command, I've added this task:
         [D][ ] study /byte encoding (by: Aug 23 2026, 6:00PM)
-Avon:	Now thou hast 1 tasks in thy list.
+Avon:	Now thou hast 1 task in thy list.
 ____________________________________________________________
 ____________________________________________________________
 Avon:	By thy command, I've added this task:

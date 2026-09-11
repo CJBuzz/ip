@@ -124,12 +124,14 @@ public class Ui {
     /**
      * Displays tasks that match a search keyword.
      *
+     * @param taskList the complete task list that supplies the original task numbers.
      * @param matchingTasks the matching tasks in their original order.
      */
-    public void showMatchingTasks(List<Task> matchingTasks) {
+    public void showMatchingTasks(TaskList taskList, List<Task> matchingTasks) {
         output.println(AVON_PREFIX + "Here are the matching tasks in thy list:");
-        for (int index = 0; index < matchingTasks.size(); index++) {
-            output.println(INDENT + (index + 1) + "." + matchingTasks.get(index));
+        for (Task matchingTask : matchingTasks) {
+            int taskNumber = taskList.getTaskNumber(matchingTask);
+            output.println(INDENT + taskNumber + "." + matchingTask);
         }
     }
 
@@ -200,6 +202,7 @@ public class Ui {
      * @param taskCount the number of tasks.
      */
     private void showTaskCount(int taskCount) {
-        output.println(AVON_PREFIX + "Now thou hast " + taskCount + " tasks in thy list.");
+        String taskNoun = taskCount == 1 ? "task" : "tasks";
+        output.println(AVON_PREFIX + "Now thou hast " + taskCount + " " + taskNoun + " in thy list.");
     }
 }

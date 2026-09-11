@@ -106,6 +106,21 @@ public class TaskList {
     }
 
     /**
+     * Returns the one-based number of a task in this list.
+     *
+     * @param task the stored task whose number is required.
+     * @return the task's one-based number.
+     * @throws IllegalArgumentException if the task is not in this list.
+     */
+    public int getTaskNumber(Task task) {
+        int taskIndex = tasks.indexOf(task);
+        if (taskIndex < 0) {
+            throw new IllegalArgumentException("Task is not in the task list.");
+        }
+        return taskIndex + 1;
+    }
+
+    /**
      * Returns whether a stored task has the same details as the given task.
      *
      * @param task the task whose details should be checked.

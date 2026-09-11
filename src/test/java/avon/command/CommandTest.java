@@ -110,7 +110,7 @@ class CommandTest {
         assertEquals("""
                 Avon:\tBy thy command, I've added this task:
                         [T][ ] read Hamlet
-                Avon:\tNow thou hast 1 tasks in thy list.
+                Avon:\tNow thou hast 1 task in thy list.
                 """, output.toString());
     }
 
@@ -125,7 +125,7 @@ class CommandTest {
         assertEquals("""
                 Avon:\tSo be it! I've removed this task:
                         [T][ ] first
-                Avon:\tNow thou hast 1 tasks in thy list.
+                Avon:\tNow thou hast 1 task in thy list.
                 """, output.toString());
     }
 
@@ -158,18 +158,19 @@ class CommandTest {
     @Test
     void displayCommands_execute_showExpectedContentWithoutMutatingTasks() {
         TaskList taskList = new TaskList(List.of(
-                new Todo("read Hamlet"), new Todo("write essay")));
+                new Todo("read Hamlet"), new Todo("write essay"), new Todo("rehearse Hamlet")));
 
         new ListCommand().execute(taskList, ui, workingStorage);
-        new FindCommand("Hamlet").execute(taskList, ui, workingStorage);
+        new FindCommand("rehearse").execute(taskList, ui, workingStorage);
         new HelpCommand().execute(taskList, ui, workingStorage);
         ExitCommand exitCommand = new ExitCommand();
         exitCommand.execute(taskList, ui, workingStorage);
 
-        assertEquals(2, taskList.size());
+        assertEquals(3, taskList.size());
         assertTrue(exitCommand.isExit());
         assertTrue(output.toString().contains("1.[T][ ] read Hamlet"));
-        assertTrue(output.toString().contains("Here are the matching tasks in thy list:"));
+        assertTrue(output.toString().contains("Here are the matching tasks in thy list:\n"
+                + "        3.[T][ ] rehearse Hamlet"));
         assertTrue(output.toString().contains("deadline DESCRIPTION /by yyyy-MM-dd [HHmm]"));
         assertTrue(output.toString().contains("Fare thee well!"));
     }
