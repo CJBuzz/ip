@@ -1,7 +1,11 @@
 # Avon
 
-_Avon_ is personalised variant of the personal assistance chatbot Duke for the Software Engineering Course' individual project. 
-It is built from the project template for a greenfield Java project. Given below are instructions on how to use it.
+_Avon_ is a Shakespearean personal-assistance chatbot created for the Software Engineering course's individual
+project. It is built from the Duke greenfield Java project template.
+
+![The Avon task manager](docs/Ui.png)
+
+See the [Avon User Guide](docs/README.md) for installation and command details.
 
 ## Setting up in Intellij
 
@@ -14,14 +18,7 @@ Prerequisites: JDK 25, update Intellij to the most recent version.
    1. If there are any further prompts, accept the defaults.
 1. Configure the project to use **JDK 25** (not other versions) as explained in [here](https://www.jetbrains.com/help/idea/sdk.html#set-up-jdk).<br>
    In the same dialog, set the **Project language level** field to the `SDK default` option.
-1. After that, locate the `src/main/java/avon/Avon.java` file, right-click it, and choose `Run Avon.main()` (if the code editor is showing compile errors, try restarting the IDE). If the setup is correct, you should see something like the below as the output:
-   ```
-       ___                    
-      /   |_   ______  ____  
-     / /| | | / / __ \/ __ \ 
-    / ___ | |/ / /_/ / / / / 
-   /_/  |_|___/\____/_/ /_/
-   ```
+1. After that, run `./gradlew run` from the project root. If the setup is correct, the Avon JavaFX window opens.
 
 **Warning:** Keep the `src\main\java` folder as the root folder for Java files (i.e., don't rename those folders or move Java files to another folder outside of this folder path), as this is the default location some tools (e.g., Gradle) expect to find Java files.
 
@@ -42,13 +39,15 @@ Use JDK 25 and run the following command from the project root:
 ./gradlew test
 ```
 
-To force all tests to run again and show each test result, use:
+To force all tests to run again, show each test result, and generate a coverage report, use:
 
 ```shell
-./gradlew test --rerun-tasks --console=plain
+./gradlew test jacocoTestReport --rerun-tasks --console=plain
 ```
 
-On Windows, use `gradlew.bat test` instead.
+The HTML coverage report is generated at `build/reports/jacoco/test/html/index.html`.
+
+On Windows, use `gradlew.bat test jacocoTestReport` instead.
 
 ## Acknowledgement of AI Use
 
