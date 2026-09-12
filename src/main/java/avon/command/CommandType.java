@@ -20,17 +20,17 @@ public enum CommandType {
     BYE("bye", false);
 
     private final String keyword;
-    private final boolean allowsArguments;
+    private final boolean canHaveArguments;
 
     /**
      * Creates a command type with its parsing properties.
      *
      * @param keyword the first word that identifies the command.
-     * @param allowsArguments whether text may follow the command keyword.
+     * @param canHaveArguments whether text may follow the command keyword.
      */
-    CommandType(String keyword, boolean allowsArguments) {
+    CommandType(String keyword, boolean canHaveArguments) {
         this.keyword = keyword;
-        this.allowsArguments = allowsArguments;
+        this.canHaveArguments = canHaveArguments;
     }
 
     /**
@@ -81,7 +81,7 @@ public enum CommandType {
         if (command.equals(keyword)) {
             return true;
         }
-        return allowsArguments
+        return canHaveArguments
                 && command.startsWith(keyword)
                 && command.length() > keyword.length()
                 && Character.isWhitespace(command.charAt(keyword.length()));
