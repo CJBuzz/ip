@@ -663,7 +663,7 @@ Avon:	Here are the matching tasks in thy list:
         3.[D][ ] return book (by: Aug 23 2026)
 ____________________________________________________________
 ____________________________________________________________
-Avon:	Here are the matching tasks in thy list:
+Avon:	No matching tasks were found in thy list.
 ____________________________________________________________
 ____________________________________________________________
 Avon:	Pardon, I beseech thee! The find description cannot be empty.

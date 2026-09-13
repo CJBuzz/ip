@@ -128,6 +128,11 @@ public class Ui {
      * @param matchingTasks the matching tasks in their original order.
      */
     public void showMatchingTasks(TaskList taskList, List<Task> matchingTasks) {
+        if (matchingTasks.isEmpty()) {
+            output.println(AVON_PREFIX + "No matching tasks were found in thy list.");
+            return;
+        }
+
         output.println(AVON_PREFIX + "Here are the matching tasks in thy list:");
         for (Task matchingTask : matchingTasks) {
             int taskNumber = taskList.getTaskNumber(matchingTask);
