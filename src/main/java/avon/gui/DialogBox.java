@@ -33,7 +33,7 @@ public class DialogBox extends HBox {
     private StackPane speakerBadge;
 
     private DialogBox(String text, String accessibleSpeakerName, String iconPath,
-            boolean isNumberFormattingEnabled) {
+            boolean isNumberFormattingEnabled, boolean isAvonDialog) {
         try {
             FXMLLoader loader = new FXMLLoader(DialogBox.class.getResource("/view/DialogBox.fxml"));
             loader.setController(this);
@@ -43,7 +43,7 @@ public class DialogBox extends HBox {
             throw new IllegalStateException("Unable to load the dialog box view.", exception);
         }
         setDialogText(text, isNumberFormattingEnabled);
-        setDialogSizing(isNumberFormattingEnabled);
+        setDialogSizing(isAvonDialog);
         speakerBadge.setAccessibleText(accessibleSpeakerName);
         speakerBadge.getChildren().add(0, new SvgIcon(iconPath));
     }
@@ -68,7 +68,7 @@ public class DialogBox extends HBox {
      * @return the user dialog.
      */
     public static DialogBox getUserDialog(String text) {
-        return new DialogBox(text, "You", USER_ICON_PATH, false);
+        return new DialogBox(text, "You", USER_ICON_PATH, false, false);
     }
 
     /**
@@ -89,7 +89,7 @@ public class DialogBox extends HBox {
      * @return Avon's dialog.
      */
     public static DialogBox getAvonDialog(String text, boolean isError) {
-        DialogBox dialogBox = new DialogBox(text, "Avon", AVON_ICON_PATH, true);
+        DialogBox dialogBox = new DialogBox(text, "Avon", AVON_ICON_PATH, true, true);
         dialogBox.flip();
         dialogBox.getStyleClass().add("avon-dialog");
         if (isError) {
