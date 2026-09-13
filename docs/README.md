@@ -8,7 +8,7 @@ the text field, press <kbd>Enter</kbd> or **Send**, and Avon will answer in the 
 ## Quick start
 
 1. Install Java 25.
-2. Download `avon.jar` from the latest GitHub release.
+2. Download `avon.jar` from the [latest release (v0.2)](https://github.com/CJBuzz/ip/releases/tag/v0.2).
 3. Place the JAR in an empty folder so its task data is easy to find.
 4. Open a terminal in that folder and run `java -jar avon.jar`.
 
@@ -17,8 +17,9 @@ tasks to remain available the next time Avon starts.
 
 ## Commands
 
-Words in uppercase represent values that you supply. Dates use `yyyy-MM-dd`; an optional time uses 24-hour
-`HHmm` format.
+Words in uppercase represent values that you supply. Dates and optional times use the
+`yyyy-MM-dd [HHmm]` format, where `[HHmm]` is an optional 24-hour time. For example,
+`2026-01-02 0800` means 2 January 2026 at 8am.
 
 ### Add a todo
 
@@ -30,7 +31,7 @@ todo read Hamlet
 
 ### Add a deadline
 
-Use `deadline DESCRIPTION /by DATE [TIME]` for work due by a specific date or time.
+Use `deadline DESCRIPTION /by yyyy-MM-dd [HHmm]` for work due by a specific date or time.
 
 ```text
 deadline submit iP /by 2026-09-18 2359
@@ -38,8 +39,8 @@ deadline submit iP /by 2026-09-18 2359
 
 ### Add an event
 
-Use `event DESCRIPTION /from DATE [TIME] /to DATE [TIME]` for an activity with a start and end. The end must
-be later than the start.
+Use `event DESCRIPTION /from yyyy-MM-dd [HHmm] /to yyyy-MM-dd [HHmm]` for an activity with a start and end.
+The end must be later than the start.
 
 ```text
 event project meeting /from 2026-09-18 1400 /to 2026-09-18 1600
@@ -86,14 +87,36 @@ Use `delete TASK_NUMBER` to permanently remove one task.
 delete 2
 ```
 
-### Get help or exit
+### Get help
 
-Use `help` to see command formats inside Avon. Use `bye` to close the application.
+Use `help` to see command formats inside Avon.
 
 ```text
 help
+```
+
+### Exit Avon
+
+Use `bye` to close the application.
+
+```text
 bye
 ```
+
+## Command summary
+
+Action | Format
+--- | ---
+Add a todo | `todo DESCRIPTION`
+Add a deadline | `deadline DESCRIPTION /by yyyy-MM-dd [HHmm]`
+Add an event | `event DESCRIPTION /from yyyy-MM-dd [HHmm] /to yyyy-MM-dd [HHmm]`
+View tasks | `list`
+Find tasks | `find KEYWORD`
+Mark a task | `mark TASK_NUMBER`
+Unmark a task | `unmark TASK_NUMBER`
+Delete a task | `delete TASK_NUMBER`
+Get help | `help`
+Exit Avon | `bye`
 
 ## Error recovery
 
