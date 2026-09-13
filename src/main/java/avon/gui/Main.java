@@ -13,6 +13,9 @@ import javafx.stage.Stage;
  * Displays Avon's JavaFX user interface.
  */
 public class Main extends Application {
+    private static final double MINIMUM_WINDOW_HEIGHT = 600;
+    private static final double MINIMUM_WINDOW_WIDTH = 420;
+
     /** {@inheritDoc} */
     @Override
     public void start(Stage stage) throws IOException {
@@ -25,8 +28,8 @@ public class Main extends Application {
         scene.getStylesheets().add(Main.class.getResource("/view/avon.css").toExternalForm());
         stage.setScene(scene);
         stage.setTitle("Avon");
-        stage.setMinHeight(600);
-        stage.setMinWidth(420);
+        stage.setMinHeight(MINIMUM_WINDOW_HEIGHT);
+        stage.setMinWidth(MINIMUM_WINDOW_WIDTH);
         stage.show();
     }
 }

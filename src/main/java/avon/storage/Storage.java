@@ -22,6 +22,15 @@ import avon.util.StorageFieldCodec;
  * Loads and saves Avon's tasks in a human-readable text file.
  */
 public class Storage {
+    private static final int TYPE_FIELD_INDEX = 0;
+    private static final int COMPLETION_FIELD_INDEX = 1;
+    private static final int DESCRIPTION_FIELD_INDEX = 2;
+    private static final int DEADLINE_FIELD_INDEX = 3;
+    private static final int EVENT_END_FIELD_INDEX = 4;
+    private static final int TODO_FIELD_COUNT = 3;
+    private static final int DEADLINE_FIELD_COUNT = 4;
+    private static final int EVENT_FIELD_COUNT = 5;
+
     private final Path filePath;
 
     /**
@@ -140,32 +149,32 @@ public class Storage {
      */
     private Task parseTask(String line) {
         String[] fields = line.split("\\t", -1);
-        if (fields.length < 3) {
+        if (fields.length < TODO_FIELD_COUNT) {
             throw new IllegalArgumentException("Incomplete task data.");
         }
 
         Task task;
-        switch (fields[0]) {
+        switch (fields[TYPE_FIELD_INDEX]) {
             case "T":
-                requireFieldCount(fields, 3);
-                task = new Todo(StorageFieldCodec.unescape(fields[2]));
+                requireFieldCount(fields, TODO_FIELD_COUNT);
+                task = new Todo(StorageFieldCodec.unescape(fields[DESCRIPTION_FIELD_INDEX]));
                 break;
             case "D":
-                requireFieldCount(fields, 4);
-                task = new Deadline(StorageFieldCodec.unescape(fields[2]),
-                        DateTimeParser.parseStoredValue(fields[3]));
+                requireFieldCount(fields, DEADLINE_FIELD_COUNT);
+                task = new Deadline(StorageFieldCodec.unescape(fields[DESCRIPTION_FIELD_INDEX]),
+                        DateTimeParser.parseStoredValue(fields[DEADLINE_FIELD_INDEX]));
                 break;
             case "E":
-                requireFieldCount(fields, 5);
-                task = new Event(StorageFieldCodec.unescape(fields[2]),
-                        DateTimeParser.parseStoredValue(fields[3]),
-                        DateTimeParser.parseStoredValue(fields[4]));
+                requireFieldCount(fields, EVENT_FIELD_COUNT);
+                task = new Event(StorageFieldCodec.unescape(fields[DESCRIPTION_FIELD_INDEX]),
+                        DateTimeParser.parseStoredValue(fields[DEADLINE_FIELD_INDEX]),
+                        DateTimeParser.parseStoredValue(fields[EVENT_END_FIELD_INDEX]));
                 break;
             default:
                 throw new IllegalArgumentException("Unknown task type.");
         }
 
-        if (parseIsDone(fields[1])) {
+        if (parseIsDone(fields[COMPLETION_FIELD_INDEX])) {
             task.markAsDone();
         }
         return task;
