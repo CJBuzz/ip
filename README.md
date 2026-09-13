@@ -24,11 +24,18 @@ Prerequisites: JDK 25, update Intellij to the most recent version.
 
 ## Building the executable JAR
 
-Run `./gradlew shadowJar` from the project root. The executable JAR is created at
-`build/libs/avon.jar` and can be launched using:
+Run `./gradlew shadowJar` from the project root. The executable JAR for Windows,
+Linux, and Intel Macs is created at `build/libs/avon.jar` and can be launched using:
 
 ```shell
 java -jar build/libs/avon.jar
+```
+
+For Apple Silicon Macs, run `./gradlew macArmShadowJar` instead. The resulting
+`build/libs/avon-mac-aarch64.jar` contains the Apple-Silicon JavaFX native libraries:
+
+```shell
+java -jar build/libs/avon-mac-aarch64.jar
 ```
 
 ## Running tests

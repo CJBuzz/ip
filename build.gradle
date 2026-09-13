@@ -1,3 +1,5 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+
 plugins {
     id 'java'
     id 'application'
@@ -19,6 +21,10 @@ checkstyle {
     toolVersion = '11.0.0'
 }
 
+configurations {
+    macArmRuntimeClasspath
+}
+
 dependencies {
     String jUnitVersion = '5.14.4'
     String javaFxVersion = '17.0.7'
@@ -35,6 +41,11 @@ dependencies {
     implementation("org.openjfx:javafx-graphics:${javaFxVersion}:win")
     implementation("org.openjfx:javafx-graphics:${javaFxVersion}:mac")
     implementation("org.openjfx:javafx-graphics:${javaFxVersion}:linux")
+
+    macArmRuntimeClasspath("org.openjfx:javafx-base:${javaFxVersion}:mac-aarch64")
+    macArmRuntimeClasspath("org.openjfx:javafx-controls:${javaFxVersion}:mac-aarch64")
+    macArmRuntimeClasspath("org.openjfx:javafx-fxml:${javaFxVersion}:mac-aarch64")
+    macArmRuntimeClasspath("org.openjfx:javafx-graphics:${javaFxVersion}:mac-aarch64")
 
     testImplementation "org.junit.jupiter:junit-jupiter-api:${jUnitVersion}"
 
@@ -67,6 +78,15 @@ jacocoTestReport {
 
 application {
     mainClass = 'avon.Launcher'
+}
+
+tasks.register('macArmShadowJar', ShadowJar) {
+    archiveFileName = 'avon-mac-aarch64.jar'
+    from sourceSets.main.output
+    configurations = [project.configurations.macArmRuntimeClasspath]
+    manifest {
+        attributes 'Main-Class': application.mainClass.get()
+    }
 }
 
 jar {
