@@ -70,3 +70,17 @@ After each step, the software was tested, to ensure its behaviour conforms to re
 The generated code was also reviewed, and the AI tool would be questioned regarding certain implementation choices. 
 If the justifications provided by the AI tool was not accepted, it would be asked to modify its implementation. 
 It is hoped that this method of usage does not compromise learning, thus aligning with the course's goals.
+
+## Asset Provenance and Licensing
+
+The speaker icons [`quill-pen.svg`](src/main/resources/images/quill-pen.svg) and
+[`user-profile.svg`](src/main/resources/images/user-profile.svg) first appear in
+[commit `dba6bc0`](https://github.com/CJBuzz/ip/commit/dba6bc0a827716e80b2538455f2053cdbf3a2385),
+whose recorded author is CJ. Neither the files nor their introducing commit name
+an upstream source, an external author, or a licence.
+
+The project history is therefore the only retained provenance evidence. A
+source search did not establish an external origin or reuse permission, so the
+icons must be treated as having **unverified reuse status** until their original
+author provides the source and applicable licence. They should not be reused
+outside this project on the assumption that they are freely licensed.
