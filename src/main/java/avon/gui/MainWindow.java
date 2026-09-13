@@ -1,6 +1,7 @@
 package avon.gui;
 
 import avon.Avon;
+import avon.command.CommandType;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.ScrollPane;
@@ -56,7 +57,7 @@ public class MainWindow extends AnchorPane {
                         GuiResponseFormatter.isErrorResponse(consoleResponse)));
         userInput.clear();
 
-        if (input.strip().equals("bye")) {
+        if (input.strip().equals(CommandType.BYE.getKeyword())) {
             Platform.exit();
         }
     }
