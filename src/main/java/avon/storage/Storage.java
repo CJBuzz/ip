@@ -67,7 +67,8 @@ public class Storage {
             }
             return tasks;
         } catch (IOException | DateTimeException | IllegalArgumentException exception) {
-            throw new StorageException("I could not read thy saved tasks.");
+            throw new StorageException("I could not read thy saved tasks.\n"
+                    + "Thy save file may be corrupted. Repair it or move it away before trying again.");
         }
     }
 

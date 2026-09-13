@@ -36,6 +36,8 @@ class AvonTest {
 
         assertEquals(corruptedData, Files.readString(dataFile));
         assertFalse(output.toString(StandardCharsets.UTF_8).contains("I've added this task"));
+        assertTrue(output.toString(StandardCharsets.UTF_8)
+                .contains("Thy save file may be corrupted. Repair it or move it away before trying again."));
     }
 
     @Test
@@ -64,6 +66,18 @@ class AvonTest {
 
         assertTrue(response.contains("Pardon, I beseech thee! I know not that command."));
         assertFalse(Files.exists(dataFile));
+    }
+
+    @Test
+    void getResponse_corruptedDataFile_returnsRecoveryGuidance() throws IOException {
+        Path dataFile = temporaryDirectory.resolve("avon.txt");
+        Files.writeString(dataFile, "D\tfalse\tmissing date");
+        Avon avon = new Avon(new Ui(), new Storage(dataFile));
+
+        String response = avon.getResponse("list");
+
+        assertTrue(response.contains("Thy save file may be corrupted."));
+        assertTrue(response.contains("Repair it or move it away before trying again."));
     }
 
     @Test
