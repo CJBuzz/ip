@@ -22,6 +22,8 @@ import javafx.scene.shape.SVGPath;
  */
 final class SvgIcon extends Region {
     private static final double ICON_SIZE = 26.0;
+    private static final String DISALLOW_DOCTYPE_DECLARATION_FEATURE =
+            "http://apache.org/xml/features/disallow-doctype-decl";
 
     /**
      * Creates an icon from the SVG resource at the given classpath location.
@@ -93,7 +95,7 @@ final class SvgIcon extends Region {
     private static DocumentBuilderFactory createSecureDocumentBuilderFactory()
             throws ParserConfigurationException {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+        factory.setFeature(DISALLOW_DOCTYPE_DECLARATION_FEATURE, true);
         factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
         factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
         return factory;
