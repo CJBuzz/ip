@@ -59,15 +59,14 @@
     -fx-font-weight: bold;
 }
 
-.speaker {
+.speaker-badge {
     -fx-background-color: #6d1830;
-    -fx-background-radius: 20;
-    -fx-font-weight: bold;
-    -fx-font-size: 13px;
-    -fx-min-width: 64px;
+    -fx-background-radius: 12;
     -fx-padding: 8;
-    -fx-alignment: center;
-    -fx-text-fill: #fff8e7;
+}
+
+.speaker-icon {
+    -fx-background-color: #fff8e7;
 }
 
 .input-bar {

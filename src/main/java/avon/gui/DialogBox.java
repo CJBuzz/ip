@@ -11,16 +11,18 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
+import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
 /**
- * Displays one speaker label and one message in the conversation.
+ * Displays one speaker icon and one message in the conversation.
  */
 public class DialogBox extends HBox {
+    private static final String AVON_ICON_PATH = "/images/quill-pen.svg";
+    private static final String USER_ICON_PATH = "/images/user-profile.svg";
+    private static final double AVON_DIALOG_MAX_WIDTH = 760.0;
     private static final double USER_DIALOG_MAX_WIDTH = 360.0;
     private static final Pattern NUMBERED_ITEM_PATTERN = Pattern.compile("^(\\d+\\.)(.*)$");
 
@@ -28,9 +30,10 @@ public class DialogBox extends HBox {
     private TextFlow dialog;
 
     @FXML
-    private Label speaker;
+    private StackPane speakerBadge;
 
-    private DialogBox(String text, String speakerName, boolean isNumberFormattingEnabled) {
+    private DialogBox(String text, String accessibleSpeakerName, String iconPath,
+            boolean isNumberFormattingEnabled) {
         try {
             FXMLLoader loader = new FXMLLoader(DialogBox.class.getResource("/view/DialogBox.fxml"));
             loader.setController(this);
@@ -41,17 +44,18 @@ public class DialogBox extends HBox {
         }
         setDialogText(text, isNumberFormattingEnabled);
         setDialogSizing(isNumberFormattingEnabled);
-        speaker.setText(speakerName);
+        speakerBadge.setAccessibleText(accessibleSpeakerName);
+        speakerBadge.getChildren().add(0, new SvgIcon(iconPath));
     }
 
     /**
-     * Gives Avon room for detailed replies while keeping short user commands compact.
+     * Limits long messages while allowing short messages to use their preferred width.
      *
      * @param isAvonDialog whether this dialog contains an Avon response.
      */
     private void setDialogSizing(boolean isAvonDialog) {
         if (isAvonDialog) {
-            HBox.setHgrow(dialog, Priority.ALWAYS);
+            dialog.setMaxWidth(AVON_DIALOG_MAX_WIDTH);
         } else {
             dialog.setMaxWidth(USER_DIALOG_MAX_WIDTH);
         }
@@ -64,7 +68,7 @@ public class DialogBox extends HBox {
      * @return the user dialog.
      */
     public static DialogBox getUserDialog(String text) {
-        return new DialogBox(text, "THEE", false);
+        return new DialogBox(text, "You", USER_ICON_PATH, false);
     }
 
     /**
@@ -85,7 +89,7 @@ public class DialogBox extends HBox {
      * @return Avon's dialog.
      */
     public static DialogBox getAvonDialog(String text, boolean isError) {
-        DialogBox dialogBox = new DialogBox(text, "AVON", true);
+        DialogBox dialogBox = new DialogBox(text, "Avon", AVON_ICON_PATH, true);
         dialogBox.flip();
         dialogBox.getStyleClass().add("avon-dialog");
         if (isError) {
@@ -129,7 +133,7 @@ public class DialogBox extends HBox {
     }
 
     /**
-     * Places the speaker label before the response and aligns it to the left.
+     * Places the speaker icon before the response and aligns it to the left.
      */
     private void flip() {
         ObservableList<Node> children = FXCollections.observableArrayList(getChildren());
