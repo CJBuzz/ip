@@ -23,7 +23,6 @@ import avon.exception.InvalidTaskFormatException;
 import avon.exception.InvalidTaskNumberException;
 import avon.task.Deadline;
 import avon.task.Event;
-import avon.task.Task;
 import avon.task.Todo;
 import avon.util.DateTimeParser;
 
@@ -50,11 +49,11 @@ public final class Parser {
         CommandType commandType = CommandType.parse(normalizedCommand);
         switch (commandType) {
             case TODO:
-                // Fallthrough
+                return new AddCommand(parseTodo(normalizedCommand));
             case DEADLINE:
-                // Fallthrough
+                return new AddCommand(parseDeadline(normalizedCommand));
             case EVENT:
-                return new AddCommand(parseTask(normalizedCommand, commandType));
+                return new AddCommand(parseEvent(normalizedCommand));
             case LIST:
                 return new ListCommand();
             case FIND:
@@ -71,28 +70,6 @@ public final class Parser {
                 return new ExitCommand();
             default:
                 throw new IllegalArgumentException("Unsupported command type.");
-        }
-    }
-
-    /**
-     * Creates the appropriate task subtype for a command.
-     *
-     * @param command the command entered by the user.
-     * @param commandType the type of task to create.
-     * @return the task represented by the command.
-     * @throws AvonException if the task details are invalid.
-     */
-    private static Task parseTask(String command, CommandType commandType) throws AvonException {
-        switch (commandType) {
-            case TODO:
-                String todoKeyword = CommandType.TODO.getKeyword();
-                return new Todo(extractDescription(command, todoKeyword, "todo DESCRIPTION"));
-            case DEADLINE:
-                return parseDeadline(command);
-            case EVENT:
-                return parseEvent(command);
-            default:
-                throw new IllegalArgumentException("Command does not create a task.");
         }
     }
 
@@ -131,6 +108,18 @@ public final class Parser {
     private static String parseFindKeyword(String command) throws EmptyDescriptionException {
         String findKeyword = CommandType.FIND.getKeyword();
         return extractDescription(command, findKeyword, "find KEYWORD");
+    }
+
+    /**
+     * Parses a todo command into a todo task.
+     *
+     * @param command the todo command entered by the user.
+     * @return the parsed todo task.
+     * @throws EmptyDescriptionException if the todo description is empty.
+     */
+    private static Todo parseTodo(String command) throws EmptyDescriptionException {
+        String todoKeyword = CommandType.TODO.getKeyword();
+        return new Todo(extractDescription(command, todoKeyword, "todo DESCRIPTION"));
     }
 
     /**
