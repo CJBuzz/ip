@@ -8,6 +8,7 @@ import java.nio.file.StandardCopyOption;
 import java.time.DateTimeException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import avon.exception.StorageException;
 import avon.task.Deadline;
@@ -40,9 +41,10 @@ public class Storage {
      * Creates storage backed by the specified file.
      *
      * @param filePath the path of the task data file.
+     * @throws NullPointerException if the file path is null.
      */
     public Storage(Path filePath) {
-        this.filePath = filePath;
+        this.filePath = Objects.requireNonNull(filePath, "The storage file path cannot be null.");
     }
 
     /**

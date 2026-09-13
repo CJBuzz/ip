@@ -25,6 +25,11 @@ class StorageTest {
     Path temporaryDirectory;
 
     @Test
+    void constructor_nullFilePath_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> new Storage(null));
+    }
+
+    @Test
     void saveAndLoad_multipleTaskTypes_restoresTasks() throws IOException, StorageException {
         Path dataFile = temporaryDirectory.resolve("data/avon.txt");
         Storage storage = new Storage(dataFile);
