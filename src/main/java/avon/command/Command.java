@@ -40,7 +40,7 @@ public abstract class Command {
      */
     protected int getTaskIndex(TaskList taskList, int taskNumber, String commandKeyword)
             throws InvalidTaskNumberException {
-        if (taskList.size() == 0) {
+        if (taskList.isEmpty()) {
             throw new InvalidTaskNumberException(commandKeyword,
                     "Thy task list is empty; add a task first.", false);
         }

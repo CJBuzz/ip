@@ -110,7 +110,7 @@ public class Ui {
      * @param taskList the tasks to display.
      */
     public void showTaskList(TaskList taskList) {
-        if (taskList.size() == 0) {
+        if (taskList.isEmpty()) {
             output.println(AVON_PREFIX + "Thy task list is empty.");
             return;
         }

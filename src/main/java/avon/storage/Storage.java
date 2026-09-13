@@ -31,6 +31,7 @@ public class Storage {
     private static final int TODO_FIELD_COUNT = 3;
     private static final int DEADLINE_FIELD_COUNT = 4;
     private static final int EVENT_FIELD_COUNT = 5;
+    private static final String FIELD_DELIMITER = "\t";
     private static final String TODO_TYPE_MARKER = "T";
     private static final String DEADLINE_TYPE_MARKER = "D";
     private static final String EVENT_TYPE_MARKER = "E";
@@ -154,7 +155,7 @@ public class Storage {
      * @return the restored task.
      */
     private Task parseTask(String line) {
-        String[] fields = line.split("\\t", -1);
+        String[] fields = line.split(FIELD_DELIMITER, -1);
         if (fields.length < TODO_FIELD_COUNT) {
             throw new IllegalArgumentException("Incomplete task data.");
         }
@@ -196,15 +197,17 @@ public class Storage {
     private String serializeTask(Task task) {
         String escapedDescription = StorageFieldCodec.escape(task.getDescription());
         if (task instanceof Todo) {
-            return TODO_TYPE_MARKER + "\t" + task.isDone() + "\t" + escapedDescription;
+            return TODO_TYPE_MARKER + FIELD_DELIMITER + task.isDone()
+                    + FIELD_DELIMITER + escapedDescription;
         }
         if (task instanceof Deadline deadline) {
-            return DEADLINE_TYPE_MARKER + "\t" + task.isDone() + "\t" + escapedDescription
-                    + "\t" + deadline.getBy();
+            return DEADLINE_TYPE_MARKER + FIELD_DELIMITER + task.isDone()
+                    + FIELD_DELIMITER + escapedDescription + FIELD_DELIMITER + deadline.getBy();
         }
         if (task instanceof Event event) {
-            return EVENT_TYPE_MARKER + "\t" + task.isDone() + "\t" + escapedDescription
-                    + "\t" + event.getFrom() + "\t" + event.getTo();
+            return EVENT_TYPE_MARKER + FIELD_DELIMITER + task.isDone()
+                    + FIELD_DELIMITER + escapedDescription + FIELD_DELIMITER + event.getFrom()
+                    + FIELD_DELIMITER + event.getTo();
         }
         throw new IllegalArgumentException("Unsupported task type.");
     }
