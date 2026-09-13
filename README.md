@@ -39,6 +39,29 @@ Use JDK 25 and run the following command from the project root:
 ./gradlew test
 ```
 
+## Checking commit messages
+
+Enable the tracked commit-message check for this checkout:
+
+```shell
+git config core.hooksPath .githooks
+```
+
+Compose non-trivial messages in a file, then commit with it. The hook
+rejects any message line longer than 72 characters.
+
+```shell
+git commit -F path/to/commit-message.txt
+git log -1 --format=%B
+```
+
+Before pushing, inspect the last five commit subjects separately. The
+grading dashboard evaluates them:
+
+```shell
+git log -5 --format=%s
+```
+
 ## Acknowledgement of AI Use
 
 In line with course expectations, AI tools were used throughout the code base. Usage was around AI-5 level in general. 
