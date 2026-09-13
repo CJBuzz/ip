@@ -144,7 +144,9 @@ public class Storage {
         try {
             Files.deleteIfExists(temporaryFile);
         } catch (IOException exception) {
-            // A stale temporary file is safer than hiding the original save error.
+            // Cleanup is best-effort because temporary files are never read as task data.
+            // Reporting this failure could hide the original save error, while an abandoned
+            // temporary file is harmless and can be removed safely later.
         }
     }
 
@@ -181,7 +183,7 @@ public class Storage {
                 throw new IllegalArgumentException("Unknown task type.");
         }
 
-        if (parseIsDone(fields[COMPLETION_FIELD_INDEX])) {
+        if (isStoredTaskDone(fields[COMPLETION_FIELD_INDEX])) {
             task.markAsDone();
         }
         return task;
@@ -219,7 +221,7 @@ public class Storage {
      * @return the parsed completion state.
      * @throws IllegalArgumentException if the value is not {@code true} or {@code false}.
      */
-    private boolean parseIsDone(String value) {
+    private boolean isStoredTaskDone(String value) {
         if (value.equals("true")) {
             return true;
         }

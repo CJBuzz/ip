@@ -68,7 +68,12 @@ public class Avon {
             String fullCommand = ui.readCommand();
             ui.showSeparator();
 
-            isExit = executeCommand(fullCommand, taskList, ui);
+            try {
+                Command command = parseAndExecuteCommand(fullCommand, taskList, ui);
+                isExit = command.isExit();
+            } catch (AvonException exception) {
+                ui.showError(exception);
+            }
             ui.showSeparator();
         }
         ui.close();
@@ -85,8 +90,8 @@ public class Avon {
         Ui responseUi = new Ui(InputStream.nullInputStream(), new PrintStream(responseBytes));
         try {
             TaskList taskList = loadTasks(storage);
-            executeCommand(input, taskList, responseUi);
-        } catch (StorageException exception) {
+            parseAndExecuteCommand(input, taskList, responseUi);
+        } catch (AvonException exception) {
             responseUi.showError(exception);
         } finally {
             responseUi.close();
@@ -100,17 +105,13 @@ public class Avon {
      * @param fullCommand the complete command to execute.
      * @param taskList the tasks affected by the command.
      * @param commandUi the interface that receives the command response.
-     * @return whether the command requests that Avon exit.
+     * @return the command that is parsed and executed.
      */
-    private boolean executeCommand(String fullCommand, TaskList taskList, Ui commandUi) {
-        try {
-            Command command = Parser.parse(fullCommand);
-            command.execute(taskList, commandUi, storage);
-            return command.isExit();
-        } catch (AvonException exception) {
-            commandUi.showError(exception);
-            return false;
-        }
+    private Command parseAndExecuteCommand(
+            String fullCommand, TaskList taskList, Ui commandUi) throws AvonException {
+        Command command = Parser.parse(fullCommand);
+        command.execute(taskList, commandUi, storage);
+        return command;
     }
 
     /**
