@@ -2,17 +2,22 @@ package avon.gui;
 
 import avon.Avon;
 import avon.command.CommandType;
+import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 
 /**
  * Controls Avon's primary chat window.
  */
 public class MainWindow extends AnchorPane {
+    private static final int EXIT_DELAY_MILLISECONDS = 500;
+
     @FXML
     private ScrollPane scrollPane;
 
@@ -21,6 +26,9 @@ public class MainWindow extends AnchorPane {
 
     @FXML
     private TextField userInput;
+
+    @FXML
+    private HBox inputBar;
 
     private Avon avon;
 
@@ -58,8 +66,18 @@ public class MainWindow extends AnchorPane {
         userInput.clear();
 
         if (input.strip().equals(CommandType.BYE.getKeyword())) {
-            Platform.exit();
+            scheduleExit();
         }
+    }
+
+    /**
+     * Disables command entry and closes Avon after its farewell has been displayed.
+     */
+    private void scheduleExit() {
+        inputBar.setDisable(true);
+        PauseTransition exitDelay = new PauseTransition(Duration.millis(EXIT_DELAY_MILLISECONDS));
+        exitDelay.setOnFinished(event -> Platform.exit());
+        exitDelay.play();
     }
 
     /**

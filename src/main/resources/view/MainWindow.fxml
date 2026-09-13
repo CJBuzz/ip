@@ -29,7 +29,7 @@
                       styleClass="dialog-container" />
             </content>
         </ScrollPane>
-        <HBox spacing="8.0" styleClass="input-bar"
+        <HBox fx:id="inputBar" spacing="8.0" styleClass="input-bar"
               AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
               AnchorPane.rightAnchor="0.0">
             <children>
