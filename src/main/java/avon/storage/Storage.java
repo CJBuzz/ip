@@ -25,11 +25,14 @@ public class Storage {
     private static final int TYPE_FIELD_INDEX = 0;
     private static final int COMPLETION_FIELD_INDEX = 1;
     private static final int DESCRIPTION_FIELD_INDEX = 2;
-    private static final int DEADLINE_FIELD_INDEX = 3;
+    private static final int SCHEDULED_DATE_TIME_FIELD_INDEX = 3;
     private static final int EVENT_END_FIELD_INDEX = 4;
     private static final int TODO_FIELD_COUNT = 3;
     private static final int DEADLINE_FIELD_COUNT = 4;
     private static final int EVENT_FIELD_COUNT = 5;
+    private static final String TODO_TYPE_MARKER = "T";
+    private static final String DEADLINE_TYPE_MARKER = "D";
+    private static final String EVENT_TYPE_MARKER = "E";
 
     private final Path filePath;
 
@@ -155,19 +158,19 @@ public class Storage {
 
         Task task;
         switch (fields[TYPE_FIELD_INDEX]) {
-            case "T":
+            case TODO_TYPE_MARKER:
                 requireFieldCount(fields, TODO_FIELD_COUNT);
                 task = new Todo(StorageFieldCodec.unescape(fields[DESCRIPTION_FIELD_INDEX]));
                 break;
-            case "D":
+            case DEADLINE_TYPE_MARKER:
                 requireFieldCount(fields, DEADLINE_FIELD_COUNT);
                 task = new Deadline(StorageFieldCodec.unescape(fields[DESCRIPTION_FIELD_INDEX]),
-                        DateTimeParser.parseStoredValue(fields[DEADLINE_FIELD_INDEX]));
+                        DateTimeParser.parseStoredValue(fields[SCHEDULED_DATE_TIME_FIELD_INDEX]));
                 break;
-            case "E":
+            case EVENT_TYPE_MARKER:
                 requireFieldCount(fields, EVENT_FIELD_COUNT);
                 task = new Event(StorageFieldCodec.unescape(fields[DESCRIPTION_FIELD_INDEX]),
-                        DateTimeParser.parseStoredValue(fields[DEADLINE_FIELD_INDEX]),
+                        DateTimeParser.parseStoredValue(fields[SCHEDULED_DATE_TIME_FIELD_INDEX]),
                         DateTimeParser.parseStoredValue(fields[EVENT_END_FIELD_INDEX]));
                 break;
             default:
@@ -190,14 +193,14 @@ public class Storage {
     private String serializeTask(Task task) {
         String escapedDescription = StorageFieldCodec.escape(task.getDescription());
         if (task instanceof Todo) {
-            return "T\t" + task.isDone() + "\t" + escapedDescription;
+            return TODO_TYPE_MARKER + "\t" + task.isDone() + "\t" + escapedDescription;
         }
         if (task instanceof Deadline deadline) {
-            return "D\t" + task.isDone() + "\t" + escapedDescription
+            return DEADLINE_TYPE_MARKER + "\t" + task.isDone() + "\t" + escapedDescription
                     + "\t" + deadline.getBy();
         }
         if (task instanceof Event event) {
-            return "E\t" + task.isDone() + "\t" + escapedDescription
+            return EVENT_TYPE_MARKER + "\t" + task.isDone() + "\t" + escapedDescription
                     + "\t" + event.getFrom() + "\t" + event.getTo();
         }
         throw new IllegalArgumentException("Unsupported task type.");
