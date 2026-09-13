@@ -39,16 +39,6 @@ Use JDK 25 and run the following command from the project root:
 ./gradlew test
 ```
 
-To force all tests to run again, show each test result, and generate a coverage report, use:
-
-```shell
-./gradlew test jacocoTestReport --rerun-tasks --console=plain
-```
-
-The HTML coverage report is generated at `build/reports/jacoco/test/html/index.html`.
-
-On Windows, use `gradlew.bat test jacocoTestReport` instead.
-
 ## Acknowledgement of AI Use
 
 In line with course expectations, AI tools were used throughout the code base. Usage was around AI-5 level in general. 
