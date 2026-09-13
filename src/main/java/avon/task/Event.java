@@ -1,6 +1,7 @@
 package avon.task;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 import avon.util.DateTimeParser;
 
@@ -17,15 +18,16 @@ public class Event extends Task {
      * @param description the text describing the event.
      * @param from the event start date and time.
      * @param to the event end date and time.
+     * @throws NullPointerException if either date-time is null.
      * @throws IllegalArgumentException if the event does not end after it starts.
      */
     public Event(String description, LocalDateTime from, LocalDateTime to) {
         super(description);
-        if (!to.isAfter(from)) {
+        this.from = Objects.requireNonNull(from, "The event start cannot be null.");
+        this.to = Objects.requireNonNull(to, "The event end cannot be null.");
+        if (!this.to.isAfter(this.from)) {
             throw new IllegalArgumentException("An event must end after it starts.");
         }
-        this.from = from;
-        this.to = to;
     }
 
     /**

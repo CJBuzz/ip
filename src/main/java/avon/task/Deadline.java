@@ -1,6 +1,7 @@
 package avon.task;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 import avon.util.DateTimeParser;
 
@@ -15,10 +16,11 @@ public class Deadline extends Task {
      *
      * @param description the text describing the task.
      * @param by the date and time by which the task should be completed.
+     * @throws NullPointerException if the deadline date-time is null.
      */
     public Deadline(String description, LocalDateTime by) {
         super(description);
-        this.by = by;
+        this.by = Objects.requireNonNull(by, "The deadline date-time cannot be null.");
     }
 
     /**

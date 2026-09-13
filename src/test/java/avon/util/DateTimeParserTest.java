@@ -27,6 +27,11 @@ class DateTimeParserTest {
     }
 
     @Test
+    void parse_nullValue_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> DateTimeParser.parse(null));
+    }
+
+    @Test
     void parseStoredValue_isoDateTime_restoresLocalDateTime() {
         assertEquals(LocalDateTime.of(2026, 8, 20, 18, 0),
                 DateTimeParser.parseStoredValue("2026-08-20T18:00"));
@@ -36,6 +41,11 @@ class DateTimeParserTest {
     void parseStoredValue_legacyDate_restoresMidnight() {
         assertEquals(LocalDateTime.of(2026, 8, 20, 0, 0),
                 DateTimeParser.parseStoredValue("2026-08-20"));
+    }
+
+    @Test
+    void parseStoredValue_nullValue_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> DateTimeParser.parseStoredValue(null));
     }
 
     @Test

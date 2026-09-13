@@ -21,4 +21,11 @@ class EventTest {
 
         assertThrows(IllegalArgumentException.class, () -> new Event("lecture", EVENT_TIME, earlierTime));
     }
+
+    @Test
+    void constructors_nullDateTime_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> new Deadline("essay", null));
+        assertThrows(NullPointerException.class, () -> new Event("lecture", null, EVENT_TIME));
+        assertThrows(NullPointerException.class, () -> new Event("lecture", EVENT_TIME, null));
+    }
 }
