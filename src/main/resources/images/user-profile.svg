@@ -1,6 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-    <path fill="#3c444f"
-          d="M32 7a12 12 0 1 1 0 24 12 12 0 0 1 0-24z
-             M9 58c0-13 10-22 23-22s23 9 23 22z" />
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path fill="#3c444f" fill-rule="evenodd"
+          d="M8.25 7.5a3.75 3.75 0 1 1 7.5 0 3.75 3.75 0 0 1-7.5 0ZM3.165
+             22.134a9 9 0 0 1 17.67 0A17.933 17.933 0 0 1 12 24c-3.183 0-6.172-.825
+             -8.835-2.266Z"
+          clip-rule="evenodd" />
 </svg>

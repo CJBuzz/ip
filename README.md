@@ -73,14 +73,33 @@ It is hoped that this method of usage does not compromise learning, thus alignin
 
 ## Asset Provenance and Licensing
 
-The speaker icons [`quill-pen.svg`](src/main/resources/images/quill-pen.svg) and
-[`user-profile.svg`](src/main/resources/images/user-profile.svg) first appear in
-[commit `dba6bc0`](https://github.com/CJBuzz/ip/commit/dba6bc0a827716e80b2538455f2053cdbf3a2385),
-whose recorded author is CJ. Neither the files nor their introducing commit name
-an upstream source, an external author, or a licence.
+The Avon icon, [`quill-pen.svg`](src/main/resources/images/quill-pen.svg), is
+[Free Quill Pen Icon](https://iconscout.com/free-icon/free-quill-pen-icon_7620076)
+by Sulthonul Arif, supplied under the
+[IconScout Digital License](https://iconscout.com/licenses). That licence permits
+use in digital products, including software.
 
-The project history is therefore the only retained provenance evidence. A
-source search did not establish an external origin or reuse permission, so the
-icons must be treated as having **unverified reuse status** until their original
-author provides the source and applicable licence. They should not be reused
-outside this project on the assumption that they are freely licensed.
+The user icon, [`user-profile.svg`](src/main/resources/images/user-profile.svg),
+is adapted only in color from the [Heroicons solid user
+icon](https://github.com/tailwindlabs/heroicons/blob/master/optimized/24/solid/user.svg),
+licensed under the MIT License:
+
+> Copyright (c) Tailwind Labs, Inc.
+>
+> Permission is hereby granted, free of charge, to any person obtaining a copy
+> of this software and associated documentation files (the "Software"), to deal
+> in the Software without restriction, including without limitation the rights
+> to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+> copies of the Software, and to permit persons to whom the Software is
+> furnished to do so, subject to the following conditions:
+>
+> The above copyright notice and this permission notice shall be included in all
+> copies or substantial portions of the Software.
+>
+> THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+> IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+> FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+> AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+> LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+> OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+> SOFTWARE.
