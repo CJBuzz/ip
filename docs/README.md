@@ -8,7 +8,7 @@ the text field, press <kbd>Enter</kbd> or **Send**, and Avon will answer in the 
 ## Quick start
 
 1. Install Java 25.
-2. Download `avon.jar` from the [latest release (v0.2)](https://github.com/CJBuzz/ip/releases/tag/v0.2).
+2. Download `avon.jar` from the [latest release](https://github.com/CJBuzz/ip/releases/latest).
 3. Place the JAR in an empty folder so its task data is easy to find.
 4. Open a terminal in that folder and run `java -jar avon.jar`.
 
